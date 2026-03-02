@@ -1,0 +1,1 @@
+sudo ./shine --is-server --num-clients 1
