@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vector_test"
+version = "1.0.0"
+description = "Python vector index testing framework"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy>=1.20.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/example/vector_test"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["vector_test*"]
