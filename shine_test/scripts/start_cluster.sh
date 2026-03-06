@@ -4,8 +4,8 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-BUILD_DIR="$PROJECT_DIR/build"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+BUILD_DIR="$PROJECT_DIR/bin"
 LOG_DIR="$SCRIPT_DIR/logs"
 
 # 默认配置
