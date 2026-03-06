@@ -63,7 +63,7 @@ inline void ParallelFor(size_t start, size_t end, size_t numThreads,
 TEST(DataGenerateTest, HNSWTest) {
     // 快速生成小型测试数据集
     DataConfig test_config = {
-        /*num_vectors=*/100000,
+        /*num_vectors=*/1000000,
         /*num_queries=*/1000,
         /*dimension=*/1024,
         /*top_k=*/10,
@@ -71,7 +71,7 @@ TEST(DataGenerateTest, HNSWTest) {
         /*data_max=*/1.0f,
         /*seed=*/42,
         /*distribution=*/"normal",
-        /*output_dir=*/"/data/xjs/random_dataset/1024dim100K"
+        /*output_dir=*/"/data/xjs/random_dataset/1024dim1M"
     };
 
     std::string data_path = test_config.output_dir + "/base.fbin";
@@ -109,6 +109,7 @@ TEST(DataGenerateTest, HNSWTest) {
         }
     }
 
+    float total_recall = 0.0f;
     // 执行查询
     for (uint32_t i = 0; i < test_config.num_queries; i++) {
         std::vector<float> query(test_config.dimension);
@@ -139,7 +140,11 @@ TEST(DataGenerateTest, HNSWTest) {
         }
         float recall = static_cast<float>(num_correct) / test_config.top_k;
         std::cout << "查询 " << i << " 的召回率: " << recall << std::endl;
+
+        total_recall += recall;
     }
+    total_recall /= test_config.num_queries;
+    std::cout << "平均召回率: " << total_recall << std::endl;
 }
 
 int main(int argc, char** argv) {

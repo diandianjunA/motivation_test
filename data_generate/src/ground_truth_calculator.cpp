@@ -73,23 +73,37 @@ std::vector<GroundTruthCalculator::Neighbor> GroundTruthCalculator::compute_quer
 std::vector<std::vector<GroundTruthCalculator::Neighbor>> GroundTruthCalculator::compute_all_ground_truth(
     const std::vector<std::vector<float>>& queries,
     size_t k, int num_threads) {
-    std::vector<std::vector<Neighbor>> ground_truth;
-    ground_truth.reserve(queries.size());
     
-    ProgressBar bar("Computing ground truth", queries.size(), true, true);
+    size_t n_queries = queries.size();
+    size_t dim = dimension_;
     
-    #pragma omp parallel for num_threads(num_threads) schedule(dynamic, 1000)
-    for (int64_t i = 0; i < static_cast<int64_t>(queries.size()); ++i) {
-        ground_truth.push_back(compute_query_ground_truth(queries[i], k));
+    std::vector<std::vector<Neighbor>> ground_truth(n_queries);
+    
+    ProgressBar bar("Computing ground truth", n_queries, true, true);
+    
+    std::vector<float> all_queries(n_queries * dim);
+    for (size_t i = 0; i < n_queries; ++i) {
+        std::copy(queries[i].begin(), queries[i].end(), all_queries.data() + i * dim);
+    }
+    
+    std::vector<faiss::idx_t> all_ids(n_queries * k);
+    std::vector<float> all_distances(n_queries * k);
+    
+    index->search(n_queries, all_queries.data(), k, all_distances.data(), all_ids.data());
+    
+    for (size_t i = 0; i < n_queries; ++i) {
+        ground_truth[i].reserve(k);
+        for (size_t j = 0; j < k; ++j) {
+            ground_truth[i].emplace_back(all_ids[i * k + j], all_distances[i * k + j]);
+        }
         
-        if (i % 10 == 0 || i == static_cast<int64_t>(queries.size()) - 1) {
-            #pragma omp critical
-            {
-                bar.set_current(i + 1);
-                bar.display();
-            }
+        if (i % 1000 == 0 || i == n_queries - 1) {
+            bar.set_current(i + 1);
+            bar.display();
         }
     }
+    
+    bar.finish();
     
     return ground_truth;
 }

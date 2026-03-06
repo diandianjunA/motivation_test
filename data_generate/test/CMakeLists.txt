@@ -80,3 +80,12 @@ target_link_libraries(correct_test2 DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN
     faiss
     openblas
 )
+
+add_executable(correct_test3
+    correct_test3.cpp
+)
+
+target_link_libraries(correct_test3 DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
+    faiss
+    openblas
+)

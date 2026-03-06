@@ -8,7 +8,7 @@
 TEST(DataGenerateTest, FLATTest) {
     // 快速生成小型测试数据集
     DataConfig test_config = {
-        /*num_vectors=*/100000,
+        /*num_vectors=*/1000000,
         /*num_queries=*/1000,
         /*dimension=*/1024,
         /*top_k=*/10,
@@ -16,7 +16,7 @@ TEST(DataGenerateTest, FLATTest) {
         /*data_max=*/1.0f,
         /*seed=*/42,
         /*distribution=*/"normal",
-        /*output_dir=*/"/data/xjs/random_dataset/1024dim100K"
+        /*output_dir=*/"/data/xjs/random_dataset/1024dim1M"
     };
     
     std::string data_path = test_config.output_dir + "/base.fbin";

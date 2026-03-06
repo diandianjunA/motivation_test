@@ -1,0 +1,33 @@
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim1M/base.fbin
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: dim = 1024
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim1M/queries/groundtruth-test.bin
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/diskann_test/config/index_conf/0.9-1024dim1M.ini
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: index_path = /data/xjs/index/diskann_index/1024dim1M
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/diskann_test/log
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: num = 1000000
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: option = dynamic
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: test_scale = 160000
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: threads = 16
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: topk = 10
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Config: total_test = false
+[2026-03-03 10:12:37.920] [GlobalLogger] [info] Dynamic test DiskANN
+[2026-03-03 10:12:41.657] [GlobalLogger] [info] 使用 16 线程进行测试
+[2026-03-03 10:12:45.371] [GlobalLogger] [info] Dynamic test read ratio 50%
+[2026-03-03 10:12:45.372] [GlobalLogger] [info] 开始动态测试，总操作数: 160000
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 动态测试完成，总耗时: 396277 毫秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] Write 操作次数: 80047, Read 操作次数: 79953
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] Write 平均延迟: 189.223829 秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] Read 平均延迟: 189.794604 秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] Write 吞吐量: 202.00 操作/秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] Read 吞吐量: 201.76 操作/秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 总吞吐量: 403.76 操作/秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 操作: Write
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 总时间: 15146799.83500136 秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 调用次数: 80047
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 平均时间: 189.2238289380159 秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 操作: Read
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 总时间: 15174647.950747019 秒
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 调用次数: 79953
+[2026-03-03 10:19:21.649] [GlobalLogger] [info] 平均时间: 189.79460371401973 秒
