@@ -53,10 +53,10 @@ PID_FILE="$PROJECT_DIR/.compute_node.pid"
 LOG_FILE="$PROJECT_DIR/logs/compute_node.log"
 
 # ---- 默认参数（可通过环境变量覆盖） ----
-SERVERS="${SERVERS:-cluster1}"
-DIM="${DIM:-128}"
+SERVERS="${SERVERS:-cluster3}"
+DIM="${DIM:-1024}"
 THREADS="${THREADS:-4}"
-EF_SEARCH="${EF_SEARCH:-64}"
+EF_SEARCH="${EF_SEARCH:-650}"
 K="${K:-10}"
 M="${M:-32}"
 EF_CONSTRUCTION="${EF_CONSTRUCTION:-200}"
