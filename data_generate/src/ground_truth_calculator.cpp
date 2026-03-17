@@ -3,11 +3,25 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <cstring>
 #include "progress_bar.hpp"
 #include "faiss/IndexFlat.h"
 #include "faiss/IndexIDMap.h"
+#include <faiss/gpu/GpuIndexFlat.h>
+#include <faiss/gpu/StandardGpuResources.h>
+#include <faiss/gpu/impl/IndexUtils.h>
+#include <faiss/gpu/utils/DeviceUtils.h>
 
-GroundTruthCalculator::GroundTruthCalculator(int dimension, DistanceMetric metric)
+int getRandomIntInRange(int min, int max) {
+    // 创建一个随机数生成器
+    std::random_device rd;  // 用于获取随机数种子
+    std::mt19937 gen(rd()); // 以 rd() 作为种子的 Mersenne Twister 引擎
+    std::uniform_int_distribution<> dis(min, max); // [min, max] 范围的均匀分布
+ 
+    return dis(gen); // 生成并返回随机数
+}
+
+GroundTruthCalculator::GroundTruthCalculator(int dimension, DistanceMetric metric, bool use_gpu)
     : dimension_(dimension), metric_(metric) {
     faiss::MetricType faiss_metric = faiss::MetricType::METRIC_L2;
     if (metric_ == DistanceMetric::L2) {
@@ -17,7 +31,19 @@ GroundTruthCalculator::GroundTruthCalculator(int dimension, DistanceMetric metri
     } else if (metric_ == DistanceMetric::COSINE) {
         faiss_metric = faiss::MetricType::METRIC_INNER_PRODUCT;
     }
-    index = new faiss::IndexIDMap(new faiss::IndexFlat(dimension, faiss_metric));
+    if (use_gpu) {
+        std::srand(static_cast<unsigned>(std::time(0)));
+        int device = getRandomIntInRange(0, faiss::gpu::getNumDevices() - 1);
+        faiss::gpu::StandardGpuResources res;
+        res.noTempMemory();
+
+        faiss::gpu::GpuIndexFlatConfig config;
+        config.device = device;
+        config.useFloat16 = false;
+        index = new faiss::IndexIDMap(new faiss::gpu::GpuIndexFlat(&res, dimension, faiss_metric, config));
+    } else {
+        index = new faiss::IndexIDMap(new faiss::IndexFlat(dimension, faiss_metric));
+    }
 }
 
 void GroundTruthCalculator::init(const std::vector<std::vector<float>>& dataset) {
@@ -54,6 +80,32 @@ void GroundTruthCalculator::init(const std::vector<std::vector<float>>& dataset)
     bar.finish();
 }
 
+void GroundTruthCalculator::init(float* dataset, size_t num_vectors, size_t dim) {
+    size_t batch_size = 10000;
+    
+    ProgressBar bar("Building index", num_vectors, true, true);
+
+    std::vector<faiss::idx_t> ids;
+    ids.reserve(batch_size);
+
+    for (size_t i = 0; i < num_vectors; i += batch_size) {
+        int batch_n = std::min(batch_size, num_vectors - i);
+        
+        ids.clear();
+        ids.reserve(batch_n);
+        for (int j = 0; j < batch_n; ++j) {
+            ids.push_back(static_cast<faiss::idx_t>(i + j));
+        }
+
+        index->add_with_ids(batch_n, dataset + i * dim, ids.data());
+        
+        bar.set_current(i + batch_n);
+        bar.display();
+    }
+
+    bar.finish();
+}
+
 std::vector<GroundTruthCalculator::Neighbor> GroundTruthCalculator::compute_query_ground_truth(
     const std::vector<float>& query, size_t k) {
     std::vector<float> query_vec = query;
@@ -80,27 +132,22 @@ std::vector<std::vector<GroundTruthCalculator::Neighbor>> GroundTruthCalculator:
     std::vector<std::vector<Neighbor>> ground_truth(n_queries);
     
     ProgressBar bar("Computing ground truth", n_queries, true, true);
+
+    int batch_size = 64;
+
+    std::vector<float> distances(batch_size * k);
+    std::vector<faiss::idx_t> ids(batch_size * k);
     
-    std::vector<float> all_queries(n_queries * dim);
-    for (size_t i = 0; i < n_queries; ++i) {
-        std::copy(queries[i].begin(), queries[i].end(), all_queries.data() + i * dim);
-    }
-    
-    std::vector<faiss::idx_t> all_ids(n_queries * k);
-    std::vector<float> all_distances(n_queries * k);
-    
-    index->search(n_queries, all_queries.data(), k, all_distances.data(), all_ids.data());
-    
-    for (size_t i = 0; i < n_queries; ++i) {
-        ground_truth[i].reserve(k);
-        for (size_t j = 0; j < k; ++j) {
-            ground_truth[i].emplace_back(all_ids[i * k + j], all_distances[i * k + j]);
+    for (size_t i = 0; i < n_queries; i += batch_size) {
+        int batch_n = std::min(batch_size, static_cast<int>(n_queries - i));
+        index->search(batch_n, queries[i].data(), k, distances.data(), ids.data());
+        
+        for (size_t j = 0; j < batch_n * k; ++j) {
+            ground_truth[i + j / k].emplace_back(ids[j], distances[j]);
         }
         
-        if (i % 1000 == 0 || i == n_queries - 1) {
-            bar.set_current(i + 1);
-            bar.display();
-        }
+        bar.set_current(i + batch_n);
+        bar.display();
     }
     
     bar.finish();

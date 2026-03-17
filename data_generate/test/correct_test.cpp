@@ -86,7 +86,7 @@ TEST(DataGenerateTest, HNSWTest) {
 
     hnswlib::L2Space space(test_config.dimension);
     hnswlib::HierarchicalNSW<float> hnsw(&space, test_config.num_vectors, 32, 200);
-    hnsw.setEf(1000);
+    hnsw.setEf(128);
     
     // 插入数据
     int batch_size = 1000;

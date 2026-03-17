@@ -1,11 +1,16 @@
 #include "diskann_index.h"
 #include "vector_test/config.h"
 #include "vector_test/util.h"
+#include "progress_bar.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <vector>
+#include <omp.h>
 
 DiskANNIndex::DiskANNIndex(std::string conf) : index_factory(nullptr) {
     // 解析配置字符串，初始化索引参数
@@ -75,32 +80,136 @@ void DiskANNIndex::build(const std::vector<float>& vecs, const std::vector<uint3
     diskann_index->build(vecs.data(), ids.size(), ids);
 }
 
-void DiskANNIndex::build(const std::string& dataset_path) {
-    // 使用内存映射打开文件
-    auto [mapped_data, sizes] = mmap_fbin(dataset_path);
-    size_t num = sizes.first;
-    size_t dim = sizes.second;
-    
-    const uint32_t* original_mapped_addr = reinterpret_cast<const uint32_t*>(mapped_data) - 2;
-    
-    // 生成所有向量的ID
-    std::vector<uint32_t> all_ids(num);
-    for (size_t i = 0; i < num; ++i) {
-        all_ids[i] = static_cast<uint32_t>(i);
+std::pair<const float*, std::pair<size_t, size_t>> partial_mmap_fbin(
+    const std::string& file_path, size_t start_vector, size_t num_vectors) {
+    int fd = open(file_path.c_str(), O_RDONLY);
+    if (fd == -1) {
+        throw std::runtime_error("无法打开文件: " + file_path);
     }
     
-    // 直接使用内存映射的数据构建整个索引
-    std::cout << "Building index with " << num << " vectors..." << std::endl;
-    diskann_index->build(mapped_data, num, all_ids);
-    std::cout << "Index built successfully!" << std::endl;
+    struct stat sb;
+    if (fstat(fd, &sb) == -1) {
+        close(fd);
+        throw std::runtime_error("无法获取文件大小: " + file_path);
+    }
     
-    // 解除映射
-    size_t file_size = 8 + num * dim * sizeof(float);
-    munmap(const_cast<uint32_t*>(original_mapped_addr), file_size);
+    size_t file_size = sb.st_size;
+    
+    const size_t header_size = 8;
+    const size_t page_size = 4096;
+    
+    uint32_t header[2];
+    pread(fd, header, header_size, 0);
+    uint32_t dim = header[1];
+    
+    size_t data_size = num_vectors * dim * sizeof(float);
+    size_t data_offset = header_size + start_vector * dim * sizeof(float);
+    
+    size_t mmap_offset = (data_offset / page_size) * page_size;
+    size_t extra_bytes = data_offset - mmap_offset;
+    
+    size_t mmap_size = data_size + extra_bytes;
+    
+    if (mmap_offset + mmap_size > file_size) {
+        close(fd);
+        throw std::runtime_error("偏移量超出文件大小");
+    }
+    
+    void* addr = mmap(nullptr, mmap_size, PROT_READ, MAP_PRIVATE, fd, mmap_offset);
+    if (addr == MAP_FAILED) {
+        close(fd);
+        throw std::runtime_error("部分内存映射失败");
+    }
+    
+    close(fd);
+    
+    madvise(addr, mmap_size, MADV_WILLNEED);
+    
+    const float* data = reinterpret_cast<const float*>(static_cast<char*>(addr) + extra_bytes);
+    return {data, {num_vectors, dim}};
+}
+
+void unmap_partial(const float* data, size_t num_vectors, size_t dim, size_t extra_bytes) {
+    if (data != nullptr) {
+        const char* addr = reinterpret_cast<const char*>(data) - extra_bytes;
+        size_t mmap_size = num_vectors * dim * sizeof(float) + extra_bytes;
+        munmap(const_cast<char*>(addr), mmap_size);
+    }
+}
+
+void DiskANNIndex::build(const std::string& dataset_path) {
+    int fd = open(dataset_path.c_str(), O_RDONLY);
+    if (fd == -1) {
+        throw std::runtime_error("无法打开文件: " + dataset_path);
+    }
+    
+    struct stat sb;
+    if (fstat(fd, &sb) == -1) {
+        close(fd);
+        throw std::runtime_error("无法获取文件大小: " + dataset_path);
+    }
+    size_t file_size = sb.st_size;
+    
+    uint32_t header[2];
+    pread(fd, header, 8, 0);
+    uint32_t total_num = header[0];
+    uint32_t dim = header[1];
+    close(fd);
+    
+    std::cout << "数据集: " << total_num << " vectors, " << dim << " dim" << std::endl;
+    std::cout << "文件大小: " << file_size << " bytes (" << file_size / (1024*1024*1024.0) << " GB)" << std::endl;
+    
+    size_t batch_size = 100000;
+    size_t num_batches = (total_num + batch_size - 1) / batch_size;
+    
+    std::cout << "分批构建索引: " << num_batches << " 批次, 每批 " << batch_size << " 向量" << std::endl;
+    
+    ProgressBar bar("Building index", total_num, true, true);
+    
+    size_t processed = 0;
+    for (size_t batch = 0; batch < num_batches; ++batch) {
+        size_t start = batch * batch_size;
+        size_t current_batch_size = std::min(batch_size, total_num - start);
+        
+        auto [mapped_data, sizes] = partial_mmap_fbin(dataset_path, start, current_batch_size);
+        
+        std::vector<uint32_t> ids(current_batch_size);
+        for (size_t i = 0; i < current_batch_size; ++i) {
+            ids[i] = static_cast<uint32_t>(start + i);
+        }
+        
+        size_t extra_bytes = 0;
+        if (batch > 0) {
+            size_t data_offset = 8 + start * dim * sizeof(float);
+            const size_t page_size = 4096;
+            extra_bytes = data_offset - (data_offset / page_size) * page_size;
+        }
+        
+        if (batch == 0) {
+            diskann_index->build(mapped_data, current_batch_size, ids);
+        } else {
+            #pragma omp parallel for schedule(dynamic, 1000)
+            for (size_t i = 0; i < current_batch_size; ++i) {
+                diskann_index->insert_point(mapped_data + i * dim, ids[i]);
+            }
+        }
+        
+        unmap_partial(mapped_data, current_batch_size, dim, extra_bytes);
+        
+        processed += current_batch_size;
+        bar.set_current(processed);
+        bar.display();
+        
+        std::cout << "  已处理 " << processed << "/" << total_num << " 向量" << std::endl;
+    }
+    
+    bar.finish();
+    std::cout << "索引构建完成!" << std::endl;
 }
 
 void DiskANNIndex::insert(const std::vector<float>& vec, const std::vector<uint32_t>& ids) {
     int count = ids.size();
+    #pragma omp parallel for schedule(dynamic, 1000)
     for (int i = 0; i < count; ++i) {
         diskann_index->insert_point(&vec[i * this->dim], ids[i]);
     }

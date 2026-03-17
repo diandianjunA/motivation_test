@@ -6,10 +6,8 @@ the Shine HTTP server via REST API.
 
 import numpy as np
 import requests
-from typing import List, Tuple, Optional
+from typing import List, Tuple
 import time
-import os
-import json
 
 from vector_test import VectorIndex
 
@@ -20,14 +18,14 @@ class ShineClient:
     Provides methods to interact with the Shine vector index service.
     """
 
-    def __init__(self, host: str = "localhost", port: int = 8080, timeout: int = 60):
+    def __init__(self, host: str = "localhost", port: int = 8080, timeout: int = 300):
         """
         Initialize Shine client.
-        
+
         Args:
             host: Shine server host
             port: Shine server port
-            timeout: Request timeout in seconds
+            timeout: Request timeout in seconds (default 300s for large vectors)
         """
         self.base_url = f"http://{host}:{port}"
         self.timeout = timeout
@@ -35,8 +33,8 @@ class ShineClient:
     def health_check(self) -> bool:
         """Check if the server is healthy."""
         try:
-            response = requests.get(f"{self.base_url}/health", timeout=5)
-            return response.json().get("success", False)
+            response = requests.get(f"{self.base_url}/status", timeout=5)
+            return response.json().get("status") == "running"
         except Exception:
             return False
 
@@ -48,128 +46,104 @@ class ShineClient:
             time.sleep(retry_interval)
         return False
 
-    def insert_vector(self, vector: np.ndarray, vector_id: Optional[int] = None) -> int:
+    def insert_vectors(self, vectors: np.ndarray, ids: np.ndarray, batch_size: int = 100) -> int:
         """
-        Insert a vector into the index.
-        
-        Args:
-            vector: numpy array of shape (dim,)
-            vector_id: optional vector ID
-            
-        Returns:
-            The ID of the inserted vector
-        """
-        payload = {"vector": vector.tolist()}
-        if vector_id is not None:
-            payload["id"] = vector_id
+        Insert vectors into the index via batch API.
 
-        response = requests.post(
-            f"{self.base_url}/insert",
-            json=payload,
-            timeout=self.timeout
-        )
-        result = response.json()
-        if result.get("success"):
-            return result.get("id", vector_id if vector_id is not None else 0)
-        else:
-            raise RuntimeError(f"Insert failed: {result.get('error')}")
-
-    def insert_vectors_batch(self, vectors: np.ndarray, start_id: int = 0) -> List[int]:
-        """
-        Insert multiple vectors into the index.
-        
         Args:
             vectors: numpy array of shape (n, dim)
-            start_id: starting vector ID
-            
-        Returns:
-            List of inserted vector IDs
-        """
-        ids = []
-        for i, vec in enumerate(vectors):
-            vec_id = self.insert_vector(vec, start_id + i)
-            ids.append(vec_id)
-        return ids
+            ids: numpy array of shape (n,) containing vector IDs
+            batch_size: number of vectors per request
 
-    def query_vector(self, query: np.ndarray, k: int = 10, ef_search: int = 128) -> Tuple[List[int], List[float]]:
+        Returns:
+            Total number of successfully inserted vectors
+        """
+        total_inserted = 0
+        n = len(vectors)
+        for offset in range(0, n, batch_size):
+            end = min(offset + batch_size, n)
+            batch = []
+            for i in range(offset, end):
+                batch.append({"id": int(ids[i]), "values": vectors[i].tolist()})
+            response = requests.post(
+                f"{self.base_url}/vectors",
+                json={"vectors": batch},
+                timeout=self.timeout
+            )
+            result = response.json()
+            total_inserted += result.get("inserted", 0)
+        return total_inserted
+
+    def query_vector(self, query: np.ndarray, k: int = 10) -> List[int]:
         """
         Query the index for nearest neighbors.
-        
+
         Args:
             query: numpy array of shape (dim,) or (n, dim)
             k: number of neighbors to return
-            ef_search: search parameter
-            
+
         Returns:
-            Tuple of (ids, distances)
+            List of vector IDs of the nearest neighbors
         """
         if query.ndim == 1:
             query = query.reshape(1, -1)
 
         payload = {
             "vector": query[0].tolist(),
-            "k": k,
-            "ef_search": ef_search
+            "k": k
         }
 
         response = requests.post(
-            f"{self.base_url}/query",
+            f"{self.base_url}/search",
             json=payload,
             timeout=self.timeout
         )
         result = response.json()
-        
-        if result.get("success"):
-            results = result.get("results", [])
-            ids = [r.get("id") for r in results]
-            distances = [r.get("distance") for r in results]
-            return ids, distances
-        else:
-            raise RuntimeError(f"Query failed: {result.get('error')}")
+        return result.get("results", [])
 
     def save_index(self, path: str = "") -> bool:
         """
         Save index to file.
-        
+
         Args:
             path: path to save the index
-            
+
         Returns:
             True if successful
         """
         payload = {"path": path}
 
         response = requests.post(
-            f"{self.base_url}/save",
+            f"{self.base_url}/index/store",
             json=payload,
             timeout=self.timeout
         )
         result = response.json()
-        return result.get("success", False)
+        return result.get("status") == "ok"
 
     def load_index(self, path: str = "") -> bool:
         """
         Load index from file.
-        
+
         Args:
             path: path to load the index from
-            
+
         Returns:
             True if successful
         """
         payload = {"path": path}
 
         response = requests.post(
-            f"{self.base_url}/load",
+            f"{self.base_url}/index/load",
             json=payload,
             timeout=self.timeout
         )
         result = response.json()
-        return result.get("success", False)
+        return result.get("status") == "ok"
 
-    def get_info(self) -> dict:
-        """Get system information."""
-        response = requests.get(f"{self.base_url}/info", timeout=5)
+    def get_status(self) -> dict:
+        """Get server status information."""
+        response = requests.get(f"{self.base_url}/status", timeout=5)
         return response.json()
 
 
@@ -179,15 +153,15 @@ class ShineVectorIndex(VectorIndex):
     This class wraps the Shine HTTP API to provide a VectorIndex interface.
     """
 
-    def __init__(self, host: str = "localhost", port: int = 8080, 
-                 timeout: int = 60, wait_for_server: bool = True):
+    def __init__(self, host: str = "localhost", port: int = 8080,
+                 timeout: int = 300, wait_for_server: bool = True):
         """
         Initialize ShineVectorIndex.
-        
+
         Args:
             host: Shine server host
             port: Shine server port
-            timeout: Request timeout in seconds
+            timeout: Request timeout in seconds (default 300s for large vectors)
             wait_for_server: Whether to wait for server to become available
         """
         super().__init__()
@@ -199,20 +173,24 @@ class ShineVectorIndex(VectorIndex):
             if not self.client.wait_for_server():
                 raise RuntimeError(f"Shine server at {host}:{port} is not available")
 
-    def build(self, vecs: np.ndarray, ids: np.ndarray) -> None:
+    def build(self, vecs: np.ndarray, ids: np.ndarray, num_threads: int = 4) -> None:
         """
         Build index by inserting all vectors.
         
         Args:
             vecs: numpy array of shape (n, dim)
             ids: numpy array of shape (n,) containing vector IDs
+            num_threads: number of threads for parallel insertion
         """
-        for i, (vec, vec_id) in enumerate(zip(vecs, ids)):
-            self.client.insert_vector(vec.astype(np.float32), int(vec_id))
-            if (i + 1) % 1000 == 0:
-                print(f"  Built {i + 1}/{len(vecs)} vectors")
+        total = len(vecs)
+        batch_size = 100
+        print(f"Building index with {total} vectors using batch insert (batch_size={batch_size})...")
 
-    def build_from_file(self, dataset_path: str) -> None:
+        inserted = self.client.insert_vectors(vecs.astype(np.float32), ids, batch_size=batch_size)
+
+        print(f"  Built {inserted}/{total} vectors")
+
+    def build_from_file(self, dataset_path: str, num_threads: int = 4) -> None:
         """
         Build index from fbin file.
         Note: Shine doesn't support direct file loading, so we read the file
@@ -220,6 +198,7 @@ class ShineVectorIndex(VectorIndex):
         
         Args:
             dataset_path: path to the dataset file in fbin format
+            num_threads: number of threads for parallel insertion
         """
         from vector_test import read_fbin
         
@@ -230,24 +209,23 @@ class ShineVectorIndex(VectorIndex):
         print(f"Building index with {num_vectors} vectors of dimension {dim}...")
         
         ids = np.arange(num_vectors, dtype=np.uint32)
-        self.build(data, ids)
+        self.build(data, ids, num_threads)
         
         print(f"Index built with {num_vectors} vectors")
 
     def insert(self, vec: np.ndarray, ids: np.ndarray) -> None:
         """
         Insert vectors into the index.
-        
+
         Args:
             vec: numpy array of shape (dim,) or (n, dim)
             ids: numpy array of shape (n,) containing vector IDs
         """
         if vec.ndim == 1:
             vec = vec.reshape(1, -1)
-            ids = ids.reshape(1, -1)
-        
-        for v, vec_id in zip(vec, ids):
-            self.client.insert_vector(v.astype(np.float32), int(vec_id))
+            ids = ids.reshape(-1)
+
+        self.client.insert_vectors(vec.astype(np.float32), ids)
 
     def search(self, query: np.ndarray, top_k: int) -> Tuple[List[int], List[float]]:
         """
@@ -266,10 +244,10 @@ class ShineVectorIndex(VectorIndex):
         ids_list = []
         distances_list = []
         
-        for q in query:
-            ids, distances = self.client.query_vector(q.astype(np.float32), k=top_k)
+        for i, q in enumerate(query):
+            ids = self.client.query_vector(q.astype(np.float32), k=top_k)
             ids_list.append(ids)
-            distances_list.append(distances)
+            distances_list.append([0.0] * top_k)
         
         if len(ids_list) == 1:
             return ids_list[0], distances_list[0]

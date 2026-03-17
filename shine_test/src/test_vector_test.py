@@ -14,12 +14,12 @@ import os
 import argparse
 import numpy as np
 
-vector_test_path = os.path.join(os.path.dirname(__file__), '..', 'vector_test_python')
+vector_test_path = "/home/xjs/experiment/motivation_test/vector_test_python"
 if os.path.exists(vector_test_path):
     sys.path.insert(0, vector_test_path)
 
 from vector_test import VectorTest, read_config
-from src.shine_index import ShineVectorIndex
+from shine_index import ShineVectorIndex
 
 
 def main():
@@ -78,9 +78,9 @@ def main():
     
     import tempfile
     with tempfile.NamedTemporaryFile(mode='w', suffix='.ini', delete=False) as f:
+        f.write(f"[test]\n")
         for key, value in config.items():
             if value:
-                f.write(f"[test]\n")
                 f.write(f"{key} = {value}\n")
         config_path = f.name
     

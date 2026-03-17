@@ -33,6 +33,8 @@ add_executable(basic_test
 
 target_link_libraries(basic_test DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -42,6 +44,8 @@ add_executable(1024dim100K_generator
 
 target_link_libraries(1024dim100K_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -51,6 +55,8 @@ add_executable(1024dim1M_generator
 
 target_link_libraries(1024dim1M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -60,6 +66,19 @@ add_executable(1024dim10M_generator
 
 target_link_libraries(1024dim10M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
+    openblas
+)
+
+add_executable(1024dim100M_generator
+    1024dim100M.cpp
+)
+
+target_link_libraries(1024dim100M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
+    faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -69,6 +88,8 @@ add_executable(correct_test
 
 target_link_libraries(correct_test DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -78,6 +99,8 @@ add_executable(correct_test2
 
 target_link_libraries(correct_test2 DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -87,5 +110,7 @@ add_executable(correct_test3
 
 target_link_libraries(correct_test3 DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )

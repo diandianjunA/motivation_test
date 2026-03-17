@@ -27,6 +27,8 @@ add_library(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX
     faiss
+    faiss_avx2
+    cublas cudart cuda curand
     openblas
 )
 
@@ -37,3 +39,11 @@ add_executable(read_fbin src/read_fbin.cpp)
 add_executable(read_fbin2 src/read_fbin2.cpp src/random_data_generator.cpp)
 
 add_executable(read_fbin3 src/read_fbin3.cpp)
+
+add_executable(calculate_ground_truth src/calculate_ground_truth.cpp src/ground_truth_calculator.cpp)
+target_link_libraries(calculate_ground_truth OpenMP::OpenMP_CXX
+    faiss
+    faiss_avx2
+    cublas cudart cuda curand
+    openblas
+)

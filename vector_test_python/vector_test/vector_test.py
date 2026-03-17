@@ -279,6 +279,7 @@ class VectorTest:
             for j in range(topk):
                 if groundtruth[i, j] in ids_res[i]:
                     recall_per_query += 1.0
+            print(f"[INFO] Recall per query {i}: {recall_per_query / topk:.4f}")
             recall += recall_per_query / topk
         
         recall /= query_info[0]

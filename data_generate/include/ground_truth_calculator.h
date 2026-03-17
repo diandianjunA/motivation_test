@@ -13,7 +13,7 @@ private:
     std::string format_time(double ms);
     
 public:
-    GroundTruthCalculator(int dimension, DistanceMetric metric = DistanceMetric::L2);
+    GroundTruthCalculator(int dimension, DistanceMetric metric = DistanceMetric::L2, bool use_gpu = false);
     
     // 计算单个查询的ground truth
     struct Neighbor {
@@ -28,6 +28,8 @@ public:
     };
     
     void init(const std::vector<std::vector<float>>& dataset);
+
+    void init(float* dataset, size_t num_vectors, size_t dim);
 
     std::vector<Neighbor> compute_query_ground_truth(
         const std::vector<float>& query,
