@@ -184,11 +184,34 @@ class ShineVectorIndex(VectorIndex):
         """
         total = len(vecs)
         batch_size = 100
-        print(f"Building index with {total} vectors using batch insert (batch_size={batch_size})...")
+        completed = [0]
+        lock = __import__('threading').Lock()
 
-        inserted = self.client.insert_vectors(vecs.astype(np.float32), ids, batch_size=batch_size)
+        def insert_batch(offset):
+            end = min(offset + batch_size, total)
+            batch = []
+            for i in range(offset, end):
+                batch.append({"id": int(ids[i]), "values": vecs[i].astype(np.float32).tolist()})
+            response = requests.post(
+                f"{self.client.base_url}/vectors",
+                json={"vectors": batch},
+                timeout=self.client.timeout
+            )
+            cnt = response.json().get("inserted", 0)
+            with lock:
+                completed[0] += cnt
+                if completed[0] % 1000 < batch_size:
+                    print(f"  Built {completed[0]}/{total} vectors")
+            return cnt
 
-        print(f"  Built {inserted}/{total} vectors")
+        print(f"Building index with {total} vectors using {num_threads} threads (batch_size={batch_size})...")
+
+        offsets = list(range(0, total, batch_size))
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=num_threads) as executor:
+            list(executor.map(insert_batch, offsets))
+
+        print(f"  Built {completed[0]}/{total} vectors")
 
     def build_from_file(self, dataset_path: str, num_threads: int = 4) -> None:
         """

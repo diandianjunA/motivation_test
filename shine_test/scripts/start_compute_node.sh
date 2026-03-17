@@ -54,7 +54,7 @@ LOG_FILE="$PROJECT_DIR/logs/compute_node.log"
 
 # ---- 默认参数（可通过环境变量覆盖） ----
 SERVERS="${SERVERS:-cluster1}"
-DIM="${DIM:-128}"
+DIM="${DIM:-1024}"
 THREADS="${THREADS:-4}"
 EF_SEARCH="${EF_SEARCH:-64}"
 K="${K:-10}"
