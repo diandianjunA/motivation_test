@@ -47,7 +47,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BINARY="$PROJECT_DIR/bin/shine"
 PID_FILE="$PROJECT_DIR/.compute_node.pid"
 LOG_FILE="$PROJECT_DIR/logs/compute_node.log"
