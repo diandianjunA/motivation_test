@@ -1,8 +1,8 @@
 #!/bin/bash
 # =============================================================================
-# SHINE Memory Node Launcher
+# SHINE GPU Memory Node Launcher
 # =============================================================================
-# 启动 SHINE 内存节点（服务模式）。
+# 启动 GPU baseline 的 memory node。
 # 支持前台/后台运行，提供 start/stop/status/restart 操作。
 #
 # 用法:
@@ -38,14 +38,15 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BINARY="$PROJECT_DIR/bin/shine"
+BINARY="$PROJECT_DIR/build/shine"
 PID_FILE="$PROJECT_DIR/.memory_node.pid"
+ARGS_FILE="$PROJECT_DIR/.memory_node.args"
 LOG_FILE="$PROJECT_DIR/logs/memory_node.log"
 
 # ---- 默认参数（可通过环境变量覆盖） ----
 NUM_CLIENTS="${NUM_CLIENTS:-1}"
 PORT="${PORT:-1234}"
-MN_MEMORY="${MN_MEMORY:-50}"
+MN_MEMORY="${MN_MEMORY:-10}"
 FOREGROUND=false
 
 # ---- 帮助信息 ----
@@ -57,6 +58,7 @@ usage() {
 # ---- 解析命令行参数 ----
 COMMAND="start"
 EXTRA_ARGS=()
+HAS_EXPLICIT_ARGS=false
 
 # 第一个非 - 开头的参数作为命令
 if [[ $# -gt 0 && ! "$1" =~ ^- ]]; then
@@ -66,12 +68,12 @@ fi
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -n|--num-clients)  NUM_CLIENTS="$2"; shift 2 ;;
-        -p|--port)         PORT="$2"; shift 2 ;;
-        --mn-memory)       MN_MEMORY="$2"; shift 2 ;;
-        -f|--foreground)   FOREGROUND=true; shift ;;
+        -n|--num-clients)  HAS_EXPLICIT_ARGS=true; NUM_CLIENTS="$2"; shift 2 ;;
+        -p|--port)         HAS_EXPLICIT_ARGS=true; PORT="$2"; shift 2 ;;
+        --mn-memory)       HAS_EXPLICIT_ARGS=true; MN_MEMORY="$2"; shift 2 ;;
+        -f|--foreground)   HAS_EXPLICIT_ARGS=true; FOREGROUND=true; shift ;;
         -h|--help)         usage ;;
-        *)                 EXTRA_ARGS+=("$1"); shift ;;
+        *)                 HAS_EXPLICIT_ARGS=true; EXTRA_ARGS+=("$1"); shift ;;
     esac
 done
 
@@ -90,16 +92,57 @@ get_pid() {
     return 1
 }
 
+save_args() {
+    local args=("$@")
+    printf '%s\n' "${args[@]}" > "$ARGS_FILE"
+}
+
+load_saved_args() {
+    [[ -f "$ARGS_FILE" ]] || return 1
+    mapfile -t SAVED_ARGS < "$ARGS_FILE"
+    [[ "${#SAVED_ARGS[@]}" -gt 0 ]] || return 1
+}
+
+launch_binary() {
+    local args=("$@")
+
+    if [[ "$FOREGROUND" == true ]]; then
+        save_args "${args[@]}"
+        exec "$BINARY" "${args[@]}"
+    else
+        mkdir -p "$(dirname "$LOG_FILE")"
+        nohup "$BINARY" "${args[@]}" >> "$LOG_FILE" 2>&1 &
+        local pid=$!
+        echo "$pid" > "$PID_FILE"
+        # 短暂等待，检查进程是否立即退出
+        sleep 1
+        if kill -0 "$pid" 2>/dev/null; then
+            save_args "${args[@]}"
+            echo "[SHINE GPU Memory Node] 已启动 (PID: $pid)"
+            echo ""
+            echo "常用操作:"
+            echo "  查看状态:  $0 status"
+            echo "  查看日志:  tail -f $LOG_FILE"
+            echo "  停止节点:  $0 stop"
+        else
+            rm -f "$PID_FILE"
+            echo "错误: 进程启动后立即退出，请检查日志:"
+            echo "  tail -20 $LOG_FILE"
+            exit 1
+        fi
+    fi
+}
+
 # ---- 命令实现 ----
 do_status() {
     local pid
     if pid=$(get_pid); then
-        echo "[SHINE Memory Node] 运行中 (PID: $pid)"
+        echo "[SHINE GPU Memory Node] 运行中 (PID: $pid)"
         echo "  日志文件: $LOG_FILE"
         echo "  PID 文件: $PID_FILE"
         return 0
     else
-        echo "[SHINE Memory Node] 未运行"
+        echo "[SHINE GPU Memory Node] 未运行"
         return 1
     fi
 }
@@ -107,30 +150,30 @@ do_status() {
 do_stop() {
     local pid
     if pid=$(get_pid); then
-        echo "[SHINE Memory Node] 正在停止 (PID: $pid) ..."
+        echo "[SHINE GPU Memory Node] 正在停止 (PID: $pid) ..."
         kill "$pid"
         # 等待进程退出，最多 10 秒
         for i in $(seq 1 10); do
             if ! kill -0 "$pid" 2>/dev/null; then
                 rm -f "$PID_FILE"
-                echo "[SHINE Memory Node] 已停止"
+                echo "[SHINE GPU Memory Node] 已停止"
                 return 0
             fi
             sleep 1
         done
-        echo "[SHINE Memory Node] 进程未响应，强制终止 ..."
+        echo "[SHINE GPU Memory Node] 进程未响应，强制终止 ..."
         kill -9 "$pid" 2>/dev/null
         rm -f "$PID_FILE"
-        echo "[SHINE Memory Node] 已强制停止"
+        echo "[SHINE GPU Memory Node] 已强制停止"
     else
-        echo "[SHINE Memory Node] 未运行"
+        echo "[SHINE GPU Memory Node] 未运行"
     fi
 }
 
 do_start() {
     # 检查是否已在运行
     if pid=$(get_pid); then
-        echo "[SHINE Memory Node] 已在运行 (PID: $pid)，如需重启请使用 restart 命令"
+        echo "[SHINE GPU Memory Node] 已在运行 (PID: $pid)，如需重启请使用 restart 命令"
         exit 1
     fi
 
@@ -151,7 +194,7 @@ do_start() {
 
     args+=("${EXTRA_ARGS[@]}")
 
-    echo "[SHINE Memory Node] 启动参数:"
+    echo "[SHINE GPU Memory Node] 启动参数:"
     echo "  RDMA 端口:    $PORT"
     echo "  客户端数:     $NUM_CLIENTS"
     echo "  内存(GB):     $MN_MEMORY"
@@ -159,38 +202,45 @@ do_start() {
     if [[ "$FOREGROUND" == true ]]; then
         echo "  模式:         前台运行"
         echo ""
-        exec "$BINARY" "${args[@]}"
     else
         mkdir -p "$(dirname "$LOG_FILE")"
         echo "  模式:         后台运行"
         echo "  日志文件:     $LOG_FILE"
         echo ""
-        nohup "$BINARY" "${args[@]}" >> "$LOG_FILE" 2>&1 &
-        local pid=$!
-        echo "$pid" > "$PID_FILE"
-        # 短暂等待，检查进程是否立即退出
-        sleep 1
-        if kill -0 "$pid" 2>/dev/null; then
-            echo "[SHINE Memory Node] 已启动 (PID: $pid)"
-            echo ""
-            echo "常用操作:"
-            echo "  查看状态:  $0 status"
-            echo "  查看日志:  tail -f $LOG_FILE"
-            echo "  停止节点:  $0 stop"
-        else
-            rm -f "$PID_FILE"
-            echo "错误: 进程启动后立即退出，请检查日志:"
-            echo "  tail -20 $LOG_FILE"
-            exit 1
-        fi
     fi
+
+    launch_binary "${args[@]}"
+}
+
+do_restart() {
+    do_stop
+
+    if [[ "$HAS_EXPLICIT_ARGS" == false ]] && load_saved_args; then
+        echo "[SHINE GPU Memory Node] 使用上次启动参数重启"
+        printf '  命令参数:'
+        printf ' %q' "${SAVED_ARGS[@]}"
+        echo
+        if [[ "$FOREGROUND" == true ]]; then
+            echo "  模式:         前台运行"
+            echo ""
+        else
+            mkdir -p "$(dirname "$LOG_FILE")"
+            echo "  模式:         后台运行"
+            echo "  日志文件:     $LOG_FILE"
+            echo ""
+        fi
+        launch_binary "${SAVED_ARGS[@]}"
+        return
+    fi
+
+    do_start
 }
 
 # ---- 执行命令 ----
 case "$COMMAND" in
     start)   do_start ;;
     stop)    do_stop ;;
-    restart) do_stop; do_start ;;
+    restart) do_restart ;;
     status)  do_status ;;
     *)
         echo "未知命令: $COMMAND"

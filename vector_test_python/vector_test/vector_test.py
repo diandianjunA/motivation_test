@@ -85,7 +85,9 @@ class VectorTest:
         timer = Timer()
         timer.start()
 
-        self.index.build_from_file(dataset_path)
+        thread_count = int(self.config.get('threads', '4'))
+        self.logger.info(f"Building index with {thread_count} threads...")
+        self.index.build_from_file(dataset_path, num_threads=thread_count)
 
         timer.stop()
         self.logger.info(f"Build time: {timer.elapsed():.2f} s")
@@ -249,6 +251,16 @@ class VectorTest:
         self.logger.info(f"Write throughput: {write_throughput:.2f} ops/s")
         self.logger.info(f"Read throughput: {read_throughput:.2f} ops/s")
         self.logger.info(f"Total throughput: {total_throughput:.2f} ops/s")
+
+    def _print_progress(self, completed: int, total: int, start_time: float, stage: str) -> None:
+        """Render a single-line progress bar for long-running sequential stages."""
+        progress_width = 50
+        progress = completed / total if total > 0 else 1.0
+        bar_len = int(progress * progress_width)
+        elapsed = time.time() - start_time
+        print(f"\r{stage}: [{'=' * bar_len}{' ' * (progress_width - bar_len)}] "
+              f"{progress * 100:.0f}% ({completed}/{total}) "
+              f"Time: {elapsed:.1f}s", end='', flush=True)
     
     def recall_test(self) -> None:
         """Recall rate test."""
@@ -266,32 +278,79 @@ class VectorTest:
             raise ValueError("Config file missing groundtruth")
 
         query_data, query_info = read_fbin(self.config['query_data'])
-        dim = query_info[1]
         topk = int(self.config.get('topk', '10'))
+        query_count = query_info[0]
+        thread_count = max(1, int(self.config.get('threads', '4')))
+        self.logger.info(f"Using {thread_count} threads for recall search")
 
-        ids_res = []
-        distances_res = []
+        ids_res: List[Optional[List[int]]] = [None] * query_count
+        completed_queries = [0]
+        completed_lock = threading.Lock()
+        errors: List[BaseException] = []
+        error_lock = threading.Lock()
 
-        for i in range(query_info[0]):
-            ids, distances = self.index.search(query_data[i], topk)
-            ids_res.append(ids)
-            distances_res.append(distances)
+        def worker(start: int, end: int) -> None:
+            try:
+                for i in range(start, end):
+                    ids, _ = self.index.search(query_data[i], topk)
+                    ids_res[i] = ids
+                    with completed_lock:
+                        completed_queries[0] += 1
+            except BaseException as exc:
+                with error_lock:
+                    errors.append(exc)
+
+        start_time = time.time()
+        threads = []
+        queries_per_thread = query_count // thread_count
+        remainder = query_count % thread_count
+        start_idx = 0
+
+        for i in range(thread_count):
+            end_idx = start_idx + queries_per_thread + (1 if i < remainder else 0)
+            if start_idx == end_idx:
+                continue
+            t = threading.Thread(target=worker, args=(start_idx, end_idx))
+            threads.append(t)
+            t.start()
+            start_idx = end_idx
+
+        while completed_queries[0] < query_count:
+            if errors:
+                break
+            self._print_progress(completed_queries[0], query_count, start_time, "Recall search")
+            time.sleep(0.1)
+
+        for t in threads:
+            t.join()
+
+        if errors:
+            raise RuntimeError("Recall search worker failed") from errors[0]
+
+        self._print_progress(query_count, query_count, start_time, "Recall search")
+        print()
 
         groundtruth, gt_info = read_bin(self.config['groundtruth'])
 
-        if gt_info[0] != query_info[0]:
+        if gt_info[0] != query_count:
             raise ValueError("Groundtruth number does not match query number")
         if gt_info[1] != topk:
             raise ValueError("Groundtruth topk does not match test topk")
 
         recall = 0.0
-        for i in range(query_info[0]):
+        eval_start_time = time.time()
+        last_progress_time = 0.0
+        for i in range(query_count):
             recall_per_query = 0.0
             for j in range(topk):
                 if groundtruth[i, j] in ids_res[i]:
                     recall_per_query += 1.0
-            self.logger.info(f"Recall per query {i}: {recall_per_query / topk:.4f}")
             recall += recall_per_query / topk
+            now = time.time()
+            if now - last_progress_time >= 0.1 or i + 1 == query_count:
+                self._print_progress(i + 1, query_count, eval_start_time, "Recall eval")
+                last_progress_time = now
 
-        recall /= query_info[0]
+        print()
+        recall /= query_count
         self.logger.info(f"Recall: {recall:.4f}")
