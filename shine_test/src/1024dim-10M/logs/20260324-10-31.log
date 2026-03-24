@@ -1,0 +1,13 @@
+[INFO] Log file: ./logs/20260324-10-31.log
+[INFO] Config: option = recall
+[INFO] Config: index_path = /data/xjs/index/shine_index/1024dim10M
+[INFO] Config: query_data = /data/xjs/random_dataset/1024dim10M/queries/query-test.fbin
+[INFO] Config: groundtruth = /data/xjs/random_dataset/1024dim10M/queries/groundtruth-test.bin
+[INFO] Config: dim = 0
+[INFO] Config: topk = 10
+[INFO] Config: threads = 4
+[INFO] Config: test_scale = 1000
+[INFO] Config: read_ratio = 0.5
+[INFO] Config: total_test = false
+[INFO] Config: log_path = ./logs
+[INFO] Recall test: Shine

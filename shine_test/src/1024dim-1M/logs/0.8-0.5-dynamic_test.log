@@ -1,0 +1,20 @@
+[INFO] Log file: ./logs/20260320-18-46.log
+[INFO] Config: option = dynamic
+[INFO] Config: index_path = /data/xjs/index/shine_index/1024dim1M
+[INFO] Config: dim = 1024
+[INFO] Config: topk = 10
+[INFO] Config: threads = 16
+[INFO] Config: test_scale = 5000
+[INFO] Config: read_ratio = 0.5
+[INFO] Config: total_test = false
+[INFO] Config: log_path = ./logs
+[INFO] Dynamic test: Shine
+[INFO] Using 16 threads for testing
+[INFO] Dynamic test read ratio 50%
+[INFO] Dynamic test completed, total time: 427123.92 ms
+[INFO] Write operations: 2533, Read operations: 2467
+[INFO] Write avg latency: 0.107824 s
+[INFO] Read avg latency: 2.505161 s
+[INFO] Write throughput: 5.93 ops/s
+[INFO] Read throughput: 5.78 ops/s
+[INFO] Total throughput: 11.71 ops/s

@@ -13,23 +13,25 @@ class VectorIndex(ABC):
         pass
 
     @abstractmethod
-    def build(self, vecs: np.ndarray, ids: np.ndarray) -> None:
+    def build(self, vecs: np.ndarray, ids: np.ndarray, num_threads: int = 4) -> None:
         """
         Build index from vectors and their IDs.
         
         Args:
             vecs: numpy array of shape (n, dim) containing vector data
             ids: numpy array of shape (n,) containing vector IDs
+            num_threads: number of threads for parallel insertion
         """
         pass
 
     @abstractmethod
-    def build_from_file(self, dataset_path: str) -> None:
+    def build_from_file(self, dataset_path: str, num_threads: int = 4) -> None:
         """
         Build index from a data file.
         
         Args:
             dataset_path: path to the dataset file in fbin format
+            num_threads: number of threads for parallel insertion
         """
         pass
 
