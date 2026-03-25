@@ -2,7 +2,7 @@
 # =============================================================================
 # SHINE GPU Compute Node Launcher
 # =============================================================================
-# 启动 GPU baseline 计算节点（HTTP 服务 + RDMA memory nodes）。
+# 启动 GPU baseline 计算节点（in-process service + RDMA memory nodes）。
 # 支持前台/后台运行，提供 start/stop/status/restart 操作。
 #
 # 用法:
@@ -27,7 +27,6 @@
 #   -k <n>                        Top-K 返回数量（默认: 10）
 #       --m <n>                   Vamana R 参数（默认: 32）
 #       --ef-construction <n>     插入/构建 beam 宽度（默认: 200）
-#       --http-port <port>        HTTP 服务端口（默认: 8080）
 #       --coroutines <n>          query micro-batch / coroutine 数（默认: 4）
 #       --max-vectors <n>         最大向量数（默认: 1000000）
 #       --cn-memory <GB>          计算节点内存（GB）（默认: 10）
@@ -68,7 +67,6 @@ EF_SEARCH="${EF_SEARCH:-64}"
 K="${K:-10}"
 M="${M:-32}"
 EF_CONSTRUCTION="${EF_CONSTRUCTION:-200}"
-HTTP_PORT="${HTTP_PORT:-8080}"
 COROUTINES="${COROUTINES:-4}"
 MAX_VECTORS="${MAX_VECTORS:-1000000}"
 CN_MEMORY="${CN_MEMORY:-10}"
@@ -114,7 +112,6 @@ while [[ $# -gt 0 ]]; do
         -k)                   HAS_EXPLICIT_ARGS=true; K="$2"; shift 2 ;;
         --m)                  HAS_EXPLICIT_ARGS=true; M="$2"; shift 2 ;;
         --ef-construction)    HAS_EXPLICIT_ARGS=true; EF_CONSTRUCTION="$2"; shift 2 ;;
-        --http-port)          HAS_EXPLICIT_ARGS=true; HTTP_PORT="$2"; shift 2 ;;
         --coroutines)         HAS_EXPLICIT_ARGS=true; COROUTINES="$2"; shift 2 ;;
         --max-vectors)        HAS_EXPLICIT_ARGS=true; MAX_VECTORS="$2"; shift 2 ;;
         --cn-memory)          HAS_EXPLICIT_ARGS=true; CN_MEMORY="$2"; shift 2 ;;
@@ -263,7 +260,6 @@ do_start() {
         --k "$K"
         --m "$M"
         --ef-construction "$EF_CONSTRUCTION"
-        --http-port "$HTTP_PORT"
         --coroutines "$COROUTINES"
         --max-vectors "$MAX_VECTORS"
         --cn-memory "$CN_MEMORY"
@@ -300,7 +296,6 @@ do_start() {
     echo "[SHINE Compute Node] 启动参数:"
     echo "  服务器:       ${server_list[*]}"
     echo "  RDMA 端口:    $PORT"
-    echo "  HTTP 端口:    $HTTP_PORT"
     echo "  向量维度:     $DIM"
     echo "  线程数:       $THREADS"
     echo "  协程数:       $COROUTINES"

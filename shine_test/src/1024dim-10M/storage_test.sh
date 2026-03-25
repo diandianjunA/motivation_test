@@ -1,7 +1,9 @@
-python ../test_vector_test.py \
-    --option storage \
-    --host 192.168.6.201 \
-    --port 8080 \
-    --index_path /data/xjs/index/shine_index/1024dim10M \
-    --dim 1024 \
-    --topk 10
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+BASE_CONFIG="${CONFIG:-$ROOT_DIR/config/1024dim10M.ini}"
+RUNNER="${RUNNER:-$ROOT_DIR/build/ShineVectorTest}"
+HELPER="$ROOT_DIR/scripts/run_with_option.sh"
+
+exec "$HELPER" "$BASE_CONFIG" storage "$RUNNER"

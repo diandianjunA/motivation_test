@@ -1,0 +1,7 @@
+--is-server
+--num-clients
+1
+--port
+1234
+--mn-memory
+10

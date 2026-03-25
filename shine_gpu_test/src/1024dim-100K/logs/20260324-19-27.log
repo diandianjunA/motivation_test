@@ -1,0 +1,20 @@
+[INFO] Log file: ./logs/20260324-19-27.log
+[INFO] Config: option = dynamic
+[INFO] Config: index_path = /data/xjs/index/shine_gpu_index/1024dim100K
+[INFO] Config: dim = 1024
+[INFO] Config: topk = 10
+[INFO] Config: threads = 16
+[INFO] Config: test_scale = 5000
+[INFO] Config: read_ratio = 0.5
+[INFO] Config: total_test = false
+[INFO] Config: log_path = ./logs
+[INFO] Dynamic test: Shine
+[INFO] Using 16 threads for testing
+[INFO] Dynamic test read ratio 50%
+[INFO] Dynamic test completed, total time: 443578.12 ms
+[INFO] Write operations: 2528, Read operations: 2472
+[INFO] Write avg latency: 1.819359 s
+[INFO] Read avg latency: 0.939878 s
+[INFO] Write throughput: 5.70 ops/s
+[INFO] Read throughput: 5.57 ops/s
+[INFO] Total throughput: 11.27 ops/s

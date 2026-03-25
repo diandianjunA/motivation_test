@@ -1,8 +1,9 @@
-python3 ../test_vector_test.py \
-    --option build \
-    --host 192.168.6.201 \
-    --port 8080 \
-    --data_path /data/xjs/random_dataset/1024dim100K/base.fbin \
-    --index_path /data/xjs/index/shine_index/1024dim100K \
-    --dim 1024 \
-    --threads 4
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+BASE_CONFIG="${CONFIG:-$ROOT_DIR/config/1024dim100K.ini}"
+RUNNER="${RUNNER:-$ROOT_DIR/build/ShineVectorTest}"
+HELPER="$ROOT_DIR/scripts/run_with_option.sh"
+
+exec "$HELPER" "$BASE_CONFIG" build "$RUNNER"
