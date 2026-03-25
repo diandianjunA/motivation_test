@@ -350,6 +350,9 @@ void VectorTest::recall_test() {
     std::vector<std::vector<float>> distances_res(query_info.first, std::vector<float>(topk, 0.0));
     for (size_t i = 0; i < query_info.first; i++) {
         index->search(std::vector<float>(query_data + i * dim, query_data + (i + 1) * dim), topk, ids_res[i], distances_res[i]);
+        if (i % 10 == 0) {
+            GlobalLogger->info("Search query ({}/{}) done", i, query_info.first);
+        }
     }
     delete[] query_data;
 
@@ -373,14 +376,14 @@ void VectorTest::recall_test() {
                 recall_per_query++;
             }
         }
-        GlobalLogger->info("Groundtruth: ");
-        for (int j = 0; j < topk; j++) {
-            GlobalLogger->info("{}", groundtruth[i * topk + j]);
-        }
-        GlobalLogger->info("DiskANN result: ");
-        for (int j = 0; j < topk; j++) {
-            GlobalLogger->info("ids_res[{}][{}] = {}, distances_res[{}][{}] = {:.4f}", i, j, ids_res[i][j], i, j, distances_res[i][j]);
-        }
+        // GlobalLogger->info("Groundtruth: ");
+        // for (int j = 0; j < topk; j++) {
+        //     GlobalLogger->info("{}", groundtruth[i * topk + j]);
+        // }
+        // GlobalLogger->info("DiskANN result: ");
+        // for (int j = 0; j < topk; j++) {
+        //     GlobalLogger->info("ids_res[{}][{}] = {}, distances_res[{}][{}] = {:.4f}", i, j, ids_res[i][j], i, j, distances_res[i][j]);
+        // }
         GlobalLogger->info("Recall per query: {:.4f}", recall_per_query / topk);
         recall += recall_per_query / topk;
     }

@@ -12,5 +12,6 @@ find_package(TBB REQUIRED)
 # our library
 file(GLOB_RECURSE LIBRARY_CC library/**.cc)
 add_library(rdma_library STATIC ${LIBRARY_CC})
+target_include_directories(rdma_library SYSTEM BEFORE PUBLIC ${IBVERBS_INCLUDE_DIR})
 target_include_directories(rdma_library PUBLIC .)
 target_link_libraries(rdma_library ${IBVERBS_LIBRARY} ${Boost_LIBRARIES} TBB::tbb Threads::Threads ${NL_ROUTE_LIBRARY} ${NL_3_LIBRARY})
