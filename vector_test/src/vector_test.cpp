@@ -172,6 +172,14 @@ void VectorTest::dynamic_test() {
         rand_vec(vector_data, dim, test_count);
     }
 
+    // Dynamic writes should use fresh IDs beyond the preloaded index range.
+    // The loaded benchmark indexes are built with sequential ids [0, base_count),
+    // so reusing (i + 1) turns the workload into accidental updates/conflicts.
+    uint32_t write_id_base = 1000000;
+    if (config.find("write_id_base") != config.end()) {
+        write_id_base = static_cast<uint32_t>(std::stoul(config["write_id_base"]));
+    }
+
     auto test_core = [&](float read_ratio) {
         // 线程安全的统计对象
         Stat stat(2);
@@ -202,7 +210,8 @@ void VectorTest::dynamic_test() {
                 } else {
                     write_count++;
                     timer.start();
-                    index->insert(std::vector<float>(vector_data + i * dim, vector_data + (i + 1) * dim), {(uint32_t)(i + 1)});
+                    index->insert(std::vector<float>(vector_data + i * dim, vector_data + (i + 1) * dim),
+                                  {static_cast<uint32_t>(write_id_base + i)});
                     timer.stop();
                     stat.addOperation(OperationType::WRITE, timer.elapsed());
                 }
