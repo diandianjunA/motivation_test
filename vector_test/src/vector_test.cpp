@@ -5,9 +5,86 @@
 #include "component/memory_monitor.h"
 #include "component/stat.h"
 #include "util.h"
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <memory>
+#include <random>
+#include <sstream>
 #include <stdexcept>
+#include <thread>
+
+namespace {
+
+int getRequiredInt(const std::map<std::string, std::string>& config, const std::string& key) {
+    const auto it = config.find(key);
+    if (it == config.end()) {
+        throw std::runtime_error("Config file missing " + key);
+    }
+    return std::stoi(it->second);
+}
+
+int getOptionalInt(const std::map<std::string, std::string>& config, const std::string& key, int defaultValue) {
+    const auto it = config.find(key);
+    if (it == config.end()) {
+        return defaultValue;
+    }
+    return std::stoi(it->second);
+}
+
+size_t getOptionalSize(
+    const std::map<std::string, std::string>& config,
+    const std::string& key,
+    size_t defaultValue) {
+    const auto it = config.find(key);
+    if (it == config.end()) {
+        return defaultValue;
+    }
+    return static_cast<size_t>(std::stoull(it->second));
+}
+
+double getOptionalDouble(
+    const std::map<std::string, std::string>& config,
+    const std::string& key,
+    double defaultValue) {
+    const auto it = config.find(key);
+    if (it == config.end()) {
+        return defaultValue;
+    }
+    return std::stod(it->second);
+}
+
+bool getOptionalBool(const std::map<std::string, std::string>& config, const std::string& key, bool defaultValue) {
+    const auto it = config.find(key);
+    if (it == config.end()) {
+        return defaultValue;
+    }
+    return it->second == "true";
+}
+
+void ensureRange(int value, int minValue, int maxValue, const std::string& key) {
+    if (value < minValue || value > maxValue) {
+        throw std::runtime_error(
+            key + " must be in [" + std::to_string(minValue) + ", " + std::to_string(maxValue) + "]");
+    }
+}
+
+void ensurePositive(int value, const std::string& key) {
+    if (value <= 0) {
+        throw std::runtime_error(key + " must be positive");
+    }
+}
+
+void ensurePositiveSize(size_t value, const std::string& key) {
+    if (value == 0) {
+        throw std::runtime_error(key + " must be positive");
+    }
+}
+
+} // namespace
 
 std::string genetateLogFileName() {
     auto now = std::chrono::system_clock::now();
@@ -134,203 +211,289 @@ void VectorTest::storage_test() {
 
 void VectorTest::dynamic_test() {
     GlobalLogger->info("Dynamic test {}", index->getIndexType());
-
-    try {
-        index->load(config["index_path"]);
-    } catch (const std::exception& e) {
-        GlobalLogger->error("Load index error: {}", e.what());
+    if (config.find("index_path") == config.end()) {
+        throw std::runtime_error("Config file missing index_path");
     }
 
-    // 读取配置参数
-    int dim = 0;
-    if (config.find("dim") != config.end()) {
-        dim = std::stoi(config["dim"]);
-    } else {
-        throw std::runtime_error("Config file missing dim");
-    }
-    int topk = 10;
-    if (config.find("topk") != config.end()) {
-        topk = std::stoi(config["topk"]);
-    }
-    int thread_count = 4;
-    if (config.find("threads") != config.end()) {
-        thread_count = std::stoi(config["threads"]);
-    }
-    GlobalLogger->info("使用 {} 线程进行测试", thread_count);
+    const int dim = getRequiredInt(config, "dim");
+    const int topk = getOptionalInt(config, "topk", 10);
+    const int thread_count = getOptionalInt(config, "threads", 4);
+    const int read_batch_size = getOptionalInt(config, "read_batch_size", 1);
+    const int insert_batch_size = getOptionalInt(config, "insert_batch_size", 1);
+    const int warmup_seconds = getOptionalInt(config, "warmup_seconds", 30);
+    const int run_seconds = getOptionalInt(config, "run_seconds", 60);
+    const float read_ratio = static_cast<float>(getOptionalDouble(config, "read_ratio", 0.5));
+    const bool total_test = getOptionalBool(config, "total_test", false);
+    const uint32_t write_id_base = static_cast<uint32_t>(getOptionalSize(config, "write_id_base", 1000000));
 
-    float* vector_data = nullptr;
-    size_t test_count = 0;
+    ensurePositive(dim, "dim");
+    ensurePositive(topk, "topk");
+    ensurePositive(thread_count, "threads");
+    ensurePositive(read_batch_size, "read_batch_size");
+    ensurePositive(insert_batch_size, "insert_batch_size");
+    ensureRange(warmup_seconds, 30, 60, "warmup_seconds");
+    ensureRange(run_seconds, 60, 120, "run_seconds");
+    if (read_ratio < 0.0F || read_ratio > 1.0F) {
+        throw std::runtime_error("read_ratio must be in [0, 1]");
+    }
+
+    GlobalLogger->info("使用 {} 线程进行动态测试", thread_count);
+    GlobalLogger->info(
+        "动态测试配置: read_batch_size={}, insert_batch_size={}, warmup_seconds={}, run_seconds={}",
+        read_batch_size,
+        insert_batch_size,
+        warmup_seconds,
+        run_seconds);
+
+    size_t data_pool_size = 0;
+    std::unique_ptr<float[]> vector_data_holder;
     if (config.find("vector_data") != config.end()) {
-        // 读取vector_data
-        auto [vector_data_, vector_info] = read_fbin(config["vector_data"]);
-        vector_data = vector_data_;
-        test_count = vector_info.first;
+        auto [vector_data, vector_info] = read_fbin(config["vector_data"]);
+        if (static_cast<int>(vector_info.second) != dim) {
+            delete[] vector_data;
+            throw std::runtime_error("vector_data dim does not match config dim");
+        }
+        data_pool_size = vector_info.first;
+        vector_data_holder.reset(vector_data);
     } else {
-        // 生成随机vector
-        test_count = std::stoi(config["test_scale"]);
-        vector_data = new float[test_count * dim];
-        rand_vec(vector_data, dim, test_count);
-    }
-
-    // Dynamic writes should use fresh IDs beyond the preloaded index range.
-    // The loaded benchmark indexes are built with sequential ids [0, base_count),
-    // so reusing (i + 1) turns the workload into accidental updates/conflicts.
-    uint32_t write_id_base = 1000000;
-    if (config.find("write_id_base") != config.end()) {
-        write_id_base = static_cast<uint32_t>(std::stoul(config["write_id_base"]));
-    }
-
-    auto test_core = [&](float read_ratio) {
-        // 线程安全的统计对象
-        Stat stat(2);
-        stat.setOperationName(OperationType::WRITE, "Write");
-        stat.setOperationName(OperationType::READ, "Read");
-        
-        // 原子计数器
-        std::atomic<int> completed_ops(0);
-        std::atomic<int> write_count(0);
-        std::atomic<int> read_count(0);
-        
-        // 进度条参数
-        const int progress_bar_width = 50;
-        auto start_time = std::chrono::steady_clock::now();
-        
-        // 工作线程函数
-        auto worker = [&](int start, int end) {
-            Timer timer;
-            for (int i = start; i < end; i++) {
-                if (rand() / (float)RAND_MAX < read_ratio) {
-                    read_count++;
-                    timer.start();
-                    std::vector<uint32_t> ids_res;
-                    std::vector<float> distances_res;
-                    index->search(std::vector<float>(vector_data + i * dim, vector_data + (i + 1) * dim), topk, ids_res, distances_res);
-                    timer.stop();
-                    stat.addOperation(OperationType::READ, timer.elapsed());
-                } else {
-                    write_count++;
-                    timer.start();
-                    index->insert(std::vector<float>(vector_data + i * dim, vector_data + (i + 1) * dim),
-                                  {static_cast<uint32_t>(write_id_base + i)});
-                    timer.stop();
-                    stat.addOperation(OperationType::WRITE, timer.elapsed());
-                }
-                completed_ops++;
-            }
-        };
-        
-        // 进度条显示函数
-        auto progress_display = [&]() {
-            int last_progress = -1;
-            while (completed_ops < static_cast<int>(test_count)) {
-                int current_progress = static_cast<int>(
-                    static_cast<float>(completed_ops) / test_count * progress_bar_width);
-                
-                if (current_progress != last_progress) {
-                    last_progress = current_progress;
-                    auto elapsed = std::chrono::steady_clock::now() - start_time;
-                    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(elapsed).count();
-                    
-                    std::cout << "\r[";
-                    for (int j = 0; j < progress_bar_width; j++) {
-                        std::cout << (j <= current_progress ? '=' : ' ');
-                    }
-                    std::cout << "] " 
-                            << static_cast<int>(static_cast<float>(completed_ops) / test_count * 100) 
-                            << "% (" << completed_ops << "/" << test_count 
-                            << ") 已用时间: " << seconds << "秒";
-                    std::cout.flush();
-                }
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-            
-            // 完成进度条
-            std::cout << "\r[";
-            for (int j = 0; j < progress_bar_width; j++) {
-                std::cout << '=';
-            }
-            std::cout << "] 100% (" << completed_ops << "/" << test_count << ") 已完成\n";
-        };
-        
-        GlobalLogger->info("开始动态测试，总操作数: {}", test_count);
-        
-        // 创建并启动工作线程
-        std::vector<std::thread> threads;
-        int ops_per_thread = test_count / thread_count;
-        int remainder = test_count % thread_count;
-        int start_index = 0;
-        
-        for (int i = 0; i < thread_count; i++) {
-            int end_index = start_index + ops_per_thread + (i < remainder ? 1 : 0);
-            threads.emplace_back(worker , start_index, end_index);
-            start_index = end_index;
+        if (config.find("data_pool_size") != config.end()) {
+            data_pool_size = getOptionalSize(config, "data_pool_size", 0);
+        } else if (config.find("test_scale") != config.end()) {
+            data_pool_size = getOptionalSize(config, "test_scale", 0);
+            GlobalLogger->warn(
+                "Dynamic mode no longer uses test_scale as operation count; using test_scale={} as data_pool_size for backward compatibility",
+                data_pool_size);
+        } else {
+            throw std::runtime_error("Dynamic mode requires vector_data or data_pool_size");
         }
-        
-        // 启动进度条线程
-        std::thread progress_thread(progress_display);
-        
-        // 等待所有工作线程完成
-        for (auto& t : threads) {
-            t.join();
-        }
-        
-        // 等待进度条线程完成
-        progress_thread.join();
-        
-        // 计算总耗时
-        auto total_time = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start_time).count();
-        
-        // 获取统计结果
-        double write_total_time = stat.getTotalTime(OperationType::WRITE);
-        int write_calls = stat.getCallCount(OperationType::WRITE);
-        double read_total_time = stat.getTotalTime(OperationType::READ);
-        int read_calls = stat.getCallCount(OperationType::READ);
-        
-        // 计算延迟和吞吐量
-        double write_avg_latency = write_calls > 0 ? write_total_time / write_calls : 0;
-        double read_avg_latency = read_calls > 0 ? read_total_time / read_calls : 0;
-        
-        double write_throughput = total_time > 0 ? static_cast<double>(write_calls) / total_time * 1000 : 0;
-        double read_throughput = total_time > 0 ? static_cast<double>(read_calls) / total_time * 1000 : 0;
-        double total_throughput = total_time > 0 ? static_cast<double>(read_calls + write_calls) / total_time * 1000 : 0;
-        
-        // 输出结果
-        GlobalLogger->info("动态测试完成，总耗时: {} 毫秒", total_time);
-        GlobalLogger->info("Write 操作次数: {}, Read 操作次数: {}", write_calls, read_calls);
-        
-        GlobalLogger->info("Write 平均延迟: {:.6f} 秒", write_avg_latency);
-        GlobalLogger->info("Read 平均延迟: {:.6f} 秒", read_avg_latency);
-        
-        GlobalLogger->info("Write 吞吐量: {:.2f} 操作/秒", write_throughput);
-        GlobalLogger->info("Read 吞吐量: {:.2f} 操作/秒", read_throughput);
-        GlobalLogger->info("总吞吐量: {:.2f} 操作/秒", total_throughput);
-        
-        // 输出详细统计
-        stat.printAll();
+        ensurePositiveSize(data_pool_size, "data_pool_size");
+        vector_data_holder = std::make_unique<float[]>(data_pool_size * static_cast<size_t>(dim));
+        rand_vec(vector_data_holder.get(), dim, static_cast<int>(data_pool_size));
+        GlobalLogger->info("Generated random dynamic data pool with {} vectors", data_pool_size);
+    }
+    ensurePositiveSize(data_pool_size, "data_pool_size");
+    const float* vector_data = vector_data_holder.get();
+
+    struct PhaseResult {
+        double elapsed_seconds = 0.0;
+        uint64_t read_vectors = 0;
+        uint64_t write_vectors = 0;
+        uint64_t read_batches = 0;
+        uint64_t write_batches = 0;
+        std::shared_ptr<Stat> stat;
     };
 
-    bool total_test = false;
-    if (config.find("total_test") != config.end()) {
-        total_test = config["total_test"] == "true";
-    }
+    auto run_scenario = [&](float scenario_read_ratio) {
+        try {
+            index->load(config["index_path"]);
+        } catch (const std::exception& e) {
+            GlobalLogger->error("Load index error: {}", e.what());
+            throw;
+        }
+
+        std::atomic<size_t> read_cursor(0);
+        std::atomic<size_t> write_cursor(0);
+        std::atomic<uint64_t> next_write_id(write_id_base);
+
+        auto run_phase = [&](const std::string& phase_name, int target_seconds, bool collect_stats) {
+            PhaseResult result;
+            result.stat = std::make_shared<Stat>(2);
+            result.stat->setOperationName(OperationType::WRITE, "Write");
+            result.stat->setOperationName(OperationType::READ, "Read");
+
+            std::atomic<uint64_t> phase_read_vectors(0);
+            std::atomic<uint64_t> phase_write_vectors(0);
+            std::atomic<uint64_t> phase_read_batches(0);
+            std::atomic<uint64_t> phase_write_batches(0);
+            std::atomic<bool> phase_done(false);
+
+            const auto phase_start = std::chrono::steady_clock::now();
+            const auto deadline = phase_start + std::chrono::seconds(target_seconds);
+
+            auto progress_display = [&]() {
+                const int progress_bar_width = 50;
+                while (!phase_done.load()) {
+                    const double elapsed_seconds =
+                        std::chrono::duration<double>(std::chrono::steady_clock::now() - phase_start).count();
+                    const double progress = std::min(elapsed_seconds / static_cast<double>(target_seconds), 1.0);
+                    const int current_progress = static_cast<int>(progress * progress_bar_width);
+
+                    std::cout << "\r" << phase_name << " [";
+                    for (int i = 0; i < progress_bar_width; ++i) {
+                        std::cout << (i < current_progress ? '=' : ' ');
+                    }
+                    std::cout << "] " << static_cast<int>(progress * 100.0) << "% "
+                              << "elapsed=" << std::fixed << std::setprecision(1) << elapsed_seconds << "s/"
+                              << target_seconds << "s "
+                              << "read_vectors=" << phase_read_vectors.load() << " "
+                              << "write_vectors=" << phase_write_vectors.load();
+                    std::cout.flush();
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                }
+
+                const double elapsed_seconds =
+                    std::chrono::duration<double>(std::chrono::steady_clock::now() - phase_start).count();
+                std::cout << "\r" << phase_name << " [";
+                for (int i = 0; i < progress_bar_width; ++i) {
+                    std::cout << '=';
+                }
+                std::cout << "] 100% "
+                          << "elapsed=" << std::fixed << std::setprecision(1) << elapsed_seconds << "s "
+                          << "read_vectors=" << phase_read_vectors.load() << " "
+                          << "write_vectors=" << phase_write_vectors.load() << "        \n";
+                std::cout.flush();
+            };
+
+            auto worker = [&](int thread_index) {
+                std::mt19937 rng(static_cast<uint32_t>(std::random_device{}()) + static_cast<uint32_t>(thread_index * 9973));
+                std::uniform_real_distribution<float> choice_dist(0.0F, 1.0F);
+                std::vector<float> query_buffer(static_cast<size_t>(dim));
+                std::vector<uint32_t> ids_res(static_cast<size_t>(topk));
+                std::vector<float> distances_res(static_cast<size_t>(topk));
+                std::vector<float> insert_buffer(static_cast<size_t>(insert_batch_size) * static_cast<size_t>(dim));
+                std::vector<uint32_t> insert_ids(static_cast<size_t>(insert_batch_size));
+
+                while (true) {
+                    if (std::chrono::steady_clock::now() >= deadline) {
+                        break;
+                    }
+
+                    const bool is_read = choice_dist(rng) < scenario_read_ratio;
+                    const auto op_start = std::chrono::steady_clock::now();
+
+                    if (is_read) {
+                        const size_t batch_start = read_cursor.fetch_add(static_cast<size_t>(read_batch_size));
+                        for (int batch_index = 0; batch_index < read_batch_size; ++batch_index) {
+                            const size_t source_index =
+                                (batch_start + static_cast<size_t>(batch_index)) % data_pool_size;
+                            std::copy_n(
+                                vector_data + source_index * static_cast<size_t>(dim),
+                                static_cast<size_t>(dim),
+                                query_buffer.begin());
+                            index->search(query_buffer, static_cast<size_t>(topk), ids_res, distances_res);
+                        }
+                        const double latency =
+                            std::chrono::duration<double>(std::chrono::steady_clock::now() - op_start).count();
+                        phase_read_vectors.fetch_add(static_cast<uint64_t>(read_batch_size));
+                        phase_read_batches.fetch_add(1);
+                        if (collect_stats) {
+                            result.stat->addOperation(
+                                OperationType::READ,
+                                latency,
+                                static_cast<uint64_t>(read_batch_size));
+                        }
+                    } else {
+                        const size_t batch_start = write_cursor.fetch_add(static_cast<size_t>(insert_batch_size));
+                        const uint64_t id_start = next_write_id.fetch_add(static_cast<uint64_t>(insert_batch_size));
+                        for (int batch_index = 0; batch_index < insert_batch_size; ++batch_index) {
+                            const size_t source_index =
+                                (batch_start + static_cast<size_t>(batch_index)) % data_pool_size;
+                            std::copy_n(
+                                vector_data + source_index * static_cast<size_t>(dim),
+                                static_cast<size_t>(dim),
+                                insert_buffer.begin() +
+                                    static_cast<size_t>(batch_index) * static_cast<size_t>(dim));
+                            insert_ids[static_cast<size_t>(batch_index)] =
+                                static_cast<uint32_t>(id_start + static_cast<uint64_t>(batch_index));
+                        }
+                        index->insert(insert_buffer, insert_ids);
+                        const double latency =
+                            std::chrono::duration<double>(std::chrono::steady_clock::now() - op_start).count();
+                        phase_write_vectors.fetch_add(static_cast<uint64_t>(insert_batch_size));
+                        phase_write_batches.fetch_add(1);
+                        if (collect_stats) {
+                            result.stat->addOperation(
+                                OperationType::WRITE,
+                                latency,
+                                static_cast<uint64_t>(insert_batch_size));
+                        }
+                    }
+                }
+            };
+
+            std::vector<std::thread> workers;
+            workers.reserve(static_cast<size_t>(thread_count));
+            for (int thread_index = 0; thread_index < thread_count; ++thread_index) {
+                workers.emplace_back(worker, thread_index);
+            }
+            std::thread progress_thread(progress_display);
+
+            for (auto& worker_thread : workers) {
+                worker_thread.join();
+            }
+            phase_done.store(true);
+            progress_thread.join();
+
+            result.elapsed_seconds =
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - phase_start).count();
+            result.read_vectors = phase_read_vectors.load();
+            result.write_vectors = phase_write_vectors.load();
+            result.read_batches = phase_read_batches.load();
+            result.write_batches = phase_write_batches.load();
+            return result;
+        };
+
+        GlobalLogger->info(
+            "开始动态测试: read_ratio={:.0f}%, warmup={}s, run={}s",
+            scenario_read_ratio * 100.0F,
+            warmup_seconds,
+            run_seconds);
+        const auto warmup_result = run_phase("warmup", warmup_seconds, false);
+        GlobalLogger->info(
+            "预热完成: elapsed={:.2f}s, read_vectors={}, write_vectors={}",
+            warmup_result.elapsed_seconds,
+            warmup_result.read_vectors,
+            warmup_result.write_vectors);
+
+        const auto measured_result = run_phase("run", run_seconds, true);
+        const double measured_seconds = measured_result.elapsed_seconds;
+        const uint64_t total_vectors = measured_result.read_vectors + measured_result.write_vectors;
+        const double total_throughput =
+            measured_seconds > 0.0 ? static_cast<double>(total_vectors) / measured_seconds : 0.0;
+        const double qps =
+            measured_seconds > 0.0 ? static_cast<double>(measured_result.read_vectors) / measured_seconds : 0.0;
+        const double ips =
+            measured_seconds > 0.0 ? static_cast<double>(measured_result.write_vectors) / measured_seconds : 0.0;
+
+        GlobalLogger->info("Dynamic test completed, measured time: {:.3f} s", measured_seconds);
+        GlobalLogger->info(
+            "Measured counts: read_batches={}, write_batches={}, read_vectors={}, write_vectors={}",
+            measured_result.read_batches,
+            measured_result.write_batches,
+            measured_result.read_vectors,
+            measured_result.write_vectors);
+        GlobalLogger->info("Total Throughput: {:.2f} vectors/sec", total_throughput);
+        GlobalLogger->info("QPS: {:.2f}", qps);
+        GlobalLogger->info("IPS: {:.2f}", ips);
+
+        const auto log_percentiles = [&](OperationType type, const std::string& name) {
+            const auto p50 = measured_result.stat->getPercentile(type, 50.0);
+            const auto p90 = measured_result.stat->getPercentile(type, 90.0);
+            const auto p99 = measured_result.stat->getPercentile(type, 99.0);
+            if (!p50.has_value() || !p90.has_value() || !p99.has_value()) {
+                GlobalLogger->info("{} Latency Percentiles: P50=N/A, P90=N/A, P99=N/A", name);
+                return;
+            }
+            GlobalLogger->info(
+                "{} Latency Percentiles: P50={:.3f} ms, P90={:.3f} ms, P99={:.3f} ms",
+                name,
+                p50.value() * 1000.0,
+                p90.value() * 1000.0,
+                p99.value() * 1000.0);
+        };
+
+        log_percentiles(OperationType::READ, "Read");
+        log_percentiles(OperationType::WRITE, "Write");
+        measured_result.stat->printAll();
+    };
 
     if (total_test) {
-        for (int i = 10; i >= 0; i--) {
-            GlobalLogger->info("Dynamic test read ratio {}%", i * 10);
-            config["read_ratio"] = std::to_string(i * 0.1);
-            test_core(i * 0.1);
+        for (int ratio_percent = 100; ratio_percent >= 0; ratio_percent -= 10) {
+            run_scenario(static_cast<float>(ratio_percent) / 100.0F);
         }
     } else {
-        float read_ratio = 0.5;
-        if (config.find("read_ratio") != config.end()) {
-            read_ratio = std::stof(config["read_ratio"]);
-        }
-        GlobalLogger->info("Dynamic test read ratio {}%", read_ratio * 100);
-        test_core(read_ratio);
+        run_scenario(read_ratio);
     }
-
-    delete [] vector_data;
 }
 
 void VectorTest::recall_test() {
