@@ -24,9 +24,6 @@ public:
   str query_suffix{};
   u32 num_threads{};
   u32 num_coroutines{};
-  u32 insert_batch_max_items{};
-  u32 insert_batch_max_wait_us{};
-  u32 insert_batcher_threads{};
   i32 seed{};
   bool disable_thread_pinning{};
   str label{};  // for labeling benchmarks
@@ -80,15 +77,6 @@ private:
       "Path to a local SHINE index shard file that a memory node should load during startup.")(
       "threads,t", po::value<u32>(&num_threads), "Number of threads per compute node.")(
       "coroutines,C", po::value<u32>(&num_coroutines)->default_value(4), "Number of coroutines per compute thread.")(
-      "insert-batch-max-items",
-      po::value<u32>(&insert_batch_max_items)->default_value(0),
-      "Maximum number of insert requests to group into one micro-batch. 0 derives a default from --coroutines.")(
-      "insert-batch-max-wait-us",
-      po::value<u32>(&insert_batch_max_wait_us)->default_value(500),
-      "Maximum time in microseconds to wait before flushing a partial insert batch.")(
-      "insert-batcher-threads",
-      po::value<u32>(&insert_batcher_threads)->default_value(0),
-      "Number of batch-builder threads. 0 derives a default from --threads.")(
       "disable-thread-pinning,p",
       po::bool_switch(&disable_thread_pinning)->default_value(false),
       "Disables pinning compute threads to physical cores if set.")(
@@ -162,9 +150,6 @@ public:
       os << std::setw(width) << "query suffix: " << config.query_suffix << std::endl;
       os << std::setw(width) << "number of threads: " << config.num_threads << std::endl;
       os << std::setw(width) << "number of coroutines: " << config.num_coroutines << std::endl;
-      os << std::setw(width) << "insert batch max items: " << config.insert_batch_max_items << std::endl;
-      os << std::setw(width) << "insert batch max wait (us): " << config.insert_batch_max_wait_us << std::endl;
-      os << std::setw(width) << "insert batchers: " << config.insert_batcher_threads << std::endl;
       os << std::setw(width) << "threads pinned: " << (config.disable_thread_pinning ? "false" : "true") << std::endl;
       os << std::setw(width) << "seed: " << config.seed << std::endl;
       os << std::setw(width) << "dimension: " << config.dim << std::endl;
