@@ -57,6 +57,13 @@ private:
     vec<node_t> id_payload;
   };
 
+  struct WorkerLayout {
+    u32 graph_writer_threads{};
+    u32 insert_batcher_threads{};
+    u32 query_worker_threads{};
+    u32 total_threads{};
+  };
+
 public:
   struct InsertItem {
     node_t id;
@@ -71,7 +78,7 @@ public:
   };
 
 public:
-  explicit ComputeService(const Configuration& config, bool shutdown_remote_on_stop = false);
+  explicit ComputeService(Configuration config, bool shutdown_remote_on_stop = false);
   ~ComputeService();
 
   ComputeService(const ComputeService&) = delete;
@@ -95,6 +102,8 @@ private:
   void stop_workers();
   void pause_workers();
   void resume_workers();
+  WorkerLayout resolve_worker_layout() const;
+  u32 resolved_insert_batch_max_items() const;
   vec<node_t> search_local(const vec<element_t>& query, u32 k);
   bool routing_enabled() const;
   size_t rpc_message_size() const;
@@ -146,9 +155,13 @@ private:
   std::unique_ptr<hnsw::HNSW<Distance>> hnsw_;
   std::unique_ptr<WorkerPool> worker_pool_;
   service::InsertQueue insert_queue_;
+  std::unique_ptr<service::InsertBatchQueue> insert_batch_queue_;
   service::QueryQueue query_queue_;
   vec<std::thread> workers_;
   std::thread rpc_thread_;
+  u32 worker_thread_count_{0};
+  u32 insert_batcher_thread_count_{0};
+  std::atomic<u32> completed_insert_batchers_{0};
 
   std::unique_ptr<byte_t[]> rpc_buffer_;
   std::unique_ptr<LocalMemoryRegion> rpc_region_;
