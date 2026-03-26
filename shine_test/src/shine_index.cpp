@@ -45,9 +45,9 @@ ShineIndex::ShineIndex(const std::string& service_config_path) {
     ip_distance_ = config.ip_distance;
 
     if (ip_distance_) {
-        ip_service_ = std::make_unique<ComputeService<IPDistance>>(std::move(config), false);
+        ip_service_ = std::make_unique<ComputeService<IPDistance>>(config, false);
     } else {
-        l2_service_ = std::make_unique<ComputeService<L2Distance>>(std::move(config), false);
+        l2_service_ = std::make_unique<ComputeService<L2Distance>>(config, false);
     }
 }
 
