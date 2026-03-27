@@ -45,7 +45,7 @@ LOG_FILE="$PROJECT_DIR/logs/memory_node.log"
 # ---- 默认参数（可通过环境变量覆盖） ----
 NUM_CLIENTS="${NUM_CLIENTS:-1}"
 PORT="${PORT:-1234}"
-MN_MEMORY="${MN_MEMORY:-10}"
+MN_MEMORY="${MN_MEMORY:-60}"
 FOREGROUND=false
 
 # ---- 帮助信息 ----
