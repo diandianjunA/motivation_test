@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <cstring>
+#include <omp.h>
 
 #include "ground_truth_calculator.h"
 
@@ -89,42 +90,75 @@ void unmap_bin(MappedData& mapped) {
 }
 
 int main(int argc, char** argv) {
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <base.fbin> <queries.fbin> <groundtruth.bin>" << std::endl;
+    if (argc < 4) {
+        std::cerr << "Usage: " << argv[0]
+                  << " <base.fbin> <queries.fbin> <groundtruth.bin>"
+                  << " [--gpu] [--gpu-device N] [--gpu-shard-size N] [--topk K] [--batch-size N]"
+                  << std::endl;
         return 1;
     }
     
     std::string base_path = argv[1];
     std::string queries_path = argv[2];
     std::string groundtruth_path = argv[3];
+    bool use_gpu = false;
+    int gpu_device = -1;
+    size_t gpu_shard_size = 0;
+    size_t top_k = 10;
+    size_t batch_size = 64;
+
+    for (int i = 4; i < argc; ++i) {
+        const std::string arg = argv[i];
+        if (arg == "--gpu") {
+            use_gpu = true;
+        } else if (arg == "--gpu-device" && i + 1 < argc) {
+            gpu_device = std::stoi(argv[++i]);
+        } else if (arg == "--gpu-shard-size" && i + 1 < argc) {
+            gpu_shard_size = static_cast<size_t>(std::stoull(argv[++i]));
+        } else if (arg == "--topk" && i + 1 < argc) {
+            top_k = static_cast<size_t>(std::stoull(argv[++i]));
+        } else if (arg == "--batch-size" && i + 1 < argc) {
+            batch_size = static_cast<size_t>(std::stoull(argv[++i]));
+        } else {
+            std::cerr << "Unknown or incomplete argument: " << arg << std::endl;
+            return 1;
+        }
+    }
     
     MappedData base_mapped = mmap_bin(base_path);
     
-    GroundTruthCalculator calculator(base_mapped.dim, DistanceMetric::L2, false);
+    GroundTruthCalculator calculator(
+        base_mapped.dim,
+        DistanceMetric::L2,
+        use_gpu,
+        gpu_shard_size,
+        gpu_device);
 
     std::cout << "初始化Ground Truth计算器..." << std::endl;
     calculator.init(base_mapped.data, base_mapped.num_vectors, base_mapped.dim);
 
-    std::cout << "释放base数据mmap..." << std::endl;
-    unmap_bin(base_mapped);
+    if (!use_gpu) {
+        std::cout << "释放base数据mmap..." << std::endl;
+        unmap_bin(base_mapped);
+    }
 
     MappedData queries_mapped = mmap_bin(queries_path);
     
     std::cout << "读取查询数据完成: " << queries_mapped.num_vectors << " 个查询, 每个查询 " << queries_mapped.dim << " 维" << std::endl;
     
-    std::vector<std::vector<float>> queries_vec(queries_mapped.num_vectors);
-    for (size_t i = 0; i < queries_mapped.num_vectors; ++i) {
-        queries_vec[i].assign(
-            queries_mapped.data + i * queries_mapped.dim,
-            queries_mapped.data + (i + 1) * queries_mapped.dim
-        );
-    }
-    unmap_bin(queries_mapped);
-    
     std::cout << "开始计算所有查询的Ground Truth..." << std::endl;
     auto ground_truths = calculator.compute_all_ground_truth(
-        queries_vec,
-        base_mapped.dim);
+        queries_mapped.data,
+        queries_mapped.num_vectors,
+        queries_mapped.dim,
+        top_k,
+        omp_get_max_threads(),
+        batch_size);
+    unmap_bin(queries_mapped);
+    if (use_gpu) {
+        std::cout << "释放base数据mmap..." << std::endl;
+        unmap_bin(base_mapped);
+    }
     
     std::cout << "Ground Truth计算完成: " << ground_truths.size() << " 个查询" << std::endl;
     

@@ -60,6 +60,17 @@ target_link_libraries(1024dim1M_generator DataGenerate ${GTEST_LIBRARIES} ${GTES
     openblas
 )
 
+add_executable(1024dim5M_generator
+    1024dim5M.cpp
+)
+
+target_link_libraries(1024dim5M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
+    faiss
+    faiss_avx2
+    cublas cudart cuda curand
+    openblas
+)
+
 add_executable(1024dim10M_generator
     1024dim10M.cpp
 )
@@ -71,11 +82,11 @@ target_link_libraries(1024dim10M_generator DataGenerate ${GTEST_LIBRARIES} ${GTE
     openblas
 )
 
-add_executable(1024dim100M_generator
-    1024dim100M.cpp
+add_executable(1024dim50M_generator
+    1024dim50M.cpp
 )
 
-target_link_libraries(1024dim100M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
+target_link_libraries(1024dim50M_generator DataGenerate ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} OpenMP::OpenMP_CXX
     faiss
     faiss_avx2
     cublas cudart cuda curand

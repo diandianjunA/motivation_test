@@ -2485,3 +2485,55 @@ pairing: 1734 -- 677
 pairing: 1735 -- 678
 [STATUS]: waiting for commands from compute node...
 [STATUS]: loading index (4896179384 Bytes) from /data/xjs/index/shine_index/1024dim1M_node1_of1.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1746 -- 689
+[STATUS]: pinned main thread to core 28
+allocation size: 64424509440
+allocated ALIGNED MEM (no hugepage) at 128394771562560 with buffer size 64424509440
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 1747 -- 690
+pairing: 1748 -- 691
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (4896179384 Bytes) from /data/xjs/index/shine_index/1024dim1M_node1_of1.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1749 -- 692
+[STATUS]: pinned main thread to core 28
+allocation size: 64424509440
+allocated ALIGNED MEM (no hugepage) at 131324274802752 with buffer size 64424509440
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 1750 -- 693
+pairing: 1751 -- 694
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (4896179384 Bytes) from /data/xjs/index/shine_index/1024dim1M_node1_of1.dat

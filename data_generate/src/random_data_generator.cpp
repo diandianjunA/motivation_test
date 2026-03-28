@@ -4,6 +4,39 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
+
+void apply_data_preset(DataConfig& config) {
+    if (config.preset.empty() || config.preset == "custom") {
+        return;
+    }
+
+    if (config.preset == "hard") {
+        config.distribution = "normal";
+        config.query_mode = "independent";
+        config.query_noise_std = 0.0f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    if (config.preset == "medium") {
+        config.distribution = "clustered";
+        config.query_mode = "from_base_noise";
+        config.query_noise_std = 0.03f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    if (config.preset == "easy") {
+        config.distribution = "clustered";
+        config.query_mode = "from_base_noise";
+        config.query_noise_std = 0.02f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    throw std::runtime_error("unsupported data preset: " + config.preset);
+}
 
 std::vector<std::vector<float>> RandomDataGenerator::generate_vectors(size_t n, size_t seed) {
     std::vector<std::vector<float>> vectors;
@@ -79,10 +112,12 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_vectors(size_t n, 
             }
         }
     }
-    else if (config_.distribution == "clustered") {
+    else if (config_.distribution == "clustered" || config_.distribution == "cluster") {
         // 生成聚类数据
         return generate_clustered_vectors(n, seed);
     }
+
+    throw std::runtime_error("unsupported distribution: " + config_.distribution);
     
     bar.finish();
     
@@ -99,8 +134,36 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     
     // 生成聚类中心
     const size_t num_clusters = std::max(size_t(1), n / 1000);
-    std::vector<std::vector<float>> cluster_centers = 
-        generate_vectors(num_clusters, seed);
+    std::vector<std::vector<float>> cluster_centers;
+    cluster_centers.resize(num_clusters);
+    for (auto& center : cluster_centers) {
+        center.resize(config_.dimension);
+    }
+
+    std::cout << "Generating " << num_clusters << " cluster centers..." << std::endl;
+    ProgressBar center_bar("Generating centers", num_clusters, true, true);
+
+    #pragma omp parallel for schedule(dynamic, 1000)
+    for (int64_t i = 0; i < static_cast<int64_t>(num_clusters); ++i) {
+        std::mt19937_64 local_rng(seed + static_cast<size_t>(i));
+        std::normal_distribution<float> local_dist(0.0f, 1.0f);
+
+        auto& center = cluster_centers[static_cast<size_t>(i)];
+        for (size_t j = 0; j < config_.dimension; ++j) {
+            center[j] = local_dist(local_rng);
+        }
+        normalize_vector(center);
+
+        if (i % 1000 == 0 || i == static_cast<int64_t>(num_clusters) - 1) {
+            #pragma omp critical
+            {
+                center_bar.set_current(i + 1);
+                center_bar.display();
+            }
+        }
+    }
+
+    center_bar.finish();
     
     // 预分配内存
     vectors.resize(n);
@@ -138,6 +201,51 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     bar.finish();
     
     return vectors;
+}
+
+std::vector<std::vector<float>> RandomDataGenerator::generate_queries_from_database(
+    const std::vector<std::vector<float>>& database, size_t n, size_t seed) {
+    if (database.empty()) {
+        throw std::runtime_error("database is empty, cannot generate queries from base vectors");
+    }
+
+    std::vector<std::vector<float>> queries;
+    queries.resize(n);
+    for (auto& vec : queries) {
+        vec.resize(config_.dimension);
+    }
+
+    std::cout << "Generating " << n << " queries from database vectors with noise std="
+              << config_.query_noise_std << "..." << std::endl;
+    ProgressBar bar("Generating queries", n, true, true);
+
+    #pragma omp parallel for schedule(dynamic, 1000)
+    for (int64_t i = 0; i < static_cast<int64_t>(n); ++i) {
+        std::mt19937_64 local_rng(seed + i);
+        std::uniform_int_distribution<size_t> base_dist(0, database.size() - 1);
+        std::normal_distribution<float> noise_dist(0.0f, config_.query_noise_std);
+
+        const auto& base = database[base_dist(local_rng)];
+        auto& query = queries[i];
+        for (size_t j = 0; j < config_.dimension; ++j) {
+            query[j] = base[j] + noise_dist(local_rng);
+        }
+
+        if (config_.normalize_queries) {
+            normalize_vector(query);
+        }
+
+        if (i % 1000 == 0 || i == static_cast<int64_t>(n) - 1) {
+            #pragma omp critical
+            {
+                bar.set_current(i + 1);
+                bar.display();
+            }
+        }
+    }
+
+    bar.finish();
+    return queries;
 }
 
 // 归一化向量（优化版本）

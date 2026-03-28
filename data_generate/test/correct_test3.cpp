@@ -1,5 +1,6 @@
 #include <cstddef>
 #include <faiss/IndexFlat.h>
+#include <faiss/IndexIDMap.h>
 #include <faiss/MetricType.h>
 #include <gtest/gtest.h>
 #include "ground_truth_calculator.h"

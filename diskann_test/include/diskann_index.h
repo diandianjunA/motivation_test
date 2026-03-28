@@ -40,4 +40,5 @@ private:
     uint32_t R;
     float alpha;
     int num_threads;
+    size_t seed_build_size;
 };

@@ -23,6 +23,11 @@ DiskANNIndex::DiskANNIndex(std::string conf) : index_factory(nullptr) {
     this->R = std::stoi(this->config["R"]); // 最大度数
     this->alpha = std::stof(this->config["alpha"]); // alpha参数
     this->num_threads = std::stoi(this->config["num_threads"]); // 线程数
+    if (this->config.find("seed_build_size") != this->config.end()) {
+        this->seed_build_size = static_cast<size_t>(std::stoull(this->config["seed_build_size"]));
+    } else {
+        this->seed_build_size = 100000;
+    }
         
     uint32_t Lf = 0; // 过滤列表大小
     const std::string index_path_prefix = "diskann_index";
@@ -160,46 +165,57 @@ void DiskANNIndex::build(const std::string& dataset_path) {
     std::cout << "文件大小: " << file_size << " bytes (" << file_size / (1024*1024*1024.0) << " GB)" << std::endl;
     
     size_t batch_size = 100000;
-    size_t num_batches = (total_num + batch_size - 1) / batch_size;
-    
-    std::cout << "分批构建索引: " << num_batches << " 批次, 每批 " << batch_size << " 向量" << std::endl;
+    size_t initial_build_size = std::min(static_cast<size_t>(total_num), seed_build_size);
+    size_t remaining = static_cast<size_t>(total_num) - initial_build_size;
+    size_t insert_batches = remaining == 0 ? 0 : (remaining + batch_size - 1) / batch_size;
+
+    std::cout << "初始 bulk build 大小: " << initial_build_size << " 向量" << std::endl;
+    std::cout << "后续动态插入批次数: " << insert_batches << ", 每批 " << batch_size << " 向量" << std::endl;
     
     ProgressBar bar("Building index", total_num, true, true);
     
     size_t processed = 0;
-    for (size_t batch = 0; batch < num_batches; ++batch) {
-        size_t start = batch * batch_size;
-        size_t current_batch_size = std::min(batch_size, total_num - start);
-        
+    if (initial_build_size > 0) {
+        auto [mapped_data, sizes] = partial_mmap_fbin(dataset_path, 0, initial_build_size);
+        std::vector<uint32_t> ids(initial_build_size);
+        for (size_t i = 0; i < initial_build_size; ++i) {
+            ids[i] = static_cast<uint32_t>(i);
+        }
+        diskann_index->build(mapped_data, initial_build_size, ids);
+        unmap_partial(mapped_data, initial_build_size, dim, 0);
+
+        processed += initial_build_size;
+        bar.set_current(processed);
+        bar.display();
+        std::cout << "  bulk build 已处理 " << processed << "/" << total_num << " 向量" << std::endl;
+    }
+
+    for (size_t batch = 0; batch < insert_batches; ++batch) {
+        size_t start = initial_build_size + batch * batch_size;
+        size_t current_batch_size = std::min(batch_size, static_cast<size_t>(total_num) - start);
+
         auto [mapped_data, sizes] = partial_mmap_fbin(dataset_path, start, current_batch_size);
-        
+
         std::vector<uint32_t> ids(current_batch_size);
         for (size_t i = 0; i < current_batch_size; ++i) {
             ids[i] = static_cast<uint32_t>(start + i);
         }
-        
-        size_t extra_bytes = 0;
-        if (batch > 0) {
-            size_t data_offset = 8 + start * dim * sizeof(float);
-            const size_t page_size = 4096;
-            extra_bytes = data_offset - (data_offset / page_size) * page_size;
+
+        size_t data_offset = 8 + start * dim * sizeof(float);
+        const size_t page_size = 4096;
+        size_t extra_bytes = data_offset - (data_offset / page_size) * page_size;
+
+        #pragma omp parallel for schedule(dynamic, 1000)
+        for (size_t i = 0; i < current_batch_size; ++i) {
+            diskann_index->insert_point(mapped_data + i * dim, ids[i]);
         }
-        
-        if (batch == 0) {
-            diskann_index->build(mapped_data, current_batch_size, ids);
-        } else {
-            #pragma omp parallel for schedule(dynamic, 1000)
-            for (size_t i = 0; i < current_batch_size; ++i) {
-                diskann_index->insert_point(mapped_data + i * dim, ids[i]);
-            }
-        }
-        
+
         unmap_partial(mapped_data, current_batch_size, dim, extra_bytes);
-        
+
         processed += current_batch_size;
         bar.set_current(processed);
         bar.display();
-        
+
         std::cout << "  已处理 " << processed << "/" << total_num << " 向量" << std::endl;
     }
     
