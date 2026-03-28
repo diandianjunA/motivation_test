@@ -6,6 +6,15 @@
 #include <cmath>
 #include <stdexcept>
 
+namespace {
+
+float per_dim_noise_std(const DataConfig& config, float total_noise_scale) {
+    const float safe_dim = std::max(1.0f, static_cast<float>(config.dimension));
+    return total_noise_scale / std::sqrt(safe_dim);
+}
+
+}  // namespace
+
 void apply_data_preset(DataConfig& config) {
     if (config.preset.empty() || config.preset == "custom") {
         return;
@@ -15,6 +24,7 @@ void apply_data_preset(DataConfig& config) {
         config.distribution = "normal";
         config.query_mode = "independent";
         config.query_noise_std = 0.0f;
+        config.cluster_noise_std = 1.0f;
         config.normalize_queries = true;
         return;
     }
@@ -22,7 +32,8 @@ void apply_data_preset(DataConfig& config) {
     if (config.preset == "medium") {
         config.distribution = "clustered";
         config.query_mode = "from_base_noise";
-        config.query_noise_std = 0.03f;
+        config.query_noise_std = 0.12f;
+        config.cluster_noise_std = 0.35f;
         config.normalize_queries = true;
         return;
     }
@@ -30,7 +41,8 @@ void apply_data_preset(DataConfig& config) {
     if (config.preset == "easy") {
         config.distribution = "clustered";
         config.query_mode = "from_base_noise";
-        config.query_noise_std = 0.02f;
+        config.query_noise_std = 0.08f;
+        config.cluster_noise_std = 0.22f;
         config.normalize_queries = true;
         return;
     }
@@ -164,6 +176,10 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     }
 
     center_bar.finish();
+
+    const float cluster_per_dim_std = per_dim_noise_std(config_, config_.cluster_noise_std);
+    std::cout << "Cluster noise total scale=" << config_.cluster_noise_std
+              << ", per-dim std=" << cluster_per_dim_std << std::endl;
     
     // 预分配内存
     vectors.resize(n);
@@ -175,7 +191,7 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     #pragma omp parallel for schedule(dynamic, 1000)
     for (int64_t i = 0; i < static_cast<int64_t>(n); ++i) {
         std::mt19937_64 local_rng(config_.seed + i);
-        std::normal_distribution<float> local_cluster_dist(0.0f, 0.1f);
+        std::normal_distribution<float> local_cluster_dist(0.0f, cluster_per_dim_std);
         std::uniform_int_distribution<size_t> local_cluster_idx_dist(0, num_clusters-1);
         
         size_t cluster_idx = local_cluster_idx_dist(local_rng);
@@ -215,15 +231,16 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_queries_from_datab
         vec.resize(config_.dimension);
     }
 
+    const float query_per_dim_std = per_dim_noise_std(config_, config_.query_noise_std);
     std::cout << "Generating " << n << " queries from database vectors with noise std="
-              << config_.query_noise_std << "..." << std::endl;
+              << config_.query_noise_std << " (per-dim std=" << query_per_dim_std << ")..." << std::endl;
     ProgressBar bar("Generating queries", n, true, true);
 
     #pragma omp parallel for schedule(dynamic, 1000)
     for (int64_t i = 0; i < static_cast<int64_t>(n); ++i) {
         std::mt19937_64 local_rng(seed + i);
         std::uniform_int_distribution<size_t> base_dist(0, database.size() - 1);
-        std::normal_distribution<float> noise_dist(0.0f, config_.query_noise_std);
+        std::normal_distribution<float> noise_dist(0.0f, query_per_dim_std);
 
         const auto& base = database[base_dist(local_rng)];
         auto& query = queries[i];

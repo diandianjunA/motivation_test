@@ -179,6 +179,15 @@ void HNSWIndex::addPoints(const float* data, size_t count, const std::vector<uin
     });
 }
 
+void HNSWIndex::addPointsRange(const float* data, size_t count, uint32_t first_id) {
+    ensureCapacity(index_->getCurrentElementCount() + count);
+    ParallelFor(0, count, num_threads_, [&](size_t i, size_t) {
+        index_->addPoint(
+            data + i * static_cast<size_t>(dim_),
+            static_cast<hnswlib::labeltype>(first_id + static_cast<uint32_t>(i)));
+    });
+}
+
 void HNSWIndex::addPointsWithProgress(
     const float* data,
     size_t count,
@@ -208,6 +217,47 @@ void HNSWIndex::addPointsWithProgress(
     try {
         ParallelFor(0, count, num_threads_, [&](size_t i, size_t) {
             index_->addPoint(data + i * static_cast<size_t>(dim_), static_cast<hnswlib::labeltype>(ids[i]));
+            local_processed.fetch_add(1, std::memory_order_relaxed);
+        });
+        done.store(true);
+        display_thread.join();
+        std::cout << std::endl
+                  << stage << " 完成: " << count << " 向量, 当前总量 "
+                  << index_->getCurrentElementCount() << std::endl;
+    } catch (...) {
+        done.store(true);
+        display_thread.join();
+        throw;
+    }
+}
+
+void HNSWIndex::addPointsRangeWithProgress(
+    const float* data,
+    size_t count,
+    uint32_t first_id,
+    ProgressBar& progress_bar,
+    size_t base_processed,
+    const std::string& stage) {
+    ensureCapacity(index_->getCurrentElementCount() + count);
+
+    std::atomic<size_t> local_processed(0);
+    std::atomic<bool> done(false);
+
+    std::thread display_thread([&]() {
+        while (!done.load()) {
+            progress_bar.set_current(base_processed + local_processed.load());
+            progress_bar.display();
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+        progress_bar.set_current(base_processed + count);
+        progress_bar.display();
+    });
+
+    try {
+        ParallelFor(0, count, num_threads_, [&](size_t i, size_t) {
+            index_->addPoint(
+                data + i * static_cast<size_t>(dim_),
+                static_cast<hnswlib::labeltype>(first_id + static_cast<uint32_t>(i)));
             local_processed.fetch_add(1, std::memory_order_relaxed);
         });
         done.store(true);
@@ -307,12 +357,8 @@ void HNSWIndex::build(const std::string& dataset_path) {
 
     if (initial_build_size > 0) {
         auto [mapped_data, sizes] = partialMmapFbin(dataset_path, 0, initial_build_size);
-        std::vector<uint32_t> ids(initial_build_size);
-        for (size_t i = 0; i < initial_build_size; ++i) {
-            ids[i] = static_cast<uint32_t>(i);
-        }
         std::cout << "开始首批建图: " << initial_build_size << " 向量" << std::endl;
-        addPointsWithProgress(mapped_data, initial_build_size, ids, progress_bar, processed, "首批建图");
+        addPointsRangeWithProgress(mapped_data, initial_build_size, 0, progress_bar, processed, "首批建图");
         processed += initial_build_size;
         unmapPartial(mapped_data, initial_build_size, dim, 0);
     }
@@ -320,14 +366,16 @@ void HNSWIndex::build(const std::string& dataset_path) {
     while (processed < total_count) {
         const size_t current_batch_size = std::min(batch_size_, total_count - processed);
         auto [mapped_data, sizes] = partialMmapFbin(dataset_path, processed, current_batch_size);
-        std::vector<uint32_t> ids(current_batch_size);
-        for (size_t i = 0; i < current_batch_size; ++i) {
-            ids[i] = static_cast<uint32_t>(processed + i);
-        }
 
         std::cout << "开始批次插入: offset=" << processed << ", batch_size=" << current_batch_size
                   << std::endl;
-        addPointsWithProgress(mapped_data, current_batch_size, ids, progress_bar, processed, "批次插入");
+        addPointsRangeWithProgress(
+            mapped_data,
+            current_batch_size,
+            static_cast<uint32_t>(processed),
+            progress_bar,
+            processed,
+            "批次插入");
         unmapPartial(mapped_data, current_batch_size, dim, processed);
         processed += current_batch_size;
     }

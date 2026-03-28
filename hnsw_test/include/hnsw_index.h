@@ -27,10 +27,18 @@ private:
     void createIndex(size_t max_elements);
     void ensureCapacity(size_t required_elements);
     void addPoints(const float* data, size_t count, const std::vector<uint32_t>& ids);
+    void addPointsRange(const float* data, size_t count, uint32_t first_id);
     void addPointsWithProgress(
         const float* data,
         size_t count,
         const std::vector<uint32_t>& ids,
+        ProgressBar& progress_bar,
+        size_t base_processed,
+        const std::string& stage);
+    void addPointsRangeWithProgress(
+        const float* data,
+        size_t count,
+        uint32_t first_id,
         ProgressBar& progress_bar,
         size_t base_processed,
         const std::string& stage);

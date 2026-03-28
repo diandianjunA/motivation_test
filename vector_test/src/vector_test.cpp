@@ -511,6 +511,7 @@ void VectorTest::recall_test() {
         index->load(config["index_path"]);
     } catch (const std::exception& e) {
         GlobalLogger->error("Load index error: {}", e.what());
+        throw;
     }
 
     if (config.find("query_data") == config.end()) {

@@ -19,7 +19,8 @@ struct DataConfig {
     std::string output_dir;  // 输出目录
     std::string preset = "medium";            // hard | medium | easy | custom
     std::string query_mode = "from_base_noise"; // independent | from_base_noise
-    float query_noise_std = 0.02f;              // 高斯噪声标准差
+    float query_noise_std = 0.12f;              // query总扰动强度，会按1/sqrt(dim)换算到每维
+    float cluster_noise_std = 0.35f;            // cluster总扰动强度，会按1/sqrt(dim)换算到每维
     bool normalize_queries = true;              // 生成 query 后是否归一化
     size_t ground_truth_batch_size = 64;        // 计算ground truth时的query批量大小
     bool use_gpu = false;                       // 是否使用GPU加速

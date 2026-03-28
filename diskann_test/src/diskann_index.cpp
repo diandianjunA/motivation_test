@@ -19,7 +19,16 @@ DiskANNIndex::DiskANNIndex(std::string conf) : index_factory(nullptr) {
     this->dim = std::stoi(this->config["dim"]); // 维度
     this->max_points_to_insert = std::stoi(this->config["max_points_to_insert"]); // 最大插入点数量
     diskann::Metric metric = diskann::L2; // 距离度量
-    this->L = std::stoi(this->config["L"]); // 搜索列表大小
+    if (this->config.find("build_L") != this->config.end()) {
+        this->build_L = std::stoi(this->config["build_L"]);
+    } else {
+        this->build_L = std::stoi(this->config["L"]);
+    }
+    if (this->config.find("search_L") != this->config.end()) {
+        this->search_L = std::stoi(this->config["search_L"]);
+    } else {
+        this->search_L = this->build_L;
+    }
     this->R = std::stoi(this->config["R"]); // 最大度数
     this->alpha = std::stof(this->config["alpha"]); // alpha参数
     this->num_threads = std::stoi(this->config["num_threads"]); // 线程数
@@ -37,17 +46,17 @@ DiskANNIndex::DiskANNIndex(std::string conf) : index_factory(nullptr) {
     bool saturate_graph = true; // 是否饱和图
 
     // 创建DiskANN索引
-    diskann::IndexWriteParameters params = diskann::IndexWriteParametersBuilder(L, R)
+    diskann::IndexWriteParameters params = diskann::IndexWriteParametersBuilder(build_L, R)
                                                    .with_max_occlusion_size(500)
                                                    .with_saturate_graph(saturate_graph)
                                                    .with_alpha(alpha)
                                                    .with_num_threads(num_threads)
                                                    .with_filter_list_size(Lf)
                                                    .build();
-    auto index_search_params = diskann::IndexSearchParams(params.search_list_size, params.num_threads);
+    auto index_search_params = diskann::IndexSearchParams(search_L, params.num_threads);
     bool enable_tags = true; // 是否启用标签
 
-    auto index_build_params = diskann::IndexWriteParametersBuilder(L, R)
+    auto index_build_params = diskann::IndexWriteParametersBuilder(build_L, R)
                                     .with_filter_list_size(Lf)
                                     .with_alpha(alpha)
                                     .with_saturate_graph(saturate_graph)
@@ -234,11 +243,11 @@ void DiskANNIndex::insert(const std::vector<float>& vec, const std::vector<uint3
 void DiskANNIndex::search(const std::vector<float>& query, size_t top_k, std::vector<uint32_t>& ids, std::vector<float>& distances) const {
     ids.resize(top_k);
     distances.resize(top_k);
-    diskann_index->search(query.data(), top_k, this->L, ids.data(), distances.data());
+    diskann_index->search(query.data(), top_k, this->search_L, ids.data(), distances.data());
 }
 
 void DiskANNIndex::load(const std::string& index_path) {
-    diskann_index->load(index_path.c_str(), 1, this->L);
+    diskann_index->load(index_path.c_str(), 1, this->search_L);
 }
 
 void DiskANNIndex::save(const std::string& index_path) {
