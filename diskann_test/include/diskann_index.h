@@ -36,8 +36,10 @@ private:
     std::map<std::string, std::string> config;
     int dim;
     int max_points_to_insert;
-    uint32_t L;
+    uint32_t build_L;
+    uint32_t search_L;
     uint32_t R;
     float alpha;
     int num_threads;
+    size_t seed_build_size;
 };

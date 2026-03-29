@@ -2,15 +2,38 @@
 #include <filesystem>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
+#include <thread>
+
+namespace {
+
+DataConfig resolved_config(DataConfig config) {
+    apply_data_preset(config);
+    return config;
+}
+
+std::vector<float> flatten_vectors(const std::vector<std::vector<float>>& vectors, size_t dim) {
+    std::vector<float> flattened(vectors.size() * dim);
+    for (size_t i = 0; i < vectors.size(); ++i) {
+        std::copy(vectors[i].begin(), vectors[i].end(), flattened.begin() + i * dim);
+    }
+    return flattened;
+}
+
+} // namespace
 
 ExperimentGenerator::ExperimentGenerator(const DataConfig& config, 
                     DistanceMetric metric)
-    : config_(config)
-    , data_gen_(config)
-    , gt_calc_(config_.dimension, metric) {
-    
+    : config_(resolved_config(config))
+    , data_gen_(config_)
+    , gt_calc_(
+          config_.dimension,
+          metric,
+          config_.use_gpu,
+          config_.gpu_shard_size,
+          config_.gpu_device) {
     // 创建输出目录
-    std::filesystem::create_directories(config.output_dir);
+    std::filesystem::create_directories(config_.output_dir);
 }
 
 // 生成完整的数据集和ground truth
@@ -40,7 +63,14 @@ void ExperimentGenerator::generate_experiment(const std::string& exp_name,
     // 2. 生成查询向量
     std::cout << "\n[Step 2/3] Generating " << config_.num_queries 
               << " query vectors (dim=" << config_.dimension << ")..." << std::endl;
-    auto queries = data_gen_.generate_vectors(config_.num_queries, 0);
+    std::vector<std::vector<float>> queries;
+    if (config_.query_mode == "independent") {
+        queries = data_gen_.generate_vectors(config_.num_queries, 0);
+    } else if (config_.query_mode == "from_base_noise") {
+        queries = data_gen_.generate_queries_from_database(database, config_.num_queries, config_.seed + 1000003);
+    } else {
+        throw std::runtime_error("unsupported query mode: " + config_.query_mode);
+    }
 
     if (save_vectors) {
         std::cout << "\n[Saving] Writing queries to disk..." << std::endl;
@@ -51,8 +81,16 @@ void ExperimentGenerator::generate_experiment(const std::string& exp_name,
     std::cout << "\n[Step 3/3] Computing ground truth for " << config_.num_queries 
               << " queries (top-" << config_.top_k << ")..." << std::endl;
     gt_calc_.init(database);
+    std::vector<float> flat_queries = flatten_vectors(queries, config_.dimension);
+    const unsigned int hardware_threads = std::thread::hardware_concurrency();
+    const int gt_threads = static_cast<int>(hardware_threads == 0 ? 8 : hardware_threads);
     auto ground_truth = gt_calc_.compute_all_ground_truth(
-        queries, config_.top_k, 32);
+        flat_queries.data(),
+        queries.size(),
+        config_.dimension,
+        config_.top_k,
+        gt_threads,
+        config_.ground_truth_batch_size);
 
     if (save_vectors) {
         std::cout << "\n[Saving] Writing ground truth to disk..." << std::endl;
@@ -92,6 +130,14 @@ void ExperimentGenerator::save_config(const std::string& filename) {
             << config_.data_max << "]" << std::endl;
     fout << "Distribution: " << config_.distribution << std::endl;
     fout << "Random seed: " << config_.seed << std::endl;
+    fout << "Preset: " << config_.preset << std::endl;
+    fout << "Query mode: " << config_.query_mode << std::endl;
+    fout << "Query noise std: " << config_.query_noise_std << std::endl;
+    fout << "Normalize queries: " << (config_.normalize_queries ? "true" : "false") << std::endl;
+    fout << "Ground truth batch size: " << config_.ground_truth_batch_size << std::endl;
+    fout << "Use GPU: " << (config_.use_gpu ? "true" : "false") << std::endl;
+    fout << "GPU shard size: " << config_.gpu_shard_size << std::endl;
+    fout << "GPU device: " << config_.gpu_device << std::endl;
     fout.close();
 }
 

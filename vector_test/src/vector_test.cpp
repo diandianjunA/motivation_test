@@ -224,7 +224,9 @@ void VectorTest::dynamic_test() {
     const int run_seconds = getOptionalInt(config, "run_seconds", 60);
     const float read_ratio = static_cast<float>(getOptionalDouble(config, "read_ratio", 0.5));
     const bool total_test = getOptionalBool(config, "total_test", false);
-    const uint32_t write_id_base = static_cast<uint32_t>(getOptionalSize(config, "write_id_base", 1000000));
+    const size_t base_vector_count = getOptionalSize(config, "num", 0);
+    const size_t default_write_id_base = base_vector_count > 0 ? base_vector_count : 1000000;
+    const uint32_t write_id_base = static_cast<uint32_t>(getOptionalSize(config, "write_id_base", default_write_id_base));
 
     ensurePositive(dim, "dim");
     ensurePositive(topk, "topk");
@@ -244,6 +246,13 @@ void VectorTest::dynamic_test() {
         insert_batch_size,
         warmup_seconds,
         run_seconds);
+    if (base_vector_count > 0 && static_cast<size_t>(write_id_base) < base_vector_count) {
+        throw std::runtime_error("write_id_base must be >= num to avoid overwriting existing ids");
+    }
+    GlobalLogger->info(
+        "动态写入ID配置: num={}, write_id_base={}",
+        base_vector_count,
+        write_id_base);
 
     size_t data_pool_size = 0;
     std::unique_ptr<float[]> vector_data_holder;
@@ -502,6 +511,7 @@ void VectorTest::recall_test() {
         index->load(config["index_path"]);
     } catch (const std::exception& e) {
         GlobalLogger->error("Load index error: {}", e.what());
+        throw;
     }
 
     if (config.find("query_data") == config.end()) {

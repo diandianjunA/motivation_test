@@ -19,6 +19,7 @@ inline void ParallelFor(size_t start, size_t end, size_t numThreads,
     } else {
         std::vector<std::thread> threads;
         std::atomic<size_t> current(start);
+        constexpr size_t kBlockSize = 64;
 
         // keep track of exceptions in threads
         // https://stackoverflow.com/a/32428427/1713196
@@ -28,14 +29,16 @@ inline void ParallelFor(size_t start, size_t end, size_t numThreads,
         for (size_t threadId = 0; threadId < numThreads; ++threadId) {
             threads.push_back(std::thread([&, threadId] {
                 while (true) {
-                    size_t id = current.fetch_add(1);
-
-                    if (id >= end) {
+                    const size_t blockStart = current.fetch_add(kBlockSize);
+                    if (blockStart >= end) {
                         break;
                     }
+                    const size_t blockEnd = std::min(blockStart + kBlockSize, end);
 
                     try {
-                        fn(id, threadId);
+                        for (size_t id = blockStart; id < blockEnd; ++id) {
+                            fn(id, threadId);
+                        }
                     } catch (...) {
                         std::unique_lock<std::mutex> lastExcepLock(
                             lastExceptMutex);

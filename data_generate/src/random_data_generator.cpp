@@ -4,6 +4,51 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
+
+namespace {
+
+float per_dim_noise_std(const DataConfig& config, float total_noise_scale) {
+    const float safe_dim = std::max(1.0f, static_cast<float>(config.dimension));
+    return total_noise_scale / std::sqrt(safe_dim);
+}
+
+}  // namespace
+
+void apply_data_preset(DataConfig& config) {
+    if (config.preset.empty() || config.preset == "custom") {
+        return;
+    }
+
+    if (config.preset == "hard") {
+        config.distribution = "normal";
+        config.query_mode = "independent";
+        config.query_noise_std = 0.0f;
+        config.cluster_noise_std = 1.0f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    if (config.preset == "medium") {
+        config.distribution = "clustered";
+        config.query_mode = "from_base_noise";
+        config.query_noise_std = 0.12f;
+        config.cluster_noise_std = 0.35f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    if (config.preset == "easy") {
+        config.distribution = "clustered";
+        config.query_mode = "from_base_noise";
+        config.query_noise_std = 0.08f;
+        config.cluster_noise_std = 0.22f;
+        config.normalize_queries = true;
+        return;
+    }
+
+    throw std::runtime_error("unsupported data preset: " + config.preset);
+}
 
 std::vector<std::vector<float>> RandomDataGenerator::generate_vectors(size_t n, size_t seed) {
     std::vector<std::vector<float>> vectors;
@@ -79,10 +124,12 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_vectors(size_t n, 
             }
         }
     }
-    else if (config_.distribution == "clustered") {
+    else if (config_.distribution == "clustered" || config_.distribution == "cluster") {
         // 生成聚类数据
         return generate_clustered_vectors(n, seed);
     }
+
+    throw std::runtime_error("unsupported distribution: " + config_.distribution);
     
     bar.finish();
     
@@ -99,8 +146,40 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     
     // 生成聚类中心
     const size_t num_clusters = std::max(size_t(1), n / 1000);
-    std::vector<std::vector<float>> cluster_centers = 
-        generate_vectors(num_clusters, seed);
+    std::vector<std::vector<float>> cluster_centers;
+    cluster_centers.resize(num_clusters);
+    for (auto& center : cluster_centers) {
+        center.resize(config_.dimension);
+    }
+
+    std::cout << "Generating " << num_clusters << " cluster centers..." << std::endl;
+    ProgressBar center_bar("Generating centers", num_clusters, true, true);
+
+    #pragma omp parallel for schedule(dynamic, 1000)
+    for (int64_t i = 0; i < static_cast<int64_t>(num_clusters); ++i) {
+        std::mt19937_64 local_rng(seed + static_cast<size_t>(i));
+        std::normal_distribution<float> local_dist(0.0f, 1.0f);
+
+        auto& center = cluster_centers[static_cast<size_t>(i)];
+        for (size_t j = 0; j < config_.dimension; ++j) {
+            center[j] = local_dist(local_rng);
+        }
+        normalize_vector(center);
+
+        if (i % 1000 == 0 || i == static_cast<int64_t>(num_clusters) - 1) {
+            #pragma omp critical
+            {
+                center_bar.set_current(i + 1);
+                center_bar.display();
+            }
+        }
+    }
+
+    center_bar.finish();
+
+    const float cluster_per_dim_std = per_dim_noise_std(config_, config_.cluster_noise_std);
+    std::cout << "Cluster noise total scale=" << config_.cluster_noise_std
+              << ", per-dim std=" << cluster_per_dim_std << std::endl;
     
     // 预分配内存
     vectors.resize(n);
@@ -112,7 +191,7 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     #pragma omp parallel for schedule(dynamic, 1000)
     for (int64_t i = 0; i < static_cast<int64_t>(n); ++i) {
         std::mt19937_64 local_rng(config_.seed + i);
-        std::normal_distribution<float> local_cluster_dist(0.0f, 0.1f);
+        std::normal_distribution<float> local_cluster_dist(0.0f, cluster_per_dim_std);
         std::uniform_int_distribution<size_t> local_cluster_idx_dist(0, num_clusters-1);
         
         size_t cluster_idx = local_cluster_idx_dist(local_rng);
@@ -138,6 +217,52 @@ std::vector<std::vector<float>> RandomDataGenerator::generate_clustered_vectors(
     bar.finish();
     
     return vectors;
+}
+
+std::vector<std::vector<float>> RandomDataGenerator::generate_queries_from_database(
+    const std::vector<std::vector<float>>& database, size_t n, size_t seed) {
+    if (database.empty()) {
+        throw std::runtime_error("database is empty, cannot generate queries from base vectors");
+    }
+
+    std::vector<std::vector<float>> queries;
+    queries.resize(n);
+    for (auto& vec : queries) {
+        vec.resize(config_.dimension);
+    }
+
+    const float query_per_dim_std = per_dim_noise_std(config_, config_.query_noise_std);
+    std::cout << "Generating " << n << " queries from database vectors with noise std="
+              << config_.query_noise_std << " (per-dim std=" << query_per_dim_std << ")..." << std::endl;
+    ProgressBar bar("Generating queries", n, true, true);
+
+    #pragma omp parallel for schedule(dynamic, 1000)
+    for (int64_t i = 0; i < static_cast<int64_t>(n); ++i) {
+        std::mt19937_64 local_rng(seed + i);
+        std::uniform_int_distribution<size_t> base_dist(0, database.size() - 1);
+        std::normal_distribution<float> noise_dist(0.0f, query_per_dim_std);
+
+        const auto& base = database[base_dist(local_rng)];
+        auto& query = queries[i];
+        for (size_t j = 0; j < config_.dimension; ++j) {
+            query[j] = base[j] + noise_dist(local_rng);
+        }
+
+        if (config_.normalize_queries) {
+            normalize_vector(query);
+        }
+
+        if (i % 1000 == 0 || i == static_cast<int64_t>(n) - 1) {
+            #pragma omp critical
+            {
+                bar.set_current(i + 1);
+                bar.display();
+            }
+        }
+    }
+
+    bar.finish();
+    return queries;
 }
 
 // 归一化向量（优化版本）

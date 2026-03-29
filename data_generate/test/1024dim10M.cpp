@@ -11,24 +11,19 @@ TEST(DataGenerateTest, BasicTest) {
         /*data_min=*/-1.0f,
         /*data_max=*/1.0f,
         /*seed=*/42,
-        /*distribution=*/"normal",
+        /*distribution=*/"clustered",
         /*output_dir=*/"/data/xjs/random_dataset/1024dim10M"
     };
+    test_config.preset = "medium";
+    test_config.ground_truth_batch_size = 64;
+    test_config.use_gpu = true;
+    test_config.gpu_shard_size = 6000000;
+    test_config.gpu_device = 0;
     
     ExperimentGenerator exp_gen(test_config, DistanceMetric::L2);
     
     // 生成并验证
     exp_gen.generate_experiment("1024dim10M", true);
-    
-    // 加载并展示部分数据
-    RandomDataGenerator data_gen(test_config);
-    auto database = data_gen.load_vectors("/data/xjs/random_dataset/1024dim10M/base.fbin");
-    
-    std::cout << "\nSample vector (first 5 dimensions):" << std::endl;
-    for (size_t i = 0; i < std::min(size_t(5), database[0].size()); ++i) {
-        std::cout << std::fixed << std::setprecision(6) << database[0][i] << " ";
-    }
-    std::cout << std::endl;
 }
 
 int main(int argc, char** argv) {

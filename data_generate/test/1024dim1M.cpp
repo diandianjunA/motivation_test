@@ -11,9 +11,10 @@ TEST(DataGenerateTest, BasicTest) {
         /*data_min=*/-1.0f,
         /*data_max=*/1.0f,
         /*seed=*/42,
-        /*distribution=*/"normal",
+        /*distribution=*/"clustered",
         /*output_dir=*/"/data/xjs/random_dataset/1024dim1M"
     };
+    test_config.preset = "medium";
     
     ExperimentGenerator exp_gen(test_config, DistanceMetric::L2);
     
