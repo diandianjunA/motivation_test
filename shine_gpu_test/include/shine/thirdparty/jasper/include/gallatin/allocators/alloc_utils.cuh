@@ -38,6 +38,32 @@ namespace gallatin {
 
 namespace utils {
 
+__device__ __forceinline__ uint16_t atomic_cas_uint16(
+    uint16_t *address, uint16_t compare, uint16_t val) {
+  const size_t address_int = reinterpret_cast<size_t>(address);
+  unsigned int *base_address =
+      reinterpret_cast<unsigned int *>(address_int & ~size_t{0x3});
+  const unsigned int shift =
+      static_cast<unsigned int>((address_int & size_t{0x2}) * 8);
+  const unsigned int mask = 0xFFFFu << shift;
+
+  unsigned int old = *base_address;
+  while (true) {
+    const uint16_t current = static_cast<uint16_t>((old & mask) >> shift);
+    if (current != compare) {
+      return current;
+    }
+
+    const unsigned int desired =
+        (old & ~mask) | (static_cast<unsigned int>(val) << shift);
+    const unsigned int previous = ::atomicCAS(base_address, old, desired);
+    if (previous == old) {
+      return compare;
+    }
+    old = previous;
+  }
+}
+
 __device__ inline uint ldca(const uint *p) {
   uint res;
   asm volatile("ld.global.ca.u32 %0, [%1];" : "=r"(res) : "l"(p));

@@ -882,7 +882,7 @@ struct Gallatin {
 
     cg::coalesced_group full_warp_team = cg::coalesced_threads();
 
-    cg::coalesced_group coalesced_team = labeled_partition(full_warp_team, tree_id);
+    cg::coalesced_group coalesced_team = cg::labeled_partition(full_warp_team, tree_id);
 
     if (coalesced_team.thread_rank() == 0){
       shared_block_storage_index = local_shared_block_storage->get_valid_block_index();
@@ -1783,7 +1783,7 @@ struct Gallatin {
 
       cg::coalesced_group full_warp_team = cg::coalesced_threads();
 
-      cg::coalesced_group coalesced_team = labeled_partition(full_warp_team, block_id);
+      cg::coalesced_group coalesced_team = cg::labeled_partition(full_warp_team, block_id);
 
       Block * my_block = table->get_block_from_global_block_id(block_id);
 
