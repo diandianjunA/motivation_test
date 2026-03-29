@@ -821,9 +821,9 @@ struct alloc_table {
   // set the tree id of a segment atomically
   //  returns true on success.
   __device__ bool set_tree_id(uint64_t segment, uint16_t tree_id) {
-    return (atomicCAS((unsigned short int *)&chunk_ids[segment],
-                      (unsigned short int)~0U,
-                      (unsigned short int)tree_id) == (unsigned short int)~0U);
+    return (gallatin::utils::atomic_cas_uint16(&chunk_ids[segment],
+                      static_cast<uint16_t>(~0U),
+                      tree_id) == static_cast<uint16_t>(~0U));
   }
 
   // atomically read tree id.
@@ -836,8 +836,8 @@ struct alloc_table {
 
     #else
 
-      return atomicCAS((unsigned short int *)&chunk_ids[segment],
-                (unsigned short int)~0U, (unsigned short int)~0U);
+      return gallatin::utils::atomic_cas_uint16(&chunk_ids[segment],
+                static_cast<uint16_t>(~0U), static_cast<uint16_t>(~0U));
 
     #endif
 
@@ -845,9 +845,9 @@ struct alloc_table {
 
   // return tree id to ~0
   __device__ bool reset_tree_id(uint64_t segment, uint16_t tree_id) {
-    return (atomicCAS((unsigned short int *)&chunk_ids[segment],
-                      (unsigned short int)tree_id,
-                      (unsigned short int)~0U) == (unsigned short int)tree_id);
+    return (gallatin::utils::atomic_cas_uint16(&chunk_ids[segment],
+                      tree_id,
+                      static_cast<uint16_t>(~0U)) == tree_id);
   }
 
 
