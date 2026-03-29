@@ -148,15 +148,18 @@ void HNSWIndex::createIndex(size_t max_elements) {
 }
 
 void HNSWIndex::ensureCapacity(size_t required_elements) {
+    {
+        std::shared_lock<std::shared_mutex> index_lock(index_rw_mutex_);
+        if (index_ != nullptr && required_elements <= max_elements_) {
+            return;
+        }
+    }
+
+    std::unique_lock<std::shared_mutex> index_lock(index_rw_mutex_);
     if (index_ == nullptr) {
         createIndex(std::max(required_elements, max_elements_));
         return;
     }
-    if (required_elements <= max_elements_) {
-        return;
-    }
-
-    std::lock_guard<std::mutex> lock(resize_mutex_);
     if (required_elements <= max_elements_) {
         return;
     }
@@ -173,14 +176,12 @@ void HNSWIndex::addPoints(const float* data, size_t count, const std::vector<uin
     if (ids.size() != count) {
         throw std::runtime_error("ids size does not match vector count");
     }
-    ensureCapacity(index_->getCurrentElementCount() + count);
-    ParallelFor(0, count, num_threads_, [&](size_t i, size_t) {
+    ParallelFor(0, count, 1, [&](size_t i, size_t) {
         index_->addPoint(data + i * static_cast<size_t>(dim_), static_cast<hnswlib::labeltype>(ids[i]));
     });
 }
 
 void HNSWIndex::addPointsRange(const float* data, size_t count, uint32_t first_id) {
-    ensureCapacity(index_->getCurrentElementCount() + count);
     ParallelFor(0, count, num_threads_, [&](size_t i, size_t) {
         index_->addPoint(
             data + i * static_cast<size_t>(dim_),
@@ -198,8 +199,6 @@ void HNSWIndex::addPointsWithProgress(
     if (ids.size() != count) {
         throw std::runtime_error("ids size does not match vector count");
     }
-
-    ensureCapacity(index_->getCurrentElementCount() + count);
 
     std::atomic<size_t> local_processed(0);
     std::atomic<bool> done(false);
@@ -238,8 +237,6 @@ void HNSWIndex::addPointsRangeWithProgress(
     ProgressBar& progress_bar,
     size_t base_processed,
     const std::string& stage) {
-    ensureCapacity(index_->getCurrentElementCount() + count);
-
     std::atomic<size_t> local_processed(0);
     std::atomic<bool> done(false);
 
@@ -385,7 +382,6 @@ void HNSWIndex::build(const std::string& dataset_path) {
 }
 
 void HNSWIndex::insert(const std::vector<float>& vec, const std::vector<uint32_t>& ids) {
-    std::unique_lock<std::shared_mutex> index_lock(index_rw_mutex_);
     if (ids.empty()) {
         return;
     }
@@ -393,7 +389,27 @@ void HNSWIndex::insert(const std::vector<float>& vec, const std::vector<uint32_t
         throw std::runtime_error("Insert vector size does not match dim * ids.size()");
     }
 
-    addPoints(vec.data(), ids.size(), ids);
+    const size_t insert_count = ids.size();
+    const size_t reserved_after = pending_insert_count_.fetch_add(insert_count, std::memory_order_acq_rel) + insert_count;
+    try {
+        while (true) {
+            size_t required_elements = 0;
+            {
+                std::shared_lock<std::shared_mutex> index_lock(index_rw_mutex_);
+                required_elements = index_->getCurrentElementCount() + reserved_after;
+                if (required_elements <= max_elements_) {
+                    addPoints(vec.data(), insert_count, ids);
+                    break;
+                }
+            }
+            ensureCapacity(required_elements);
+        }
+    } catch (...) {
+        pending_insert_count_.fetch_sub(insert_count, std::memory_order_acq_rel);
+        throw;
+    }
+
+    pending_insert_count_.fetch_sub(insert_count, std::memory_order_acq_rel);
 }
 
 void HNSWIndex::search(
@@ -410,12 +426,21 @@ void HNSWIndex::search(
     }
 
     const auto results = index_->searchKnnCloserFirst(query.data(), top_k);
-    ids.assign(top_k, 0);
-    distances.assign(top_k, 0.0F);
+    if (ids.size() != top_k) {
+        ids.resize(top_k);
+    }
+    if (distances.size() != top_k) {
+        distances.resize(top_k);
+    }
 
-    for (size_t i = 0; i < results.size(); ++i) {
+    size_t i = 0;
+    for (; i < results.size(); ++i) {
         distances[i] = results[i].first;
         ids[i] = static_cast<uint32_t>(results[i].second);
+    }
+    for (; i < top_k; ++i) {
+        distances[i] = 0.0F;
+        ids[i] = 0U;
     }
 }
 
@@ -432,7 +457,7 @@ void HNSWIndex::load(const std::string& index_path) {
 }
 
 void HNSWIndex::save(const std::string& index_path) {
-    std::shared_lock<std::shared_mutex> index_lock(index_rw_mutex_);
+    std::unique_lock<std::shared_mutex> index_lock(index_rw_mutex_);
     if (index_ == nullptr) {
         throw std::runtime_error("Index is not initialized");
     }

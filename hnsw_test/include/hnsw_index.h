@@ -58,6 +58,6 @@ private:
 
     std::unique_ptr<hnswlib::L2Space> space_;
     std::unique_ptr<hnswlib::HierarchicalNSW<float>> index_;
-    mutable std::mutex resize_mutex_;
     mutable std::shared_mutex index_rw_mutex_;
+    std::atomic<size_t> pending_insert_count_{0};
 };

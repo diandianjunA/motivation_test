@@ -65,6 +65,15 @@ bool getOptionalBool(
     return it->second == "true";
 }
 
+bool hasIdentityIds(const std::vector<uint32_t>& ids) {
+    for (size_t i = 0; i < ids.size(); ++i) {
+        if (ids[i] != static_cast<uint32_t>(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 diskann::Metric parseMetric(const std::map<std::string, std::string>& config) {
     const auto metric = getOptionalString(config, "metric", "l2");
     if (metric == "l2") {
@@ -154,6 +163,8 @@ void FreshDiskANNIndex::clearPendingTempFiles() {
     }
     pending_dataset_path_.clear();
     pending_tag_path_.clear();
+    pending_point_count_ = 0;
+    pending_identity_tags_ = false;
     pending_dataset_is_temp_ = false;
     pending_tag_is_temp_ = false;
 }
@@ -208,6 +219,8 @@ void FreshDiskANNIndex::build(const std::vector<float>& vecs, const std::vector<
     clearPendingTempFiles();
     pending_dataset_path_ = writeTempFbin(vecs, ids.size());
     pending_tag_path_ = writeTagFile(ids, pending_dataset_path_ + ".tags");
+    pending_point_count_ = ids.size();
+    pending_identity_tags_ = hasIdentityIds(ids);
     pending_dataset_is_temp_ = true;
     pending_tag_is_temp_ = true;
 }
@@ -224,6 +237,8 @@ void FreshDiskANNIndex::build(const std::string& dataset_path) {
     std::vector<uint32_t> ids(static_cast<size_t>(total_points));
     std::iota(ids.begin(), ids.end(), 0U);
     pending_tag_path_ = writeTagFile(ids, makeTempPath("/tmp/fresh_diskann_tags_XXXXXX"));
+    pending_point_count_ = static_cast<size_t>(total_points);
+    pending_identity_tags_ = true;
     pending_dataset_is_temp_ = false;
     pending_tag_is_temp_ = true;
 }
@@ -234,15 +249,21 @@ void FreshDiskANNIndex::buildDiskIndexToPrefix(const std::string& index_prefix) 
     }
     std::filesystem::create_directories(std::filesystem::path(index_prefix).parent_path());
     const std::string params = makeBuildParameterString();
+    const char* build_tag_path = pending_identity_tags_ ? nullptr : pending_tag_path_.c_str();
     const bool ok = diskann::build_disk_index<float>(
         pending_dataset_path_.c_str(),
         index_prefix.c_str(),
         params.c_str(),
         metric_,
         single_file_index_,
-        pending_tag_path_.c_str());
+        build_tag_path);
     if (!ok) {
         throw std::runtime_error("FreshDiskANN build_disk_index failed");
+    }
+    if (pending_identity_tags_) {
+        std::vector<uint32_t> ids(pending_point_count_);
+        std::iota(ids.begin(), ids.end(), 0U);
+        writeTagFile(ids, index_prefix + "_disk.index.tags");
     }
 }
 

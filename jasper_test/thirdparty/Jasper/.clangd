@@ -1,0 +1,41 @@
+# .clangd
+CompileFlags:
+  # 1. 强制使用 clang++ 解析，忽略 json 里的 nvcc
+  Compiler: clang++
+
+  # 2. 移除所有导致报错的 nvcc 特有参数
+  Remove:
+    - "-forward-unknown-to-host-compiler"
+    - "--options-file"
+    # 注意：如果 clangd 版本较老不支持通配符，可能需要把具体的 rsp 文件名也列出来，
+    # 但通常移除 flag 本身就够了，因为后面的参数会被当作 positional args 忽略
+    - "-rdc=true"
+    - "-rdc=false"
+    - "--ptxas-options=-v"
+    - "--ptxas-options"
+    - "--expt-relaxed-constexpr"
+    - "--expt-extended-lambda"
+    - "--generate-code=arch=compute_86,code=[compute_86,sm_86]"
+    - "--generate-code=*"
+    - "-gencode=*"
+    - "-Xcompiler=-fPIE"
+    - "-Xcompiler"
+    - "-Wno-deprecated-gpu-targets"
+    
+  # 3. 添加 clang 需要的 CUDA 环境参数
+  Add:
+    # 【重要】根据你的实际安装路径确认，通常是 /usr/local/cuda
+    # 既然你的 nvcc 在 /usr/bin/nvcc，cuda 可能链接到了 /usr/lib/cuda 或 /usr/local/cuda
+    # 你可以运行 `ls -l /usr/bin/nvcc` 看看它指向哪
+    - "--cuda-path=/usr/local/cuda" 
+    # 如果上面路径不对，尝试: - "--cuda-path=/usr"
+    
+    # 指定显卡架构 (你的 json 里是 sm_86，对应 RTX 30xx 系列)
+    - "--cuda-gpu-arch=sm_86"
+    
+    # 显式声明语言标准
+    - "-std=c++17"
+    - "-xcuda"
+    
+    # 补充一些常见的 include 路径 (如果 clangd 找不到 cuda 头文件)
+    # - "-I/usr/local/cuda/include" 

@@ -57,6 +57,8 @@ private:
 
     std::string pending_dataset_path_;
     std::string pending_tag_path_;
+    size_t pending_point_count_ = 0;
+    bool pending_identity_tags_ = false;
     bool pending_dataset_is_temp_ = false;
     bool pending_tag_is_temp_ = false;
 
