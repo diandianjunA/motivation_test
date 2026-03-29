@@ -1,0 +1,245 @@
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim50M/base.fbin
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: data_pool_size = 320000
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: dim = 1024
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim50M/queries/groundtruth-test.bin
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/hnsw_test/config/index_conf/0.95-1024dim50M.ini
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: index_path = /data/xjs/index/hnsw_index/1024dim50M.bin
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/hnsw_test/log
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: num = 50000000
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: option = dynamic
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim50M/queries/query-test.fbin
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: threads = 16
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: topk = 10
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: total_test = true
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Config: write_id_base = 50000000
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] Dynamic test HNSW
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] 使用 16 线程进行动态测试
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] 动态测试配置: read_batch_size=64, insert_batch_size=64, warmup_seconds=30, run_seconds=60
+[2026-03-29 21:15:37.305] [GlobalLogger] [info] 动态写入ID配置: num=50000000, write_id_base=50000000
+[2026-03-29 21:15:44.059] [GlobalLogger] [info] Generated random dynamic data pool with 320000 vectors
+[2026-03-29 21:18:12.340] [GlobalLogger] [info] 开始动态测试: read_ratio=100%, warmup=30s, run=60s
+[2026-03-29 21:18:42.763] [GlobalLogger] [info] 预热完成: elapsed=30.42s, read_vectors=101184, write_vectors=0
+[2026-03-29 21:19:43.204] [GlobalLogger] [info] Dynamic test completed, measured time: 60.442 s
+[2026-03-29 21:19:43.205] [GlobalLogger] [info] Measured counts: read_batches=3285, write_batches=0, read_vectors=210240, write_vectors=0
+[2026-03-29 21:19:43.205] [GlobalLogger] [info] Total Throughput: 3478.39 vectors/sec
+[2026-03-29 21:19:43.205] [GlobalLogger] [info] QPS: 3478.39
+[2026-03-29 21:19:43.205] [GlobalLogger] [info] IPS: 0.00
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] Read Latency Percentiles: P50=290.114 ms, P90=328.679 ms, P99=360.535 ms
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] Write Latency Percentiles: P50=N/A, P90=N/A, P99=N/A
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 操作: Write 没有被调用。
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 总时间: 962.0448791859989 秒
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 批次数: 3285
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 处理向量数: 210240
+[2026-03-29 21:19:43.207] [GlobalLogger] [info] 平均批次延迟: 292.860 ms
+[2026-03-29 21:19:43.209] [GlobalLogger] [info] 批次延迟百分位: P50=290.114 ms, P90=328.679 ms, P99=360.535 ms
+[2026-03-29 21:22:56.592] [GlobalLogger] [info] 开始动态测试: read_ratio=90%, warmup=30s, run=60s
+[2026-03-29 21:23:27.055] [GlobalLogger] [info] 预热完成: elapsed=30.46s, read_vectors=141888, write_vectors=16832
+[2026-03-29 21:24:27.711] [GlobalLogger] [info] Dynamic test completed, measured time: 60.649 s
+[2026-03-29 21:24:27.711] [GlobalLogger] [info] Measured counts: read_batches=2024, write_batches=230, read_vectors=129536, write_vectors=14720
+[2026-03-29 21:24:27.711] [GlobalLogger] [info] Total Throughput: 2378.53 vectors/sec
+[2026-03-29 21:24:27.711] [GlobalLogger] [info] QPS: 2135.83
+[2026-03-29 21:24:27.711] [GlobalLogger] [info] IPS: 242.71
+[2026-03-29 21:24:28.571] [GlobalLogger] [info] Read Latency Percentiles: P50=393.555 ms, P90=478.122 ms, P99=524.939 ms
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] Write Latency Percentiles: P50=704.679 ms, P90=931.037 ms, P99=1042.303 ms
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 总时间: 166.552211734 秒
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 批次数: 230
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 处理向量数: 14720
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 平均批次延迟: 724.140 ms
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 批次延迟百分位: P50=704.679 ms, P90=931.037 ms, P99=1042.303 ms
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 总时间: 794.8419501480006 秒
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 批次数: 2024
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 处理向量数: 129536
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 平均批次延迟: 392.708 ms
+[2026-03-29 21:24:28.572] [GlobalLogger] [info] 批次延迟百分位: P50=393.555 ms, P90=478.122 ms, P99=524.939 ms
+[2026-03-29 21:27:58.781] [GlobalLogger] [info] 开始动态测试: read_ratio=80%, warmup=30s, run=60s
+[2026-03-29 21:28:29.403] [GlobalLogger] [info] 预热完成: elapsed=30.62s, read_vectors=97536, write_vectors=26112
+[2026-03-29 21:29:30.449] [GlobalLogger] [info] Dynamic test completed, measured time: 61.046 s
+[2026-03-29 21:29:30.449] [GlobalLogger] [info] Measured counts: read_batches=1253, write_batches=326, read_vectors=80192, write_vectors=20864
+[2026-03-29 21:29:30.449] [GlobalLogger] [info] Total Throughput: 1655.42 vectors/sec
+[2026-03-29 21:29:30.449] [GlobalLogger] [info] QPS: 1313.64
+[2026-03-29 21:29:30.449] [GlobalLogger] [info] IPS: 341.78
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] Read Latency Percentiles: P50=537.748 ms, P90=663.474 ms, P99=721.983 ms
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] Write Latency Percentiles: P50=935.384 ms, P90=1168.291 ms, P99=1287.566 ms
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 总时间: 302.73703317200005 秒
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 批次数: 326
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 处理向量数: 20864
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 平均批次延迟: 928.641 ms
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 批次延迟百分位: P50=935.384 ms, P90=1168.291 ms, P99=1287.566 ms
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 总时间: 662.575541478 秒
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 批次数: 1253
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 处理向量数: 80192
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 平均批次延迟: 528.791 ms
+[2026-03-29 21:29:30.450] [GlobalLogger] [info] 批次延迟百分位: P50=537.748 ms, P90=663.474 ms, P99=721.983 ms
+[2026-03-29 21:33:09.767] [GlobalLogger] [info] 开始动态测试: read_ratio=70%, warmup=30s, run=60s
+[2026-03-29 21:33:40.592] [GlobalLogger] [info] 预热完成: elapsed=30.82s, read_vectors=68864, write_vectors=30720
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] Dynamic test completed, measured time: 61.046 s
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] Measured counts: read_batches=893, write_batches=372, read_vectors=57152, write_vectors=23808
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] Total Throughput: 1326.22 vectors/sec
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] QPS: 936.22
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] IPS: 390.00
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] Read Latency Percentiles: P50=609.047 ms, P90=681.370 ms, P99=737.845 ms
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] Write Latency Percentiles: P50=1141.169 ms, P90=1395.576 ms, P99=1536.404 ms
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 总时间: 426.23262063399994 秒
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 批次数: 372
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 处理向量数: 23808
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 平均批次延迟: 1145.787 ms
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 批次延迟百分位: P50=1141.169 ms, P90=1395.576 ms, P99=1536.404 ms
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 总时间: 541.202639678 秒
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 批次数: 893
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 处理向量数: 57152
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 平均批次延迟: 606.050 ms
+[2026-03-29 21:34:41.638] [GlobalLogger] [info] 批次延迟百分位: P50=609.047 ms, P90=681.370 ms, P99=737.845 ms
+[2026-03-29 21:37:35.387] [GlobalLogger] [info] 开始动态测试: read_ratio=60%, warmup=30s, run=60s
+[2026-03-29 21:38:06.211] [GlobalLogger] [info] 预热完成: elapsed=30.82s, read_vectors=62080, write_vectors=34816
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] Dynamic test completed, measured time: 61.647 s
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] Measured counts: read_batches=665, write_batches=483, read_vectors=42560, write_vectors=30912
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] Total Throughput: 1191.82 vectors/sec
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] QPS: 690.38
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] IPS: 501.44
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] Read Latency Percentiles: P50=592.827 ms, P90=687.317 ms, P99=754.155 ms
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] Write Latency Percentiles: P50=1201.232 ms, P90=1478.787 ms, P99=1686.866 ms
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 总时间: 580.1436909399997 秒
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 批次数: 483
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 处理向量数: 30912
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 平均批次延迟: 1201.126 ms
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 批次延迟百分位: P50=1201.232 ms, P90=1478.787 ms, P99=1686.866 ms
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 总时间: 390.01564268900034 秒
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 批次数: 665
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 处理向量数: 42560
+[2026-03-29 21:39:07.858] [GlobalLogger] [info] 平均批次延迟: 586.490 ms
+[2026-03-29 21:39:07.859] [GlobalLogger] [info] 批次延迟百分位: P50=592.827 ms, P90=687.317 ms, P99=754.155 ms
+[2026-03-29 21:41:50.142] [GlobalLogger] [info] 开始动态测试: read_ratio=50%, warmup=30s, run=60s
+[2026-03-29 21:42:21.169] [GlobalLogger] [info] 预热完成: elapsed=31.03s, read_vectors=40000, write_vectors=42688
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] Dynamic test completed, measured time: 61.646 s
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] Measured counts: read_batches=525, write_batches=511, read_vectors=33600, write_vectors=32704
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] Total Throughput: 1075.56 vectors/sec
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] QPS: 545.05
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] IPS: 530.51
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] Read Latency Percentiles: P50=639.174 ms, P90=723.377 ms, P99=762.558 ms
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] Write Latency Percentiles: P50=1243.224 ms, P90=1521.896 ms, P99=1671.159 ms
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 总时间: 638.1032959489999 秒
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 批次数: 511
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 处理向量数: 32704
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 平均批次延迟: 1248.734 ms
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 批次延迟百分位: P50=1243.224 ms, P90=1521.896 ms, P99=1671.159 ms
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 总时间: 333.5671359739997 秒
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 批次数: 525
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 处理向量数: 33600
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 平均批次延迟: 635.366 ms
+[2026-03-29 21:43:22.815] [GlobalLogger] [info] 批次延迟百分位: P50=639.174 ms, P90=723.377 ms, P99=762.558 ms
+[2026-03-29 21:45:59.763] [GlobalLogger] [info] 开始动态测试: read_ratio=40%, warmup=30s, run=60s
+[2026-03-29 21:46:30.987] [GlobalLogger] [info] 预热完成: elapsed=31.22s, read_vectors=24768, write_vectors=36032
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] Dynamic test completed, measured time: 61.850 s
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] Measured counts: read_batches=325, write_batches=445, read_vectors=20800, write_vectors=28480
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] Total Throughput: 796.77 vectors/sec
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] QPS: 336.30
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] IPS: 460.47
+[2026-03-29 21:47:32.837] [GlobalLogger] [info] Read Latency Percentiles: P50=714.381 ms, P90=819.481 ms, P99=895.235 ms
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] Write Latency Percentiles: P50=1671.221 ms, P90=1966.872 ms, P99=2181.253 ms
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 总时间: 739.8810007510003 秒
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 批次数: 445
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 处理向量数: 28480
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 平均批次延迟: 1662.654 ms
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 批次延迟百分位: P50=1671.221 ms, P90=1966.872 ms, P99=2181.253 ms
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 总时间: 234.271105062 秒
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 批次数: 325
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 处理向量数: 20800
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 平均批次延迟: 720.834 ms
+[2026-03-29 21:47:32.838] [GlobalLogger] [info] 批次延迟百分位: P50=714.381 ms, P90=819.481 ms, P99=895.235 ms
+[2026-03-29 21:50:11.709] [GlobalLogger] [info] 开始动态测试: read_ratio=30%, warmup=30s, run=60s
+[2026-03-29 21:50:43.335] [GlobalLogger] [info] 预热完成: elapsed=31.63s, read_vectors=15360, write_vectors=32960
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] Dynamic test completed, measured time: 62.243 s
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] Measured counts: read_batches=135, write_batches=410, read_vectors=8640, write_vectors=26240
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] Total Throughput: 560.39 vectors/sec
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] QPS: 138.81
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] IPS: 421.58
+[2026-03-29 21:51:45.577] [GlobalLogger] [info] Read Latency Percentiles: P50=836.714 ms, P90=925.067 ms, P99=982.884 ms
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] Write Latency Percentiles: P50=2089.810 ms, P90=2465.020 ms, P99=2721.807 ms
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 总时间: 865.3717773690003 秒
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 批次数: 410
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 处理向量数: 26240
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 平均批次延迟: 2110.663 ms
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 批次延迟百分位: P50=2089.810 ms, P90=2465.020 ms, P99=2721.807 ms
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 总时间: 111.25696928399998 秒
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 批次数: 135
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 处理向量数: 8640
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 平均批次延迟: 824.126 ms
+[2026-03-29 21:51:45.578] [GlobalLogger] [info] 批次延迟百分位: P50=836.714 ms, P90=925.067 ms, P99=982.884 ms
+[2026-03-29 21:54:19.325] [GlobalLogger] [info] 开始动态测试: read_ratio=20%, warmup=30s, run=60s
+[2026-03-29 21:54:50.749] [GlobalLogger] [info] 预热完成: elapsed=31.42s, read_vectors=11392, write_vectors=42816
+[2026-03-29 21:55:52.797] [GlobalLogger] [info] Dynamic test completed, measured time: 62.048 s
+[2026-03-29 21:55:52.797] [GlobalLogger] [info] Measured counts: read_batches=136, write_batches=523, read_vectors=8704, write_vectors=33472
+[2026-03-29 21:55:52.797] [GlobalLogger] [info] Total Throughput: 679.73 vectors/sec
+[2026-03-29 21:55:52.797] [GlobalLogger] [info] QPS: 140.28
+[2026-03-29 21:55:52.797] [GlobalLogger] [info] IPS: 539.45
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] Read Latency Percentiles: P50=773.342 ms, P90=873.013 ms, P99=924.007 ms
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] Write Latency Percentiles: P50=1681.976 ms, P90=1985.171 ms, P99=2139.044 ms
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 操作: Write
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 总时间: 872.8704519489999 秒
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 批次数: 523
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 处理向量数: 33472
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 平均批次延迟: 1668.968 ms
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 批次延迟百分位: P50=1681.976 ms, P90=1985.171 ms, P99=2139.044 ms
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 操作: Read
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 总时间: 103.89072979 秒
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 批次数: 136
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 处理向量数: 8704
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 平均批次延迟: 763.902 ms
+[2026-03-29 21:55:52.798] [GlobalLogger] [info] 批次延迟百分位: P50=773.342 ms, P90=873.013 ms, P99=924.007 ms
+[2026-03-29 21:58:29.560] [GlobalLogger] [info] 开始动态测试: read_ratio=10%, warmup=30s, run=60s
+[2026-03-29 21:59:00.783] [GlobalLogger] [info] 预热完成: elapsed=31.22s, read_vectors=4672, write_vectors=46912
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] Dynamic test completed, measured time: 62.049 s
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] Measured counts: read_batches=62, write_batches=552, read_vectors=3968, write_vectors=35328
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] Total Throughput: 633.30 vectors/sec
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] QPS: 63.95
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] IPS: 569.35
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] Read Latency Percentiles: P50=788.318 ms, P90=860.027 ms, P99=903.222 ms
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] Write Latency Percentiles: P50=1674.118 ms, P90=1979.381 ms, P99=2161.754 ms
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 操作: Write
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 总时间: 924.6086203759997 秒
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 批次数: 552
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 处理向量数: 35328
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 平均批次延迟: 1675.016 ms
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 批次延迟百分位: P50=1674.118 ms, P90=1979.381 ms, P99=2161.754 ms
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 操作: Read
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 总时间: 48.799820155 秒
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 批次数: 62
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 处理向量数: 3968
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 平均批次延迟: 787.094 ms
+[2026-03-29 22:00:02.833] [GlobalLogger] [info] 批次延迟百分位: P50=788.318 ms, P90=860.027 ms, P99=903.222 ms
+[2026-03-29 22:02:37.524] [GlobalLogger] [info] 开始动态测试: read_ratio=0%, warmup=30s, run=60s
+[2026-03-29 22:03:08.747] [GlobalLogger] [info] 预热完成: elapsed=31.22s, read_vectors=0, write_vectors=46080
+[2026-03-29 22:04:10.789] [GlobalLogger] [info] Dynamic test completed, measured time: 62.042 s
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] Measured counts: read_batches=0, write_batches=556, read_vectors=0, write_vectors=35584
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] Total Throughput: 573.55 vectors/sec
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] QPS: 0.00
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] IPS: 573.55
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] Read Latency Percentiles: P50=N/A, P90=N/A, P99=N/A
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] Write Latency Percentiles: P50=1752.084 ms, P90=2099.665 ms, P99=2257.040 ms
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 操作: Write
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 总时间: 979.2970126649998 秒
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 批次数: 556
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 处理向量数: 35584
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 平均批次延迟: 1761.326 ms
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 批次延迟百分位: P50=1752.084 ms, P90=2099.665 ms, P99=2257.040 ms
+[2026-03-29 22:04:10.790] [GlobalLogger] [info] 操作: Read 没有被调用。
