@@ -1,0 +1,77 @@
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim10M/base.fbin
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: dim = 1024
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim10M/queries/groundtruth-test.bin
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/hnsw_test/config/index_conf/0.95-1024dim10M.ini
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: index_path = /data/xjs/index/hnsw_index/1024dim10M.bin
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/hnsw_test/log
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: num = 10000000
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: option = storage
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim10M/queries/query-test.fbin
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: threads = 16
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: topk = 10
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: total_test = false
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Config: write_id_base = 10000000
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Storage test HNSW
+[2026-03-30 01:04:20.546] [GlobalLogger] [info] Load index /data/xjs/index/hnsw_index/1024dim10M.bin
+[2026-03-30 01:04:20.547] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 651392 kB, vsz: 66675060 kB, rssPercentage: 0.06164917369596389%
+[2026-03-30 01:04:21.547] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 651392 kB, vsz: 66675060 kB, rssPercentage: 0.06164917369596389%
+[2026-03-30 01:04:22.547] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 651392 kB, vsz: 66675060 kB, rssPercentage: 0.06164917369596389%
+[2026-03-30 01:04:23.548] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 651392 kB, vsz: 66675060 kB, rssPercentage: 0.06164917369596389%
+[2026-03-30 01:04:24.548] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 651392 kB, vsz: 66675060 kB, rssPercentage: 0.06164917369596389%
+[2026-03-30 01:04:25.548] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 1214976 kB, vsz: 132475844 kB, rssPercentage: 0.11498800485794641%
+[2026-03-30 01:04:26.549] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 2679040 kB, vsz: 132475844 kB, rssPercentage: 0.25355024670004406%
+[2026-03-30 01:04:27.549] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 3951360 kB, vsz: 132475844 kB, rssPercentage: 0.373965414029162%
+[2026-03-30 01:04:28.550] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 5048064 kB, vsz: 132475844 kB, rssPercentage: 0.4777598962903172%
+[2026-03-30 01:04:29.550] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 6216448 kB, vsz: 132475844 kB, rssPercentage: 0.5883383316404367%
+[2026-03-30 01:04:30.550] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 7226240 kB, vsz: 132475844 kB, rssPercentage: 0.6839072707812226%
+[2026-03-30 01:04:31.551] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 8224384 kB, vsz: 132475844 kB, rssPercentage: 0.7783738175450516%
+[2026-03-30 01:04:32.551] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 9315712 kB, vsz: 132475844 kB, rssPercentage: 0.8816595033245345%
+[2026-03-30 01:04:33.551] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 10506496 kB, vsz: 132475844 kB, rssPercentage: 0.9943579240149555%
+[2026-03-30 01:04:34.552] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 11947264 kB, vsz: 132475844 kB, rssPercentage: 1.1307153811031396%
+[2026-03-30 01:04:35.552] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 13372800 kB, vsz: 132475844 kB, rssPercentage: 1.265631248159919%
+[2026-03-30 01:04:36.553] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 14587776 kB, vsz: 132475844 kB, rssPercentage: 1.3806192530178654%
+[2026-03-30 01:04:37.553] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 15953280 kB, vsz: 132475844 kB, rssPercentage: 1.509853559362637%
+[2026-03-30 01:04:38.553] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 17285632 kB, vsz: 132475844 kB, rssPercentage: 1.6359502874037626%
+[2026-03-30 01:04:39.554] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 18411008 kB, vsz: 132475844 kB, rssPercentage: 1.7424583509005036%
+[2026-03-30 01:04:40.554] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 19714688 kB, vsz: 132475844 kB, rssPercentage: 1.8658414977060434%
+[2026-03-30 01:04:41.554] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 20971776 kB, vsz: 132475844 kB, rssPercentage: 1.9848150750037563%
+[2026-03-30 01:04:42.555] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 22115968 kB, vsz: 132475844 kB, rssPercentage: 2.0931039261863504%
+[2026-03-30 01:04:43.555] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 23325568 kB, vsz: 132475844 kB, rssPercentage: 2.2075831345626247%
+[2026-03-30 01:04:44.555] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 24513664 kB, vsz: 132475844 kB, rssPercentage: 2.320027157012209%
+[2026-03-30 01:04:45.556] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 25656960 kB, vsz: 132475844 kB, rssPercentage: 2.4282312087811913%
+[2026-03-30 01:04:46.556] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 26921216 kB, vsz: 132475844 kB, rssPercentage: 2.547883181387801%
+[2026-03-30 01:04:47.556] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 28215936 kB, vsz: 132475844 kB, rssPercentage: 2.67041833405722%
+[2026-03-30 01:04:48.557] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 29531264 kB, vsz: 132475844 kB, rssPercentage: 2.7949038732397167%
+[2026-03-30 01:04:49.557] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 30777600 kB, vsz: 132475844 kB, rssPercentage: 2.9128598575740847%
+[2026-03-30 01:04:50.557] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 31928960 kB, vsz: 132475844 kB, rssPercentage: 3.0218271040655753%
+[2026-03-30 01:04:51.558] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 33100928 kB, vsz: 132475844 kB, rssPercentage: 3.1327447370701433%
+[2026-03-30 01:04:52.558] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 34270208 kB, vsz: 132475844 kB, rssPercentage: 3.2434079718338746%
+[2026-03-30 01:04:53.558] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 35439488 kB, vsz: 132475844 kB, rssPercentage: 3.3540712065976064%
+[2026-03-30 01:04:54.559] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 36618624 kB, vsz: 132475844 kB, rssPercentage: 3.4656672349110704%
+[2026-03-30 01:04:55.559] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 37751168 kB, vsz: 132475844 kB, rssPercentage: 3.572853693716708%
+[2026-03-30 01:04:56.559] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 38887296 kB, vsz: 132475844 kB, rssPercentage: 3.6803793501767936%
+[2026-03-30 01:04:57.560] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 40047616 kB, vsz: 132475844 kB, rssPercentage: 3.7901945908044046%
+[2026-03-30 01:04:58.560] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 41220480 kB, vsz: 132475844 kB, rssPercentage: 3.9011970232225845%
+[2026-03-30 01:04:59.560] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 42407680 kB, vsz: 132475844 kB, rssPercentage: 4.013556246258557%
+[2026-03-30 01:05:00.561] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 43591296 kB, vsz: 132475844 kB, rssPercentage: 4.125576271640082%
+[2026-03-30 01:05:01.561] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 44935296 kB, vsz: 133061784 kB, rssPercentage: 4.252775392058164%
+[2026-03-30 01:05:02.561] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45407628 kB, vsz: 133478684 kB, rssPercentage: 4.297477932940094%
+[2026-03-30 01:05:03.562] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45678572 kB, vsz: 133709556 kB, rssPercentage: 4.323120669906282%
+[2026-03-30 01:05:04.562] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:05.562] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:06.563] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:07.563] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:08.563] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:09.563] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:10.564] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:11.564] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:12.564] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:13.565] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:14.565] [GlobalLogger] [info] MemoryMonitor: pid: 974386, rss: 45077156 kB, vsz: 67129484 kB, rssPercentage: 4.266201334932054%
+[2026-03-30 01:05:15.565] [GlobalLogger] [info] Storage test memory usage: 2.491801922046851 %

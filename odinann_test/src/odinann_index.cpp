@@ -8,6 +8,7 @@
 #include <limits>
 #include <numeric>
 #include <stdexcept>
+#include <cstdlib>
 #include <unistd.h>
 
 namespace {
@@ -97,8 +98,14 @@ std::string makeTempPath(const std::string& pattern) {
 
 }  // namespace
 
-OdinANNIndex::OdinANNIndex(std::string conf) : config_path_(std::move(conf)) {
+OdinANNIndex::OdinANNIndex(std::string conf, std::string runtime_conf) : config_path_(std::move(conf)) {
     config_ = readConfig(config_path_);
+    if (!runtime_conf.empty()) {
+        const auto runtime_config = readConfig(runtime_conf);
+        for (const auto& [key, value] : runtime_config) {
+            config_.insert_or_assign(key, value);
+        }
+    }
 
     dim_ = getRequiredSize(config_, "dim");
     max_points_ = getRequiredSize(config_, "max_points_to_insert");
@@ -114,9 +121,16 @@ OdinANNIndex::OdinANNIndex(std::string conf) : config_path_(std::move(conf)) {
     merge_R_disk_ = static_cast<uint32_t>(getOptionalSize(config_, "R_disk", 0));
     alpha_disk_ = getOptionalFloat(config_, "alpha_disk", 1.2F);
     merge_C_ = static_cast<uint32_t>(getOptionalSize(config_, "C", 384));
+    mem_L_ = static_cast<uint32_t>(getOptionalSize(config_, "L_mem", 192));
+    mem_R_ = static_cast<uint32_t>(getOptionalSize(config_, "R_mem", 64));
+    mem_alpha_ = getOptionalFloat(config_, "alpha_mem", 1.2F);
+    mem_C_ = static_cast<uint32_t>(getOptionalSize(config_, "C_mem", getOptionalSize(config_, "C", 100)));
     search_mem_L_ = static_cast<uint32_t>(getOptionalSize(config_, "search_mem_L", 0));
     use_mem_index_ = getOptionalBool(config_, "use_mem_index", search_mem_L_ > 0);
     single_file_index_ = getOptionalBool(config_, "single_file_index", false);
+    force_sharded_build_ = getOptionalBool(config_, "force_sharded_build", false);
+    partition_replication_factor_ =
+        static_cast<uint32_t>(getOptionalSize(config_, "partition_replication_factor", 2));
     metric_ = parseMetric(config_);
 
     if (metric_ == pipeann::Metric::COSINE) {
@@ -216,6 +230,15 @@ void OdinANNIndex::buildDiskIndexToPrefix(const std::string& index_prefix) {
     const std::string params = std::to_string(build_R_) + " " + std::to_string(build_L_) + " " + build_B_ + " " +
                                build_M_ + " " + std::to_string(build_threads_);
     const char* tag_file = pending_identity_tags_ || pending_tag_path_.empty() ? nullptr : pending_tag_path_.c_str();
+    if (force_sharded_build_) {
+        setenv("PIPEANN_DISABLE_ONESHOT_BUILD", "1", 1);
+    }
+    if (partition_replication_factor_ > 0) {
+        setenv(
+            "PIPEANN_PARTITION_REPLICATION_FACTOR",
+            std::to_string(partition_replication_factor_).c_str(),
+            1);
+    }
     const bool ok = pipeann::build_disk_index<float>(
         pending_dataset_path_.c_str(),
         index_prefix.c_str(),
@@ -223,9 +246,60 @@ void OdinANNIndex::buildDiskIndexToPrefix(const std::string& index_prefix) {
         metric_,
         single_file_index_,
         tag_file);
+    if (force_sharded_build_) {
+        unsetenv("PIPEANN_DISABLE_ONESHOT_BUILD");
+    }
+    unsetenv("PIPEANN_PARTITION_REPLICATION_FACTOR");
     if (!ok) {
         throw std::runtime_error("OdinANN build_disk_index failed");
     }
+
+    if (use_mem_index_ && search_mem_L_ > 0) {
+        const char* tag_file = pending_identity_tags_ || pending_tag_path_.empty() ? nullptr : pending_tag_path_.c_str();
+        buildMemIndexToPrefix(index_prefix, pending_dataset_path_, tag_file);
+    }
+}
+
+void OdinANNIndex::buildMemIndexToPrefix(
+    const std::string& index_prefix,
+    const std::string& dataset_path,
+    const char* tag_file) const {
+    uint64_t total_points = 0;
+    uint64_t data_dim = 0;
+    pipeann::get_bin_metadata(dataset_path, total_points, data_dim);
+    if (data_dim != dim_) {
+        throw std::runtime_error("Dataset dim does not match config dim for mem index build");
+    }
+
+    pipeann::Parameters mem_params;
+    mem_params.Set<unsigned>("L", mem_L_);
+    mem_params.Set<unsigned>("R", mem_R_);
+    mem_params.Set<unsigned>("C", mem_C_);
+    mem_params.Set<float>("alpha", mem_alpha_);
+    mem_params.Set<bool>("saturate_graph", false);
+    mem_params.Set<unsigned>("num_threads", build_threads_);
+
+    pipeann::Index<float, uint32_t> mem_index(metric_, dim_, total_points, false, false, true);
+    if (tag_file == nullptr) {
+        mem_index.build(dataset_path.c_str(), total_points, mem_params, static_cast<const char*>(nullptr));
+    } else {
+        mem_index.build(dataset_path.c_str(), total_points, mem_params, tag_file);
+    }
+    mem_index.save((index_prefix + "_mem.index").c_str());
+}
+
+void OdinANNIndex::ensureMemIndexReady(const std::string& index_path) const {
+    if (!use_mem_index_ || search_mem_L_ == 0) {
+        return;
+    }
+    if (std::filesystem::exists(index_path + "_mem.index")) {
+        return;
+    }
+    const auto dataset_it = config_.find("data_path");
+    if (dataset_it == config_.end() || dataset_it->second.empty()) {
+        throw std::runtime_error("use_mem_index=true but data_path is unavailable to build _mem.index");
+    }
+    buildMemIndexToPrefix(index_path, dataset_it->second, nullptr);
 }
 
 void OdinANNIndex::copyIndexPrefix(const std::string& src_prefix, const std::string& dst_prefix) const {
@@ -251,6 +325,8 @@ void OdinANNIndex::load(const std::string& index_path) {
     if (!std::filesystem::exists(index_path + "_disk.index")) {
         throw std::runtime_error("OdinANN disk index prefix does not exist: " + index_path);
     }
+
+    ensureMemIndexReady(index_path);
 
     loaded_base_prefix_ = index_path;
     loaded_shadow_out_prefix_ = index_path + "_shadow2";

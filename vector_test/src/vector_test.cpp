@@ -359,8 +359,10 @@ void VectorTest::dynamic_test() {
                 std::vector<float> query_buffer(static_cast<size_t>(dim));
                 std::vector<uint32_t> ids_res(static_cast<size_t>(topk));
                 std::vector<float> distances_res(static_cast<size_t>(topk));
-                std::vector<float> insert_buffer(static_cast<size_t>(insert_batch_size) * static_cast<size_t>(dim));
-                std::vector<uint32_t> insert_ids(static_cast<size_t>(insert_batch_size));
+                std::vector<float> insert_buffer;
+                std::vector<uint32_t> insert_ids;
+                insert_buffer.reserve(static_cast<size_t>(insert_batch_size) * static_cast<size_t>(dim));
+                insert_ids.reserve(static_cast<size_t>(insert_batch_size));
 
                 while (true) {
                     if (std::chrono::steady_clock::now() >= deadline) {
@@ -372,7 +374,11 @@ void VectorTest::dynamic_test() {
 
                     if (is_read) {
                         const size_t batch_start = read_cursor.fetch_add(static_cast<size_t>(read_batch_size));
+                        uint64_t processed_reads = 0;
                         for (int batch_index = 0; batch_index < read_batch_size; ++batch_index) {
+                            if (std::chrono::steady_clock::now() >= deadline) {
+                                break;
+                            }
                             const size_t source_index =
                                 (batch_start + static_cast<size_t>(batch_index)) % data_pool_size;
                             std::copy_n(
@@ -380,41 +386,52 @@ void VectorTest::dynamic_test() {
                                 static_cast<size_t>(dim),
                                 query_buffer.begin());
                             index->search(query_buffer, static_cast<size_t>(topk), ids_res, distances_res);
+                            ++processed_reads;
+                        }
+                        if (processed_reads == 0) {
+                            break;
                         }
                         const double latency =
                             std::chrono::duration<double>(std::chrono::steady_clock::now() - op_start).count();
-                        phase_read_vectors.fetch_add(static_cast<uint64_t>(read_batch_size));
+                        phase_read_vectors.fetch_add(processed_reads);
                         phase_read_batches.fetch_add(1);
                         if (collect_stats) {
                             result.stat->addOperation(
                                 OperationType::READ,
                                 latency,
-                                static_cast<uint64_t>(read_batch_size));
+                                processed_reads);
                         }
                     } else {
                         const size_t batch_start = write_cursor.fetch_add(static_cast<size_t>(insert_batch_size));
                         const uint64_t id_start = next_write_id.fetch_add(static_cast<uint64_t>(insert_batch_size));
+                        insert_buffer.clear();
+                        insert_ids.clear();
                         for (int batch_index = 0; batch_index < insert_batch_size; ++batch_index) {
+                            if (std::chrono::steady_clock::now() >= deadline) {
+                                break;
+                            }
                             const size_t source_index =
                                 (batch_start + static_cast<size_t>(batch_index)) % data_pool_size;
-                            std::copy_n(
-                                vector_data + source_index * static_cast<size_t>(dim),
-                                static_cast<size_t>(dim),
-                                insert_buffer.begin() +
-                                    static_cast<size_t>(batch_index) * static_cast<size_t>(dim));
-                            insert_ids[static_cast<size_t>(batch_index)] =
-                                static_cast<uint32_t>(id_start + static_cast<uint64_t>(batch_index));
+                            const float* src = vector_data + source_index * static_cast<size_t>(dim);
+                            insert_buffer.insert(
+                                insert_buffer.end(),
+                                src,
+                                src + static_cast<size_t>(dim));
+                            insert_ids.push_back(static_cast<uint32_t>(id_start + static_cast<uint64_t>(batch_index)));
+                        }
+                        if (insert_ids.empty()) {
+                            break;
                         }
                         index->insert(insert_buffer, insert_ids);
                         const double latency =
                             std::chrono::duration<double>(std::chrono::steady_clock::now() - op_start).count();
-                        phase_write_vectors.fetch_add(static_cast<uint64_t>(insert_batch_size));
+                        phase_write_vectors.fetch_add(static_cast<uint64_t>(insert_ids.size()));
                         phase_write_batches.fetch_add(1);
                         if (collect_stats) {
                             result.stat->addOperation(
                                 OperationType::WRITE,
                                 latency,
-                                static_cast<uint64_t>(insert_batch_size));
+                                static_cast<uint64_t>(insert_ids.size()));
                         }
                     }
                 }

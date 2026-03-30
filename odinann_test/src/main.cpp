@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto index = std::make_shared<OdinANNIndex>(it->second);
+    auto index = std::make_shared<OdinANNIndex>(it->second, config_file);
     VectorTest vector_test(config_file, index);
     (void) vector_test;
 
