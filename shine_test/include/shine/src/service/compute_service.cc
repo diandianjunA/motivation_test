@@ -84,7 +84,9 @@ ComputeService<Distance>::ComputeService(const Configuration& config, bool shutd
     std::lock_guard<std::mutex> lock(routing_mutex_);
     routing_centroids_.assign(cm_.num_total_clients, vec<element_t>{});
     routing_inflight_.assign(cm_.num_total_clients, 0);
-    routing_centroids_[cm_.client_id] = compute_local_routing_centroid();
+    if (routing_enabled()) {
+      routing_centroids_[cm_.client_id] = compute_local_routing_centroid();
+    }
   }
 
   start_workers();
@@ -118,8 +120,9 @@ size_t ComputeService<Distance>::insert(const vec<InsertItem>& batch) {
   }
 
   size_t inserted = 0;
-  for (auto& future : futures) {
-    if (future.get()) {
+  for (size_t i = 0; i < futures.size(); ++i) {
+    const bool ok = futures[i].get();
+    if (ok) {
       ++inserted;
     }
   }
@@ -227,7 +230,7 @@ bool ComputeService<Distance>::load_index(const std::string& path, str* error_me
     }
   }
 
-  {
+  if (routing_enabled()) {
     std::lock_guard<std::mutex> lock(routing_mutex_);
     routing_centroids_[cm_.client_id] = compute_local_routing_centroid();
   }
@@ -283,7 +286,6 @@ template <class Distance>
 vec<element_t> ComputeService<Distance>::compute_local_routing_centroid() const {
   vec<element_t> centroid(config_.dim, 0.0f);
   auto& thread = compute_threads()[0];
-  thread->reset();
   thread->set_current_coroutine(0);
 
   RemotePtr ep_ptr;
@@ -301,8 +303,6 @@ vec<element_t> ComputeService<Distance>::compute_local_routing_centroid() const 
       centroid[i] = entry_point->components()[i];
     }
   }
-
-  thread->reset();
   return centroid;
 }
 
