@@ -99,6 +99,7 @@ private:
   bool routing_enabled() const;
   size_t rpc_message_size() const;
   vec<element_t> compute_local_routing_centroid() const;
+  void repair_entry_point_state();
   void start_rpc();
   void stop_rpc();
   void pause_rpc();
