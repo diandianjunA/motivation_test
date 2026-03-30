@@ -1,0 +1,84 @@
+nohup: ignoring input
+[SHINE Offline Builder] 参数:
+  数据路径:     /data/xjs/random_dataset/1024dim5M
+  输出前缀:     /data/xjs/index/shine_index/1024dim5M
+  Memory 节点:  1
+  线程数:       0
+  M:            40
+  efc:          220
+  最大向量数:   7500000
+  内积距离:     false
+
+reading dataset "/data/xjs/random_dataset/1024dim5M/base.fbin" (dim=1024, vectors=5000000/5000000)
+Reading dataset 5% (258048/5000000) elapsed 0s
+Reading dataset 10% (524288/5000000) elapsed 1s
+Reading dataset 15% (794624/5000000) elapsed 2s
+Reading dataset 21% (1069056/5000000) elapsed 3s
+Reading dataset 25% (1257472/5000000) elapsed 3s
+Reading dataset 30% (1538048/5000000) elapsed 4s
+Reading dataset 36% (1818624/5000000) elapsed 5s
+Reading dataset 40% (2004992/5000000) elapsed 5s
+Reading dataset 45% (2283520/5000000) elapsed 6s
+Reading dataset 51% (2564096/5000000) elapsed 7s
+Reading dataset 55% (2752512/5000000) elapsed 7s
+Reading dataset 60% (3026944/5000000) elapsed 8s
+Reading dataset 66% (3301376/5000000) elapsed 9s
+Reading dataset 71% (3579904/5000000) elapsed 9s
+Reading dataset 75% (3764224/5000000) elapsed 10s
+Reading dataset 80% (4038656/5000000) elapsed 11s
+Reading dataset 86% (4317184/5000000) elapsed 11s
+Reading dataset 91% (4589568/5000000) elapsed 12s
+Reading dataset 95% (4765696/5000000) elapsed 13s
+Reading dataset 100% (5000000/5000000) elapsed 13s done
+output prefix: "/data/xjs/index/shine_index/1024dim5M"
+memory nodes: 1
+threads: 112
+Building HNSW graph 1% (99428/5000000) elapsed 15s
+Building HNSW graph 3% (179251/5000000) elapsed 30s
+Building HNSW graph 5% (251101/5000000) elapsed 42s
+Building HNSW graph 7% (352213/5000000) elapsed 57s
+Building HNSW graph 9% (466117/5000000) elapsed 1m12s
+Building HNSW graph 10% (500766/5000000) elapsed 1m16s
+Building HNSW graph 12% (632616/5000000) elapsed 1m31s
+Building HNSW graph 15% (751973/5000000) elapsed 1m43s
+Building HNSW graph 18% (917435/5000000) elapsed 1m58s
+Building HNSW graph 20% (1001368/5000000) elapsed 2m5s
+Building HNSW graph 24% (1215388/5000000) elapsed 2m20s
+Building HNSW graph 25% (1250240/5000000) elapsed 2m22s
+Building HNSW graph 29% (1487736/5000000) elapsed 2m37s
+Building HNSW graph 30% (1504077/5000000) elapsed 2m38s
+Building HNSW graph 35% (1754113/5000000) elapsed 2m53s
+Building HNSW graph 40% (2001051/5000000) elapsed 3m7s
+Building HNSW graph 45% (2250163/5000000) elapsed 3m21s
+Building HNSW graph 50% (2502153/5000000) elapsed 3m34s
+Building HNSW graph 55% (2752329/5000000) elapsed 3m47s
+Building HNSW graph 60% (3004083/5000000) elapsed 4m1s
+Building HNSW graph 65% (3250622/5000000) elapsed 4m13s
+Building HNSW graph 70% (3500981/5000000) elapsed 4m26s
+Building HNSW graph 75% (3751656/5000000) elapsed 4m39s
+Building HNSW graph 80% (4000248/5000000) elapsed 4m52s
+Building HNSW graph 85% (4250385/5000000) elapsed 5m5s
+Building HNSW graph 90% (4502541/5000000) elapsed 5m18s
+Building HNSW graph 95% (4751562/5000000) elapsed 5m31s
+Building HNSW graph 100% (5000000/5000000) elapsed 5m45s done
+Exporting SHINE shards 6% (309655/5000001) elapsed 12s
+Exporting SHINE shards 11% (580635/5000001) elapsed 13s
+Exporting SHINE shards 15% (780333/5000001) elapsed 13s
+Exporting SHINE shards 21% (1074693/5000001) elapsed 14s
+Exporting SHINE shards 25% (1274575/5000001) elapsed 14s
+Exporting SHINE shards 31% (1576455/5000001) elapsed 15s
+Exporting SHINE shards 35% (1784463/5000001) elapsed 16s
+Exporting SHINE shards 41% (2081443/5000001) elapsed 16s
+Exporting SHINE shards 45% (2285435/5000001) elapsed 16s
+Exporting SHINE shards 53% (2683663/5000001) elapsed 17s
+Exporting SHINE shards 57% (2895091/5000001) elapsed 17s
+Exporting SHINE shards 61% (3095121/5000001) elapsed 17s
+Exporting SHINE shards 66% (3304098/5000001) elapsed 18s
+Exporting SHINE shards 70% (3515627/5000001) elapsed 18s
+Exporting SHINE shards 78% (3936530/5000001) elapsed 18s
+Exporting SHINE shards 83% (4168805/5000001) elapsed 19s
+Exporting SHINE shards 87% (4397238/5000001) elapsed 19s
+Exporting SHINE shards 92% (4629019/5000001) elapsed 19s
+Exporting SHINE shards 97% (4863606/5000001) elapsed 19s
+Exporting SHINE shards 100% (5000001/5000001) elapsed 34s done
+offline build finished in 383.315 seconds

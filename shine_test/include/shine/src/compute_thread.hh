@@ -30,6 +30,10 @@ public:
         cache(cache),
         post_balances(num_coroutines),
         max_send_queue_wr_(max_send_queue_wr) {
+    for (auto& balance : post_balances) {
+      balance.store(0, std::memory_order_relaxed);
+    }
+
     // allocate single pointer slot (for RDMA requests) per coroutine
     for (idx_t i = 0; i < num_coroutines; ++i) {
       pointer_slots_.push_back(buffer_allocator.allocate_pointer());
@@ -52,6 +56,9 @@ public:
 
     running_coroutine_ = 0;
     coroutines.clear();
+    for (auto& balance : post_balances) {
+      balance.store(0, std::memory_order_relaxed);
+    }
   }
 
   u32 get_random_memory_node() { return dist_(generator_); }

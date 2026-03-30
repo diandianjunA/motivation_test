@@ -1,7 +1,6 @@
 #pragma once
 
 #include <atomic>
-#include <chrono>
 #include <future>
 #include <thread>
 
@@ -17,10 +16,6 @@ struct InsertRequest {
   std::promise<bool> result;
 };
 
-struct InsertBatch {
-  vec<InsertRequest*> requests;
-};
-
 struct QueryRequest {
   vec<element_t> components;
   u32 k;
@@ -28,12 +23,17 @@ struct QueryRequest {
 };
 
 using InsertQueue = concurrent_queue<InsertRequest*>;
-using InsertBatchQueue = concurrent_queue<InsertBatch*>;
 using QueryQueue = concurrent_queue<QueryRequest*>;
 
 static HNSWCoroutine dummy_service_coroutine() {
   co_return;
 }
+
+enum class ServiceRequestKind : u8 {
+  none = 0,
+  insert = 1,
+  query = 2,
+};
 
 inline void reset_service_coroutine_state(HNSWCoroutine& coroutine) {
   coroutine.cached_ep_ptr = {};
@@ -48,96 +48,14 @@ inline void reset_service_coroutine_state(HNSWCoroutine& coroutine) {
  * When shutdown is set, drains remaining work and exits.
  */
 template <class Distance>
-void service_build_insert_batches(InsertQueue& request_queue,
-                                  InsertBatchQueue& batch_queue,
-                                  std::atomic<bool>& shutdown,
-                                  u32 max_batch_size,
-                                  std::chrono::microseconds max_batch_wait,
-                                  std::atomic<bool>& paused,
-                                  std::atomic<u32>& idle_count,
-                                  std::atomic<u32>& completed_batchers) {
-  vec<InsertRequest*> pending;
-  pending.reserve(max_batch_size);
-
-  auto first_enqueue = std::chrono::steady_clock::time_point{};
-  const auto flush_batch = [&]() {
-    if (pending.empty()) return;
-    auto* batch = new InsertBatch{};
-    batch->requests = std::move(pending);
-    pending.clear();
-    pending.reserve(max_batch_size);
-    first_enqueue = {};
-    batch_queue.enqueue(batch);
-  };
-
-  for (;;) {
-    bool did_work = false;
-
-    const bool paused_now = paused.load(std::memory_order_relaxed);
-    const bool shutting_down = shutdown.load(std::memory_order_relaxed);
-
-    if (!paused_now || shutting_down) {
-      InsertRequest* request = nullptr;
-      while (pending.size() < max_batch_size && request_queue.try_dequeue(request)) {
-        if (pending.empty()) {
-          first_enqueue = std::chrono::steady_clock::now();
-        }
-        pending.push_back(request);
-        did_work = true;
-      }
-
-      if (pending.size() >= max_batch_size) {
-        flush_batch();
-        did_work = true;
-      } else if (!pending.empty() && std::chrono::steady_clock::now() - first_enqueue >= max_batch_wait) {
-        flush_batch();
-        did_work = true;
-      }
-    }
-
-    if (shutting_down) {
-      InsertRequest* request = nullptr;
-      while (request_queue.try_dequeue(request)) {
-        if (pending.empty()) {
-          first_enqueue = std::chrono::steady_clock::now();
-        }
-        pending.push_back(request);
-        if (pending.size() >= max_batch_size) {
-          flush_batch();
-        }
-      }
-      flush_batch();
-      completed_batchers.fetch_add(1, std::memory_order_acq_rel);
-      break;
-    }
-
-    if (paused_now) {
-      flush_batch();
-      idle_count.fetch_add(1, std::memory_order_release);
-      while (paused.load(std::memory_order_relaxed) && !shutdown.load(std::memory_order_relaxed)) {
-        std::this_thread::yield();
-      }
-      idle_count.fetch_sub(1, std::memory_order_release);
-      continue;
-    }
-
-    if (!did_work) {
-      std::this_thread::yield();
-    }
-  }
-}
-
-template <class Distance>
 void service_schedule_inserts(hnsw::HNSW<Distance>& hnsw,
-                              InsertBatchQueue& queue,
+                              InsertQueue& queue,
                               std::atomic<bool>& shutdown,
                               u32 num_coroutines,
                               const u_ptr<ComputeThread>& thread,
                               u32 dim,
                               std::atomic<bool>& paused,
-                              std::atomic<u32>& idle_count,
-                              u32 total_batchers,
-                              std::atomic<u32>& completed_batchers) {
+                              std::atomic<u32>& idle_count) {
   thread->reset();
   // per-coroutine staging database: each coroutine gets one slot
   io::Database<element_t> staging;
@@ -145,8 +63,6 @@ void service_schedule_inserts(hnsw::HNSW<Distance>& hnsw,
 
   // per-coroutine promise tracking
   vec<InsertRequest*> active_requests(num_coroutines, nullptr);
-  InsertBatch* current_batch = nullptr;
-  idx_t next_request_idx = 0;
 
   // initialize coroutines
   thread->coroutines.reserve(num_coroutines);
@@ -170,14 +86,10 @@ void service_schedule_inserts(hnsw::HNSW<Distance>& hnsw,
           active_requests[cid] = nullptr;
         }
 
-        if (!current_batch) {
-          queue.try_dequeue(current_batch);
-          next_request_idx = 0;
-        }
-
-        if (current_batch && next_request_idx < current_batch->requests.size()) {
+        // try to dequeue a new insert request
+        InsertRequest* req = nullptr;
+        if (queue.try_dequeue(req)) {
           all_idle = false;
-          InsertRequest* req = current_batch->requests[next_request_idx++];
 
           // copy vector into staging buffer
           auto slot_components = staging.get_components(cid);
@@ -200,34 +112,9 @@ void service_schedule_inserts(hnsw::HNSW<Distance>& hnsw,
       }
     }
 
-    if (current_batch) {
-      bool batch_complete = next_request_idx >= current_batch->requests.size();
-      if (batch_complete) {
-        batch_complete = std::all_of(active_requests.begin(), active_requests.end(), [](const auto* request) {
-          return request == nullptr;
-        });
-      }
-
-      if (batch_complete) {
-        delete current_batch;
-        current_batch = nullptr;
-        next_request_idx = 0;
-      } else {
-        all_idle = false;
-      }
-    }
-
     if (all_idle) {
-      if (shutdown.load(std::memory_order_relaxed) && !current_batch) {
-        InsertBatch* shutdown_batch = nullptr;
-        if (queue.try_dequeue(shutdown_batch)) {
-          current_batch = shutdown_batch;
-          next_request_idx = 0;
-          continue;
-        }
-        if (completed_batchers.load(std::memory_order_acquire) >= total_batchers) {
-          break;
-        }
+      if (shutdown.load(std::memory_order_relaxed)) {
+        break;
       }
       if (paused.load(std::memory_order_relaxed)) {
         idle_count.fetch_add(1, std::memory_order_release);
@@ -248,7 +135,6 @@ void service_schedule_inserts(hnsw::HNSW<Distance>& hnsw,
     }
     coroutine->handle.destroy();
   }
-  delete current_batch;
 }
 
 /**
@@ -348,6 +234,139 @@ void service_schedule_queries(hnsw::HNSW<Distance>& hnsw,
   }
 
   // cleanup coroutines
+  for (const auto& coroutine : thread->coroutines) {
+    coroutine->handle.destroy();
+  }
+}
+
+/**
+ * Unified service scheduler. Every worker can execute inserts and queries.
+ * This matches the original shine-hnsw-index model more closely than a fixed
+ * one-writer / N-query split: all workers share the same queues and pick the
+ * next available operation when a coroutine slot becomes free.
+ */
+template <class Distance>
+void service_schedule_mixed(hnsw::HNSW<Distance>& hnsw,
+                            InsertQueue& insert_queue,
+                            QueryQueue& query_queue,
+                            std::atomic<bool>& shutdown,
+                            u32 num_coroutines,
+                            const u_ptr<ComputeThread>& thread,
+                            u32 dim,
+                            std::atomic<bool>& paused,
+                            std::atomic<u32>& idle_count) {
+  thread->reset();
+
+  io::Database<element_t> staging;
+  staging.allocate(dim, num_coroutines);
+
+  vec<ServiceRequestKind> active_kinds(num_coroutines, ServiceRequestKind::none);
+  vec<InsertRequest*> active_insert_requests(num_coroutines, nullptr);
+  vec<QueryRequest*> active_query_requests(num_coroutines, nullptr);
+  vec<node_t> slot_ids(num_coroutines);
+  for (u32 i = 0; i < num_coroutines; ++i) {
+    slot_ids[i] = i;
+  }
+
+  thread->coroutines.reserve(num_coroutines);
+  for (u32 i = 0; i < num_coroutines; ++i) {
+    thread->coroutines.emplace_back(std::make_unique<HNSWCoroutine>(dummy_service_coroutine()));
+    thread->set_current_coroutine(i);
+    thread->coroutines.back()->handle.resume();
+  }
+
+  bool prefer_insert = true;
+
+  for (;;) {
+    bool all_idle = true;
+
+    for (u32 cid = 0; cid < thread->coroutines.size(); ++cid) {
+      auto& coroutine = *thread->coroutines[cid];
+      thread->poll_cq();
+
+      if (coroutine.handle.done()) {
+        if (active_kinds[cid] == ServiceRequestKind::insert && active_insert_requests[cid]) {
+          active_insert_requests[cid]->result.set_value(true);
+          active_insert_requests[cid] = nullptr;
+          active_kinds[cid] = ServiceRequestKind::none;
+        } else if (active_kinds[cid] == ServiceRequestKind::query && active_query_requests[cid]) {
+          node_t q_id = slot_ids[cid];
+          auto it = thread->query_results.find(q_id);
+          if (it != thread->query_results.end()) {
+            active_query_requests[cid]->result.set_value(std::move(it->second));
+            thread->query_results.erase(it);
+          } else {
+            active_query_requests[cid]->result.set_value(vec<node_t>{});
+          }
+          active_query_requests[cid] = nullptr;
+          active_kinds[cid] = ServiceRequestKind::none;
+        }
+
+        InsertRequest* insert_req = nullptr;
+        QueryRequest* query_req = nullptr;
+
+        bool got_work = false;
+        if (prefer_insert) {
+          got_work = insert_queue.try_dequeue(insert_req);
+          if (!got_work) {
+            got_work = query_queue.try_dequeue(query_req);
+          }
+        } else {
+          got_work = query_queue.try_dequeue(query_req);
+          if (!got_work) {
+            got_work = insert_queue.try_dequeue(insert_req);
+          }
+        }
+
+        if (got_work) {
+          all_idle = false;
+          auto slot_components = staging.get_components(cid);
+
+          coroutine.handle.destroy();
+          reset_service_coroutine_state(coroutine);
+          thread->set_current_coroutine(cid);
+
+          if (insert_req) {
+            std::copy(insert_req->components.begin(), insert_req->components.end(), slot_components.begin());
+            staging.set_id(cid, insert_req->id);
+            active_kinds[cid] = ServiceRequestKind::insert;
+            active_insert_requests[cid] = insert_req;
+            coroutine.handle = hnsw.insert(insert_req->id, slot_components, thread).handle;
+            prefer_insert = false;
+          } else {
+            std::copy(query_req->components.begin(), query_req->components.end(), slot_components.begin());
+            active_kinds[cid] = ServiceRequestKind::query;
+            active_query_requests[cid] = query_req;
+            coroutine.handle = hnsw.knn(slot_ids[cid], slot_components, thread).handle;
+            prefer_insert = true;
+          }
+        }
+
+      } else if (thread->is_ready(cid)) {
+        all_idle = false;
+        thread->set_current_coroutine(cid);
+        coroutine.handle.resume();
+      } else {
+        all_idle = false;
+      }
+    }
+
+    if (all_idle) {
+      if (shutdown.load(std::memory_order_relaxed)) {
+        break;
+      }
+      if (paused.load(std::memory_order_relaxed)) {
+        idle_count.fetch_add(1, std::memory_order_release);
+        while (paused.load(std::memory_order_relaxed)) {
+          std::this_thread::yield();
+        }
+        idle_count.fetch_sub(1, std::memory_order_release);
+        continue;
+      }
+      std::this_thread::yield();
+    }
+  }
+
   for (const auto& coroutine : thread->coroutines) {
     coroutine->handle.destroy();
   }

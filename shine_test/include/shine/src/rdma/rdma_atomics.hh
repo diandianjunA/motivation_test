@@ -49,12 +49,19 @@ inline auto try_lock_node(const RemotePtr& rptr,
 inline MinorCoroutine spinlock_node(const s_ptr<Node>& node, const u_ptr<ComputeThread>& thread) {
   bool success;
   u64 original_header;
+  u64 attempts = 0;
 
   do {
     std::tie(success, original_header) = co_await try_lock_node(node->rptr, node->header(), false, thread);
     node->header() =
       original_header;  // update header, otherwise we could end up in an infinity loop because node becomes entry node
                         // (might occur when the node is concurrently inserted). Btw, try_lock_node unsets the lock bit
+    ++attempts;
+    // if (!success && attempts % 100000 == 0) {
+    //   std::cerr << "[spinlock_node] thread=" << thread->get_id() << " attempts=" << attempts
+    //             << " node_id=" << node->id() << " rptr=" << node->rptr
+    //             << " header=0x" << std::hex << original_header << std::dec << std::endl;
+    // }
   } while (!success);
 
   node->set_lock();
@@ -69,6 +76,7 @@ inline MinorCoroutine lock_and_update_entry_point(RemotePtr& ep_ptr,
                                                   const u_ptr<ComputeThread>& thread) {
   bool success;
   u64 original_header;
+  u64 attempts = 0;
 
   do {
     while (!entry_point->is_entry_node()) {
@@ -80,6 +88,12 @@ inline MinorCoroutine lock_and_update_entry_point(RemotePtr& ep_ptr,
 
     std::tie(success, original_header) = co_await try_lock_node(ep_ptr, entry_point->header(), true, thread);
     entry_point->header() = original_header;  // update header
+    ++attempts;
+    if (!success && attempts % 100000 == 0) {
+      std::cerr << "[lock_entry_point] thread=" << thread->get_id() << " attempts=" << attempts
+                << " entry_id=" << entry_point->id() << " rptr=" << ep_ptr
+                << " header=0x" << std::hex << original_header << std::dec << std::endl;
+    }
   } while (!success);
 
   entry_point->set_new_level_lock();  // CAS sets the header to the expected header (without lock)
