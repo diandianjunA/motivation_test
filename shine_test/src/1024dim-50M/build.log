@@ -1,0 +1,21 @@
+nohup: ignoring input
+[SHINE Offline Builder] 参数:
+  数据路径:     /data/xjs/random_dataset/1024dim50M/base.fbin
+  输出前缀:     /data/xjs/index/shine_index/1024dim50M
+  Memory 节点:  1
+  线程数:       0
+  M:            64
+  efc:          320
+  最大向量数:   75000000
+  内积距离:     false
+
+reading dataset "/data/xjs/random_dataset/1024dim50M/base.fbin" (dim=1024, vectors=50000000/50000000)
+Reading dataset 5% (2535424/50000000) elapsed 13s
+Reading dataset 10% (5033984/50000000) elapsed 28s
+Reading dataset 15% (7518208/50000000) elapsed 40s
+Reading dataset 20% (10031104/50000000) elapsed 48s
+Reading dataset 24% (12322816/50000000) elapsed 1m3s
+Reading dataset 25% (12527616/50000000) elapsed 1m4s
+Reading dataset 30% (15015936/50000000) elapsed 1m19s
+Reading dataset 35% (17500160/50000000) elapsed 1m34s
+Reading dataset 40% (20002816/50000000) elapsed 1m49s
