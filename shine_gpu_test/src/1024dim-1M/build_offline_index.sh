@@ -24,15 +24,15 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BINARY="$PROJECT_DIR/build/shine_offline_builder"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+BINARY="$PROJECT_DIR/bin/shine_offline_builder"
 
-DATA_PATH="${DATA_PATH:-/data/xjs/random_dataset/1024dim100K}"
-OUTPUT_PREFIX="${OUTPUT_PREFIX:-/data/xjs/index/1024dim100K}"
+DATA_PATH="${DATA_PATH:-/data/xjs/random_dataset/1024dim1M}"
+OUTPUT_PREFIX="${OUTPUT_PREFIX:-/data/xjs/index/shine_gpu_index/1024dim1M}"
 MEMORY_NODES="${MEMORY_NODES:-1}"
 THREADS="${THREADS:-0}"
 M="${M:-32}"
-EF_CONSTRUCTION="${EF_CONSTRUCTION:-200}"
+EF_CONSTRUCTION="${EF_CONSTRUCTION:-150}"
 MAX_VECTORS="${MAX_VECTORS:-4294967295}"
 RESERVE_VECTORS="${RESERVE_VECTORS:-0}"
 SEED="${SEED:-1234}"

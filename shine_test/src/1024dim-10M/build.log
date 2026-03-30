@@ -1,0 +1,157 @@
+nohup: ignoring input
+[SHINE Offline Builder] 参数:
+  数据路径:     /data/xjs/random_dataset/1024dim10M
+  输出前缀:     /data/xjs/index/shine_index/1024dim10M
+  Memory 节点:  1
+  线程数:       32
+  M:            48
+  efc:          260
+  最大向量数:   15000000
+  内积距离:     false
+
+reading dataset "/data/xjs/random_dataset/1024dim10M/base.fbin" (dim=1024, vectors=10000000/10000000)
+Reading dataset 5% (573440/10000000) elapsed 0s
+Reading dataset 10% (1079296/10000000) elapsed 2s
+Reading dataset 15% (1587200/10000000) elapsed 3s
+Reading dataset 20% (2007040/10000000) elapsed 4s
+Reading dataset 25% (2582528/10000000) elapsed 5s
+Reading dataset 30% (3028992/10000000) elapsed 6s
+Reading dataset 35% (3508224/10000000) elapsed 8s
+Reading dataset 40% (4052992/10000000) elapsed 10s
+Reading dataset 47% (4773888/10000000) elapsed 10s
+Reading dataset 50% (5091328/10000000) elapsed 11s
+Reading dataset 56% (5679104/10000000) elapsed 11s
+Reading dataset 62% (6268928/10000000) elapsed 12s
+Reading dataset 65% (6565888/10000000) elapsed 12s
+Reading dataset 71% (7155712/10000000) elapsed 12s
+Reading dataset 77% (7747584/10000000) elapsed 13s
+Reading dataset 80% (8046592/10000000) elapsed 13s
+Reading dataset 86% (8636416/10000000) elapsed 14s
+Reading dataset 92% (9224192/10000000) elapsed 14s
+Reading dataset 95% (9521152/10000000) elapsed 14s
+Reading dataset 100% (10000000/10000000) elapsed 15s done
+output prefix: "/data/xjs/index/shine_index/1024dim10M"
+memory nodes: 1
+threads: 32
+Building HNSW graph 0% (57021/10000000) elapsed 15s
+Building HNSW graph 0% (96218/10000000) elapsed 30s
+Building HNSW graph 1% (134020/10000000) elapsed 45s
+Building HNSW graph 1% (172238/10000000) elapsed 1m0s
+Building HNSW graph 2% (210753/10000000) elapsed 1m15s
+Building HNSW graph 2% (251841/10000000) elapsed 1m30s
+Building HNSW graph 2% (294384/10000000) elapsed 1m45s
+Building HNSW graph 3% (336811/10000000) elapsed 2m0s
+Building HNSW graph 3% (377259/10000000) elapsed 2m15s
+Building HNSW graph 4% (418894/10000000) elapsed 2m30s
+Building HNSW graph 4% (461688/10000000) elapsed 2m45s
+Building HNSW graph 5% (500596/10000000) elapsed 2m58s
+Building HNSW graph 5% (544924/10000000) elapsed 3m13s
+Building HNSW graph 5% (588767/10000000) elapsed 3m28s
+Building HNSW graph 6% (632010/10000000) elapsed 3m43s
+Building HNSW graph 6% (676496/10000000) elapsed 3m58s
+Building HNSW graph 7% (722443/10000000) elapsed 4m13s
+Building HNSW graph 7% (768964/10000000) elapsed 4m28s
+Building HNSW graph 8% (816557/10000000) elapsed 4m43s
+Building HNSW graph 8% (866190/10000000) elapsed 4m58s
+Building HNSW graph 9% (916207/10000000) elapsed 5m13s
+Building HNSW graph 9% (967062/10000000) elapsed 5m28s
+Building HNSW graph 10% (1000183/10000000) elapsed 5m38s
+Building HNSW graph 10% (1051520/10000000) elapsed 5m53s
+Building HNSW graph 11% (1105142/10000000) elapsed 6m8s
+Building HNSW graph 11% (1160427/10000000) elapsed 6m23s
+Building HNSW graph 12% (1215568/10000000) elapsed 6m38s
+Building HNSW graph 12% (1272149/10000000) elapsed 6m53s
+Building HNSW graph 13% (1330080/10000000) elapsed 7m8s
+Building HNSW graph 13% (1389499/10000000) elapsed 7m23s
+Building HNSW graph 14% (1447838/10000000) elapsed 7m38s
+Building HNSW graph 15% (1501055/10000000) elapsed 7m51s
+Building HNSW graph 15% (1561788/10000000) elapsed 8m6s
+Building HNSW graph 16% (1625655/10000000) elapsed 8m21s
+Building HNSW graph 16% (1692791/10000000) elapsed 8m36s
+Building HNSW graph 17% (1761571/10000000) elapsed 8m51s
+Building HNSW graph 18% (1832453/10000000) elapsed 9m6s
+Building HNSW graph 19% (1904230/10000000) elapsed 9m21s
+Building HNSW graph 19% (1979211/10000000) elapsed 9m36s
+Building HNSW graph 20% (2000858/10000000) elapsed 9m40s
+Building HNSW graph 20% (2077705/10000000) elapsed 9m55s
+Building HNSW graph 21% (2155637/10000000) elapsed 10m10s
+Building HNSW graph 22% (2238017/10000000) elapsed 10m25s
+Building HNSW graph 23% (2322000/10000000) elapsed 10m40s
+Building HNSW graph 24% (2411883/10000000) elapsed 10m55s
+Building HNSW graph 25% (2500416/10000000) elapsed 11m10s
+Building HNSW graph 25% (2595575/10000000) elapsed 11m25s
+Building HNSW graph 26% (2693383/10000000) elapsed 11m40s
+Building HNSW graph 27% (2793070/10000000) elapsed 11m55s
+Building HNSW graph 28% (2899827/10000000) elapsed 12m10s
+Building HNSW graph 30% (3001367/10000000) elapsed 12m24s
+Building HNSW graph 31% (3107822/10000000) elapsed 12m39s
+Building HNSW graph 32% (3216234/10000000) elapsed 12m54s
+Building HNSW graph 33% (3328375/10000000) elapsed 13m9s
+Building HNSW graph 34% (3442545/10000000) elapsed 13m24s
+Building HNSW graph 35% (3500977/10000000) elapsed 13m32s
+Building HNSW graph 36% (3620431/10000000) elapsed 13m47s
+Building HNSW graph 37% (3743508/10000000) elapsed 14m2s
+Building HNSW graph 38% (3869648/10000000) elapsed 14m17s
+Building HNSW graph 40% (4000153/10000000) elapsed 14m31s
+Building HNSW graph 41% (4141679/10000000) elapsed 14m46s
+Building HNSW graph 42% (4288480/10000000) elapsed 15m1s
+Building HNSW graph 44% (4440973/10000000) elapsed 15m16s
+Building HNSW graph 45% (4502011/10000000) elapsed 15m22s
+Building HNSW graph 46% (4657024/10000000) elapsed 15m37s
+Building HNSW graph 48% (4813889/10000000) elapsed 15m52s
+Building HNSW graph 49% (4975657/10000000) elapsed 16m7s
+Building HNSW graph 50% (5002506/10000000) elapsed 16m9s
+Building HNSW graph 51% (5166710/10000000) elapsed 16m24s
+Building HNSW graph 53% (5333668/10000000) elapsed 16m39s
+Building HNSW graph 55% (5500165/10000000) elapsed 16m54s
+Building HNSW graph 56% (5675174/10000000) elapsed 17m9s
+Building HNSW graph 58% (5847335/10000000) elapsed 17m24s
+Building HNSW graph 60% (6000672/10000000) elapsed 17m37s
+Building HNSW graph 61% (6175705/10000000) elapsed 17m52s
+Building HNSW graph 63% (6351860/10000000) elapsed 18m7s
+Building HNSW graph 65% (6500849/10000000) elapsed 18m20s
+Building HNSW graph 66% (6680156/10000000) elapsed 18m35s
+Building HNSW graph 68% (6861822/10000000) elapsed 18m50s
+Building HNSW graph 70% (7002925/10000000) elapsed 19m1s
+Building HNSW graph 71% (7183873/10000000) elapsed 19m16s
+Building HNSW graph 73% (7365854/10000000) elapsed 19m31s
+Building HNSW graph 75% (7501544/10000000) elapsed 19m42s
+Building HNSW graph 76% (7686470/10000000) elapsed 19m57s
+Building HNSW graph 78% (7868497/10000000) elapsed 20m13s
+Building HNSW graph 80% (8002167/10000000) elapsed 20m23s
+Building HNSW graph 81% (8186387/10000000) elapsed 20m38s
+Building HNSW graph 83% (8367697/10000000) elapsed 20m53s
+Building HNSW graph 85% (8501901/10000000) elapsed 21m4s
+Building HNSW graph 86% (8686393/10000000) elapsed 21m19s
+Building HNSW graph 88% (8870691/10000000) elapsed 21m34s
+Building HNSW graph 90% (9002828/10000000) elapsed 21m45s
+Building HNSW graph 91% (9183524/10000000) elapsed 22m0s
+Building HNSW graph 93% (9365443/10000000) elapsed 22m15s
+Building HNSW graph 95% (9503011/10000000) elapsed 22m27s
+Building HNSW graph 96% (9687490/10000000) elapsed 22m42s
+Building HNSW graph 98% (9871103/10000000) elapsed 22m57s
+Building HNSW graph 100% (10000000/10000000) elapsed 23m7s done
+Exporting SHINE shards 0% (0/10000001) elapsed 15s
+Exporting SHINE shards 5% (559497/10000001) elapsed 28s
+Exporting SHINE shards 10% (1064074/10000001) elapsed 30s
+Exporting SHINE shards 15% (1517640/10000001) elapsed 32s
+Exporting SHINE shards 20% (2076731/10000001) elapsed 33s
+Exporting SHINE shards 25% (2575478/10000001) elapsed 35s
+Exporting SHINE shards 30% (3066810/10000001) elapsed 36s
+Exporting SHINE shards 35% (3558534/10000001) elapsed 38s
+Exporting SHINE shards 40% (4063752/10000001) elapsed 39s
+Exporting SHINE shards 45% (4571894/10000001) elapsed 41s
+Exporting SHINE shards 50% (5082248/10000001) elapsed 42s
+Exporting SHINE shards 55% (5517968/10000001) elapsed 44s
+Exporting SHINE shards 60% (6044424/10000001) elapsed 45s
+Exporting SHINE shards 65% (6580016/10000001) elapsed 47s
+Exporting SHINE shards 70% (7030983/10000001) elapsed 48s
+Exporting SHINE shards 75% (7541170/10000001) elapsed 49s
+Exporting SHINE shards 80% (8045232/10000001) elapsed 50s
+Exporting SHINE shards 85% (8545051/10000001) elapsed 50s
+Exporting SHINE shards 90% (9046733/10000001) elapsed 51s
+Exporting SHINE shards 95% (9559482/10000001) elapsed 52s
+Exporting SHINE shards 99% (10000000/10000001) elapsed 1m7s
+Exporting SHINE shards 99% (10000000/10000001) elapsed 1m22s
+Exporting SHINE shards 100% (10000001/10000001) elapsed 1m31s done
+offline build finished in 1486.39 seconds

@@ -145,7 +145,7 @@ namespace data_structs {
 
 			cg::coalesced_group full_warp_team = cg::coalesced_threads();
 
-   		 	cg::coalesced_group coalesced_team = cg::labeled_partition(full_warp_team, hash);
+   		 	cg::coalesced_group coalesced_team = labeled_partition(full_warp_team, hash);
 
 			return (directory[hash].bulk_insert(coalesced_team, packed_pair) != ~0ULL);
 

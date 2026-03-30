@@ -55,7 +55,7 @@ template<>
 __device__ __inline__ bool typed_atomic_write<uint16_t>(uint16_t * backing, uint16_t item, uint16_t replace){
 
 
-  return (gallatin::utils::atomic_cas_uint16(backing, item, replace) == item);
+  return (atomicCAS((unsigned short int *) backing, (unsigned short int) item, (unsigned short int) replace) == item);
 
 }
 
@@ -124,7 +124,7 @@ __device__ __inline__ T typed_atomic_CAS(T * backing, T item, T replace){
 template<>
 __device__ __inline__ uint16_t typed_atomic_CAS<uint16_t>(uint16_t * backing, uint16_t item, uint16_t replace){
 
-  uint16_t result = gallatin::utils::atomic_cas_uint16(backing, item, replace);
+  uint16_t result = atomicCAS((unsigned short int *) backing, (unsigned short int) item, (unsigned short int) replace);
 
   return result;
 
