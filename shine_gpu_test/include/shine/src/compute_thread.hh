@@ -19,6 +19,10 @@ public:
         buffer_allocator(buffer_allocator),
         post_balances(num_coroutines),
         max_send_queue_wr_(max_send_queue_wr) {
+    for (auto& balance : post_balances) {
+      balance.store(0, std::memory_order_relaxed);
+    }
+
     // allocate single pointer slot (for RDMA requests) per coroutine
     for (idx_t i = 0; i < num_coroutines; ++i) {
       pointer_slots_.push_back(buffer_allocator.allocate_pointer());

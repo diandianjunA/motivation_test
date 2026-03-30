@@ -1,6 +1,5 @@
 #pragma once
 
-#include <atomic>
 #include <common/constants.hh>
 #include <mutex>
 #include <random>
@@ -90,14 +89,6 @@ public:
       }
     }
 
-    {
-      auto coro = acquire_entry_point_gate();
-      while (!coro.handle.done()) {
-        co_await std::suspend_always{};
-        coro.handle.resume();
-      }
-    }
-
     // READ and LOCK entry point
     s_ptr<Node> entry_point = co_await rdma::read_node(cached_ep_ptr, thread);
     {
@@ -116,7 +107,6 @@ public:
 
     if (!is_new_level) {
       co_await rdma::unlock_new_level_lock(entry_point, thread);  // release global lock
-      release_entry_point_gate();
     } else {
       new_node_level = top_level + 1;  // make sure to not overshoot
       dbg::print(dbg::stream{} << "T" << thread->get_id() << " will set new level " << new_node_level << "\n");
@@ -252,7 +242,6 @@ public:
       // TODO: combine
       co_await rdma::clear_entry_node_bit(entry_point, thread);  // invalidates caches of other threads
       co_await rdma::unlock_new_level_lock(entry_point, thread);  // releases (global) entry-point lock
-      release_entry_point_gate();
 
       // now another thread T could read the old EP, but it's no longer entry node,
       // hence T reads the EP-pointer again, and maybe repeats
@@ -337,14 +326,6 @@ public:
   }
 
 private:
-  MinorCoroutine acquire_entry_point_gate() const {
-    while (entry_point_gate_.exchange(true, std::memory_order_acq_rel)) {
-      co_await std::suspend_always{};
-    }
-  }
-
-  void release_entry_point_gate() const { entry_point_gate_.store(false, std::memory_order_release); }
-
   /**
    * @brief Traverse the graph down to `target_level`.
    *        Greedily find nearest neighbor (1-NN) of `q` starting from begin_level down to `target_level`.
@@ -585,7 +566,6 @@ private:
   const bool use_cache_;
 
   mutable std::mutex prng_mutex_;
-  mutable std::atomic<bool> entry_point_gate_{false};
   std::mt19937 prng_;
   std::uniform_real_distribution<> uniform_;
 };

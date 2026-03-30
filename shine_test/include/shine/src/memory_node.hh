@@ -54,10 +54,7 @@ class MemoryNode {
 
 public:
   explicit MemoryNode(Configuration& config)
-      : context_(config),
-        cm_(context_, config),
-        num_clients_(config.num_clients),
-        index_region_(context_),
+      : context_(config), cm_(context_, config), num_clients_(config.num_clients), index_region_(context_),
         mn_memory_bytes_(static_cast<u64>(config.mn_memory_gb) * 1073741824ul) {
     cm_.connect_to_clients();
 

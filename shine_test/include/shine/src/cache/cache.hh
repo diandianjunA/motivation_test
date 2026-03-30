@@ -100,27 +100,46 @@ public:
    */
   template <Cacheable T>
   std::optional<s_ptr<T>> get(RemotePtr key) {
-    auto& bucket = cache_[hash(key)];
-    bucket.lock.get_lock();
+    const auto& bucket = cache_[hash(key)];
+    size_t local_restarts = 0;
 
-    auto cache_entry = bucket.head_entry.get();
-    while (cache_entry) {
-      if (cache_entry->key == key) {
-        s_ptr<T> value = cache_entry->value.load(std::memory_order_acquire);
+  retry:
+    if (local_restarts > MAX_LOOKUP_RESTARTS) {
+      return {};
+    }
 
-        if (cache_entry->cooling.load(std::memory_order_acquire) && cooling_table_.remove(key)) {
-          cache_entry->cooling.store(false, std::memory_order_release);
+    auto cache_entry_ptr = bucket.head_entry;
+    while (cache_entry_ptr.get()) {
+      // verify pointer with entry
+      if (cache_entry_ptr.tag() != cache_entry_ptr.get()->tag.load(std::memory_order_acquire)) {
+        ++local_restarts;
+        goto retry;
+      }
+
+      if (cache_entry_ptr.get()->key == key) {
+        s_ptr<T> value = cache_entry_ptr.get()->value.load(std::memory_order_acquire);
+
+        // validate
+        if (cache_entry_ptr.tag() != cache_entry_ptr.get()->tag.load(std::memory_order_acquire)) {
+          ++local_restarts;
+          goto retry;
         }
 
-        bucket.lock.release_lock();
+        if (cache_entry_ptr.get()->cooling) {
+          const bool success = cooling_table_.remove(key);
+
+          if (success) {
+            cache_entry_ptr.get()->cooling = false;
+          }
+        }
+
         lib_assert(value, "cache entry cannot be null");
         return value;
       }
 
-      cache_entry = cache_entry->next.get();
+      cache_entry_ptr = cache_entry_ptr.get()->next;
     }
 
-    bucket.lock.release_lock();
     return {};
   }
 
@@ -168,16 +187,12 @@ public:
       lib_assert(last_bucket, "last bucket cannot be null");
 
       new_entry.get()->key = key;
-      new_entry.get()->next.invalidate();
-      new_entry.get()->cooling.store(false, std::memory_order_release);
       new_entry.get()->update_value(value);
 
       last_bucket->next = new_entry;
 
     } else {
       new_entry.get()->key = key;
-      new_entry.get()->next.invalidate();
-      new_entry.get()->cooling.store(false, std::memory_order_release);
       new_entry.get()->update_value(value);
 
       bucket.head_entry = new_entry;
@@ -188,12 +203,12 @@ public:
   }
 
   bool is_full() {
-    if (is_full_.load(std::memory_order_relaxed)) {
+    if (is_full_) {
       return true;
     }
 
-    if (cache_entry_idx_.load(std::memory_order_relaxed) >= cache_entries_.size()) {
-      is_full_.store(true, std::memory_order_relaxed);
+    if (cache_entry_idx_ >= cache_entries_.size()) {
+      is_full_ = true;
       return true;
     }
 
@@ -238,9 +253,9 @@ private:
       lib_assert(entry.get(), "invalid eviction candidate");
 
       std::optional<RemotePtr> victim;
-      if (not entry.get()->cooling.load(std::memory_order_acquire)) {
+      if (not entry.get()->cooling) {
         victim = cooling_table_.insert(entry.get()->key);
-        entry.get()->cooling.store(true, std::memory_order_release);
+        entry.get()->cooling = true;
       }
 
       bucket.lock.release_lock();
@@ -255,7 +270,7 @@ private:
         // search entry in bucket and remove from linked list
         while (cache_entry_ptr.get()) {
           if (cache_entry_ptr.get()->key == *victim) {
-            if (not cache_entry_ptr.get()->cooling.load(std::memory_order_acquire)) {
+            if (not cache_entry_ptr.get()->cooling) {
               break;
             }
 
@@ -272,8 +287,7 @@ private:
               prev_bucket->next.invalidate();
             }
 
-            lib_assert(cache_entry_ptr.get()->cooling.load(std::memory_order_acquire),
-                       "cannot evict non cooling cache entry");
+            lib_assert(cache_entry_ptr.get()->cooling, "cannot evict non cooling cache entry");
 
             const u16 new_tag = cache_entry_ptr.get()->evict();  // invalidates the actual cache entry (increases tag)
             cache_entry_ptr.update_tag(new_tag);  // only for our local freelist (new valid pointer)
@@ -308,7 +322,7 @@ private:
   std::atomic<idx_t> cache_entry_idx_{0};
 
   vec<vec<tagged_ptr<CacheEntry>>> tl_freelists_;  // thread local references to tagged cache entries
-  std::atomic<bool> is_full_{false};
+  bool is_full_ = false;
 };
 
 }  // namespace cache

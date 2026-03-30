@@ -9,7 +9,6 @@
 #include "common/debug.hh"
 #include "coroutine.hh"
 #include "rdma/rdma_reads.hh"
-#include "rdma/rdma_writes.hh"
 
 namespace {
 
@@ -79,7 +78,6 @@ ComputeService<Distance>::ComputeService(const Configuration& config, bool shutd
   cm_.synchronize();
 
   wait_for_load_or_store();
-  repair_entry_point_state();
   synchronize_clients_after_startup();
 
   {
@@ -232,8 +230,6 @@ bool ComputeService<Distance>::load_index(const std::string& path, str* error_me
     }
   }
 
-  repair_entry_point_state();
-
   if (routing_enabled()) {
     std::lock_guard<std::mutex> lock(routing_mutex_);
     routing_centroids_[cm_.client_id] = compute_local_routing_centroid();
@@ -308,37 +304,6 @@ vec<element_t> ComputeService<Distance>::compute_local_routing_centroid() const 
     }
   }
   return centroid;
-}
-
-template <class Distance>
-void ComputeService<Distance>::repair_entry_point_state() {
-  if (!cm_.is_initiator || cm_.num_total_clients != 1) {
-    return;
-  }
-
-  auto& thread = compute_threads()[0];
-  thread->set_current_coroutine(0);
-
-  RemotePtr ep_ptr;
-  s_ptr<Node> entry_point;
-  auto probe = read_entry_point_probe(ep_ptr, entry_point, thread);
-  while (!probe.handle.done()) {
-    thread->poll_cq();
-    if (thread->is_ready(0)) {
-      probe.handle.resume();
-    }
-  }
-
-  if (!entry_point || (!entry_point->is_locked() && !entry_point->is_new_level_locked())) {
-    return;
-  }
-
-  rdma::write_header(ep_ptr, entry_point->is_entry_node(), false, false, thread);
-  while (!thread->is_ready(0)) {
-    thread->poll_cq();
-  }
-
-  print_status("cleared stale entry-point lock bits at " + std::to_string(ep_ptr.byte_offset()));
 }
 
 template <class Distance>
@@ -491,17 +456,15 @@ void ComputeService<Distance>::start_workers() {
   print_status("starting " + std::to_string(num_threads) + " service worker threads");
   workers_.reserve(num_threads);
 
-  for (u32 tid = 0; tid < num_threads; ++tid) {
+  workers_.emplace_back([this, num_coroutines, dim]() {
+    service::service_schedule_inserts<Distance>(
+      *hnsw_, insert_queue_, shutdown_, num_coroutines, compute_threads()[0], dim, workers_paused_, workers_idle_count_);
+  });
+
+  for (u32 tid = 1; tid < num_threads; ++tid) {
     workers_.emplace_back([this, num_coroutines, dim, tid]() {
-      service::service_schedule_mixed<Distance>(*hnsw_,
-                                                insert_queue_,
-                                                query_queue_,
-                                                shutdown_,
-                                                num_coroutines,
-                                                compute_threads()[tid],
-                                                dim,
-                                                workers_paused_,
-                                                workers_idle_count_);
+      service::service_schedule_queries<Distance>(
+        *hnsw_, query_queue_, shutdown_, num_coroutines, compute_threads()[tid], dim, workers_paused_, workers_idle_count_);
     });
   }
 
