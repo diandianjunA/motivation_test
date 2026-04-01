@@ -15,6 +15,9 @@
 #       --m <n>                    平面图最大出度（默认: 32，必须 <= 128）
 #       --ef-construction <n>      Jasper 构图 beam cap 目标值（默认: 200，会向上取整到支持档位）
 #       --explore-per-iteration <n> Jasper 每轮构图扩展节点数（默认: 4）
+#       --max-batch-size <n>       Jasper 单批构图向量数上限（默认: 4096，越小越稳）
+#       --jasper-rounds <n>        Jasper 全量构图轮数（默认: 1，当前只支持 1）
+#       --random-init <bool>       是否先随机初始化图（默认: false，更稳定）
 #       --max-vectors <n>          最多读取多少条向量
 #       --reserve-vectors <n>      导出索引的总容量，允许 load 后继续在线插入
 #       --seed <n>                 随机种子（默认: 1234）
@@ -37,6 +40,9 @@ MAX_VECTORS="${MAX_VECTORS:-4294967295}"
 RESERVE_VECTORS="${RESERVE_VECTORS:-0}"
 SEED="${SEED:-1234}"
 EXPLORE_PER_ITERATION="${EXPLORE_PER_ITERATION:-4}"
+MAX_BATCH_SIZE="${MAX_BATCH_SIZE:-4096}"
+JASPER_ROUNDS="${JASPER_ROUNDS:-1}"
+RANDOM_INIT="${RANDOM_INIT:-false}"
 
 usage() {
     sed -n '/^# 用法:/,/^# =====/p' "$0" | sed 's/^# \?//'
@@ -52,6 +58,9 @@ while [[ $# -gt 0 ]]; do
         --m)                    M="$2"; shift 2 ;;
         --ef-construction)      EF_CONSTRUCTION="$2"; shift 2 ;;
         --explore-per-iteration) EXPLORE_PER_ITERATION="$2"; shift 2 ;;
+        --max-batch-size)       MAX_BATCH_SIZE="$2"; shift 2 ;;
+        --jasper-rounds)        JASPER_ROUNDS="$2"; shift 2 ;;
+        --random-init)          RANDOM_INIT="$2"; shift 2 ;;
         --max-vectors)          MAX_VECTORS="$2"; shift 2 ;;
         --reserve-vectors)      RESERVE_VECTORS="$2"; shift 2 ;;
         --seed)                 SEED="$2"; shift 2 ;;
@@ -82,6 +91,9 @@ args=(
     --m "$M"
     --ef-construction "$EF_CONSTRUCTION"
     --explore-per-iteration "$EXPLORE_PER_ITERATION"
+    --max-batch-size "$MAX_BATCH_SIZE"
+    --jasper-rounds "$JASPER_ROUNDS"
+    --random-init "$RANDOM_INIT"
     --max-vectors "$MAX_VECTORS"
     --reserve-vectors "$RESERVE_VECTORS"
     --seed "$SEED"
@@ -101,6 +113,9 @@ echo "  线程数:       $THREADS"
 echo "  M:            $M"
 echo "  efc:          $EF_CONSTRUCTION"
 echo "  explore:      $EXPLORE_PER_ITERATION"
+echo "  max batch:    $MAX_BATCH_SIZE"
+echo "  jasper rounds:$JASPER_ROUNDS"
+echo "  random init:  $RANDOM_INIT"
 echo "  最大向量数:   $MAX_VECTORS"
 echo "  预留容量:     $RESERVE_VECTORS"
 echo ""

@@ -20,11 +20,11 @@ void Configuration::create_rdma_options() {
     "Program acts as server if set")(
     "servers",
     po::value<vec<str>>(&server_nodes)->multitoken(),
-    "A list of server nodes to which a client connects, e.g., \"cluster3\"")(
+    "A list of server endpoints to which a client connects, e.g., \"cluster3\" or \"127.0.0.1:1235\"")(
     "clients",
     po::value<vec<str>>(&client_nodes)->multitoken(),
-    "A list of client nodes to which the initiator connects, e.g., "
-    "\"cluster4 cluster5\"")(
+    "A list of client endpoints to which the initiator connects, e.g., "
+    "\"cluster4 cluster5\" or \"127.0.0.1:2234 127.0.0.1:2235\"")(
     "initiator,i",
     po::bool_switch(&is_initiator)->default_value(is_initiator),
     "Program acts as initiating client if set")(

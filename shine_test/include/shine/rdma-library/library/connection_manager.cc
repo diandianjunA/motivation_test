@@ -43,10 +43,10 @@ void ClientConnectionManager::connect() {
 void ClientConnectionManager::connect_among_clients() {
   if (is_initiator) {
     for (const str& node : config_.client_nodes) {
-      std::cerr << "connect to client " << node << std::endl;
+      const auto endpoint = parse_endpoint(node, config_.port);
+      std::cerr << "connect to client " << endpoint.host << ":" << endpoint.port << std::endl;
       // clients act as "server" (they wait for a connection)
-      client_qps.emplace_back(
-        context_.connect_to_server(get_ip(node), config_.port));
+      client_qps.emplace_back(context_.connect_to_server(endpoint.address, endpoint.port));
     }
 
   } else {
@@ -93,9 +93,9 @@ void ClientConnectionManager::distribute_client_ids() {
 
 void ClientConnectionManager::connect_to_servers() {
   for (const str& node : config_.server_nodes) {
-    std::cerr << "connect to server " << node << std::endl;
-    server_qps.emplace_back(
-      context_.connect_to_server(get_ip(node), config_.port, client_id));
+    const auto endpoint = parse_endpoint(node, config_.port);
+    std::cerr << "connect to server " << endpoint.host << ":" << endpoint.port << std::endl;
+    server_qps.emplace_back(context_.connect_to_server(endpoint.address, endpoint.port, client_id));
   }
 }
 

@@ -36,6 +36,14 @@ using ToMicroSeconds =
 void lib_failure(const str&& message);
 str get_ip(const str& node_name);
 
+struct Endpoint {
+  str host;
+  str address;
+  u32 port;
+};
+
+Endpoint parse_endpoint(const str& endpoint, u32 default_port);
+
 f64 compute_throughput(i32 message_size,
                        i32 repeats,
                        Timepoint start,

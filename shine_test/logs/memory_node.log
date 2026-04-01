@@ -3429,3 +3429,35 @@ pairing: 1904 -- 916
 pairing: 1905 -- 917
 [STATUS]: waiting for commands from compute node...
 [STATUS]: loading index (48961369032 Bytes) from /data/xjs/index/shine_index/1024dim10M_node1_of1.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: mlx5_0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: mlx5_0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy

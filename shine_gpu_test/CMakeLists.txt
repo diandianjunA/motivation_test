@@ -17,7 +17,53 @@ find_package(OpenSSL REQUIRED)
 find_package(Boost COMPONENTS program_options REQUIRED)
 find_package(Threads REQUIRED)
 find_package(TBB REQUIRED)
-find_library(IBVERBS_LIBRARY ibverbs REQUIRED)
+# Force the system rdma-core headers and shared libibverbs. Older /usr/local
+# installs carry stale headers and obsolete provider-loading logic (rdmav2).
+foreach(_cache_var
+    IBVERBS_INCLUDE_DIR
+    IBVERBS_LIBRARY
+    IBVerbs_INCLUDE_DIR
+    IBVerbs_LIBRARY
+)
+    if(DEFINED ${_cache_var} AND "${${_cache_var}}" MATCHES "^/usr/local/")
+        unset(${_cache_var} CACHE)
+        unset(${_cache_var})
+    endif()
+endforeach()
+set(_ibverbs_include_paths
+    /usr/include
+)
+set(_ibverbs_library_paths
+    /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}
+    /lib/${CMAKE_LIBRARY_ARCHITECTURE}
+    /usr/lib64
+    /lib64
+    /usr/lib
+    /lib
+)
+find_path(IBVERBS_INCLUDE_DIR
+    NAMES infiniband/verbs.h
+    PATHS ${_ibverbs_include_paths}
+    NO_DEFAULT_PATH
+    REQUIRED
+)
+find_library(IBVERBS_LIBRARY
+    NAMES ibverbs
+    PATHS ${_ibverbs_library_paths}
+    NO_DEFAULT_PATH
+    REQUIRED
+)
+foreach(_resolved_var
+    IBVERBS_INCLUDE_DIR
+    IBVERBS_LIBRARY
+)
+    if(DEFINED ${_resolved_var} AND "${${_resolved_var}}" MATCHES "^/usr/local/")
+        message(FATAL_ERROR "Refusing to use legacy RDMA artifact from /usr/local: ${_resolved_var}=${${_resolved_var}}")
+    endif()
+endforeach()
+if(IBVERBS_LIBRARY MATCHES "\\.a$")
+    message(FATAL_ERROR "Expected shared libibverbs, found static archive: ${IBVERBS_LIBRARY}")
+endif()
 find_library(NL_ROUTE_LIBRARY nl-route-3 REQUIRED)
 find_library(NL_3_LIBRARY nl-3 REQUIRED)
 find_library(SHINE_RUNTIME_LIBRARY shine_runtime PATHS ${CMAKE_CURRENT_SOURCE_DIR}/lib NO_DEFAULT_PATH REQUIRED)

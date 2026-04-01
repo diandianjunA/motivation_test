@@ -3,8 +3,8 @@
 #include <library/types.hh>
 
 // constexpr static u64 COMPUTE_NODE_MAX_MEMORY = 10 * 1073741824ul;  // 10 GB
-constexpr static u64 COMPUTE_NODE_MAX_MEMORY = 35ul * 1073741824ul;  // 35 GB (for CSP experiments)
-constexpr static u64 MEMORY_NODE_MAX_MEMORY = 500ul * 1073741824ul;  // 500 GB
+constexpr static u64 COMPUTE_NODE_MAX_MEMORY = 60ul * 1073741824ul;  // 60 GB (for CSP experiments)
+constexpr static u64 MEMORY_NODE_MAX_MEMORY = 260ul * 1073741824ul;  // 260 GB
 constexpr static u32 MAX_QPS = 4;  // max number of QPs per compute node
 constexpr static size_t CACHELINE_SIZE = 64;
 
