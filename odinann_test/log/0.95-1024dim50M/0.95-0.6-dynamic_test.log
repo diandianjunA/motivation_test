@@ -1,0 +1,45 @@
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim50M/base.fbin
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: dim = 1024
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim50M/queries/groundtruth-test.bin
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/odinann_test/config/index_conf/0.95-1024dim50M.ini
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: index_path = /data/xjs/index/odinann_index/1024dim50M
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/odinann_test/log
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: num = 50000000
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: option = dynamic
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim50M/queries/query-test.fbin
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: read_ratio = 0.6
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: threads = 16
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: topk = 10
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: total_test = false
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Config: write_id_base = 50000000
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] Dynamic test OdinANN
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] 使用 16 线程进行动态测试
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] 动态测试配置: read_batch_size=64, insert_batch_size=64, warmup_seconds=30, run_seconds=60
+[2026-04-02 00:19:29.878] [GlobalLogger] [info] 动态写入ID配置: num=50000000, write_id_base=50000000
+[2026-04-02 00:19:33.839] [GlobalLogger] [info] Generated random dynamic data pool with 160000 vectors
+[2026-04-02 00:25:56.301] [GlobalLogger] [info] 开始动态测试: read_ratio=60%, warmup=30s, run=60s
+[2026-04-02 00:26:26.521] [GlobalLogger] [info] 预热完成: elapsed=30.22s, read_vectors=19738, write_vectors=10688
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] Dynamic test completed, measured time: 60.233 s
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] Measured counts: read_batches=374, write_batches=261, read_vectors=23462, write_vectors=16704
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] Total Throughput: 666.84 vectors/sec
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] QPS: 389.52
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] IPS: 277.32
+[2026-04-02 00:27:26.754] [GlobalLogger] [info] Read Latency Percentiles: P50=2302.348 ms, P90=2670.974 ms, P99=2910.363 ms
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] Write Latency Percentiles: P50=424.812 ms, P90=575.937 ms, P99=1056.612 ms
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 操作: Write
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 总时间: 118.36555571399991 秒
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 批次数: 261
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 处理向量数: 16704
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 平均批次延迟: 453.508 ms
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 批次延迟百分位: P50=424.812 ms, P90=575.937 ms, P99=1056.612 ms
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 操作: Read
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 总时间: 842.1179136400012 秒
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 批次数: 374
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 处理向量数: 23462
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 平均批次延迟: 2251.652 ms
+[2026-04-02 00:27:26.755] [GlobalLogger] [info] 批次延迟百分位: P50=2302.348 ms, P90=2670.974 ms, P99=2910.363 ms

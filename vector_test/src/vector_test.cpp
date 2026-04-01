@@ -233,7 +233,7 @@ void VectorTest::dynamic_test() {
     ensurePositive(thread_count, "threads");
     ensurePositive(read_batch_size, "read_batch_size");
     ensurePositive(insert_batch_size, "insert_batch_size");
-    ensureRange(warmup_seconds, 30, 60, "warmup_seconds");
+    ensureRange(warmup_seconds, 0, 60, "warmup_seconds");
     ensureRange(run_seconds, 60, 120, "run_seconds");
     if (read_ratio < 0.0F || read_ratio > 1.0F) {
         throw std::runtime_error("read_ratio must be in [0, 1]");

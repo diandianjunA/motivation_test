@@ -1,0 +1,662 @@
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1982 -- 1042
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 137810937905216 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 1987 -- 1047
+pairing: 1992 -- 1052
+pairing: 1997 -- 1057
+pairing: 2002 -- 1062
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2007 -- 1067
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 126251266211904 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2012 -- 1072
+pairing: 2017 -- 1077
+pairing: 2022 -- 1082
+pairing: 2027 -- 1087
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2032 -- 1092
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 123083977392192 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2037 -- 1097
+pairing: 2045 -- 1102
+pairing: 2051 -- 1107
+pairing: 2053 -- 1112
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2057 -- 1117
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 140197232640064 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2062 -- 1122
+pairing: 2070 -- 1127
+pairing: 2072 -- 1132
+pairing: 2077 -- 1137
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2082 -- 1142
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 126028773064768 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2087 -- 1147
+pairing: 2093 -- 1152
+pairing: 2098 -- 1157
+pairing: 2104 -- 1162
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2107 -- 1167
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 123221451997248 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2112 -- 1172
+pairing: 2117 -- 1177
+pairing: 2122 -- 1182
+pairing: 2129 -- 1187
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2132 -- 1192
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 127241398779968 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2137 -- 1197
+pairing: 2144 -- 1202
+pairing: 2148 -- 1207
+pairing: 2152 -- 1212
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2157 -- 1217
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 135773221290048 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2162 -- 1222
+pairing: 2167 -- 1227
+pairing: 2172 -- 1232
+pairing: 2178 -- 1237
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2182 -- 1242
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 139397274009664 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2187 -- 1247
+pairing: 2192 -- 1252
+pairing: 2197 -- 1257
+pairing: 2204 -- 1262
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2207 -- 1267
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 132671430721600 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2212 -- 1272
+pairing: 2217 -- 1277
+pairing: 2223 -- 1282
+pairing: 2228 -- 1287
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2232 -- 1292
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 134934104637504 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2237 -- 1297
+pairing: 2242 -- 1302
+pairing: 2247 -- 1307
+pairing: 2252 -- 1312
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2257 -- 1317
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 133011922223168 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2262 -- 1322
+pairing: 2270 -- 1327
+pairing: 2273 -- 1332
+pairing: 2277 -- 1337
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2282 -- 1342
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 135173874122816 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2287 -- 1347
+pairing: 2292 -- 1352
+pairing: 2297 -- 1357
+pairing: 2304 -- 1362
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2307 -- 1367
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 131542481371200 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2312 -- 1372
+pairing: 2320 -- 1377
+pairing: 2324 -- 1382
+pairing: 2327 -- 1387
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2332 -- 1392
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 134190859288640 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2337 -- 1397
+pairing: 2342 -- 1402
+pairing: 2347 -- 1407
+pairing: 2352 -- 1412
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2357 -- 1417
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 140478536220736 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2363 -- 1422
+pairing: 2367 -- 1427
+pairing: 2372 -- 1432
+pairing: 2377 -- 1437
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2382 -- 1442
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 131677496016960 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2389 -- 1447
+pairing: 2392 -- 1452
+pairing: 2397 -- 1457
+pairing: 2402 -- 1462
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2407 -- 1467
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 136964380557376 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2412 -- 1472
+pairing: 2419 -- 1477
+pairing: 2422 -- 1482
+pairing: 2427 -- 1487
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2432 -- 1492
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 136307523190848 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2437 -- 1497
+pairing: 2442 -- 1502
+pairing: 2447 -- 1507
+pairing: 2452 -- 1512
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2457 -- 1517
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 128203542757440 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2462 -- 1522
+pairing: 2468 -- 1527
+pairing: 2472 -- 1532
+pairing: 2479 -- 1537
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2482 -- 1542
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 140498121523264 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2487 -- 1547
+pairing: 2492 -- 1552
+pairing: 2497 -- 1557
+pairing: 2502 -- 1562
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2507 -- 1567
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 139011213492288 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2512 -- 1572
+pairing: 2517 -- 1577
+pairing: 2522 -- 1582
+pairing: 2528 -- 1587
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2532 -- 1592
+[STATUS]: pinned main thread to core 28
+allocation size: 53687091200
+allocated ALIGNED MEM (no hugepage) at 140511713165376 with buffer size 53687091200
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2537 -- 1597
+pairing: 2543 -- 1602
+pairing: 2547 -- 1607
+pairing: 2555 -- 1612
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (51521297424 Bytes) from /data/xjs/index/shine_index/1024dim50M_node1_of5.dat

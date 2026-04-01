@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "service/gpu_compute_service.hh"
+#include "common/distance.hh"
+#include "service/compute_service.hh"
 #include "vector_test/vector_index.h"
 
 class ShineGpuIndex : public VectorIndex {
@@ -25,5 +26,7 @@ private:
     static std::vector<std::string> build_service_argv(const std::string& service_config_path);
 
 private:
-    mutable std::unique_ptr<GpuComputeService> service_;
+    bool ip_distance_{false};
+    mutable std::unique_ptr<ComputeService<L2Distance>> l2_service_;
+    mutable std::unique_ptr<ComputeService<IPDistance>> ip_service_;
 };

@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
+#include <utility>
 
 namespace {
 
@@ -41,7 +42,13 @@ ShineGpuIndex::ShineGpuIndex(const std::string& service_config_path) {
     auto args = build_service_argv(service_config_path);
     auto argv = make_argv(args);
     configuration::IndexConfiguration config(static_cast<int>(argv.size()), argv.data());
-    service_ = std::make_unique<GpuComputeService>(config, false);
+    ip_distance_ = config.ip_distance;
+
+    if (ip_distance_) {
+        ip_service_ = std::make_unique<ComputeService<IPDistance>>(config, false);
+    } else {
+        l2_service_ = std::make_unique<ComputeService<L2Distance>>(config, false);
+    }
 }
 
 ShineGpuIndex::~ShineGpuIndex() = default;
@@ -81,16 +88,27 @@ void ShineGpuIndex::insert(const std::vector<float>& vectors, const std::vector<
     constexpr size_t batch_size = 100;
     for (size_t offset = 0; offset < ids.size(); offset += batch_size) {
         const size_t end = std::min(offset + batch_size, ids.size());
-        vec<GpuComputeService::InsertItem> batch;
-        batch.reserve(end - offset);
 
-        for (size_t i = offset; i < end; ++i) {
-            const auto begin = vectors.begin() + static_cast<std::ptrdiff_t>(i * dim());
-            const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
-            batch.push_back({ids[i], vec<element_t>(begin, finish)});
+        if (ip_distance_) {
+            vec<ComputeService<IPDistance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vectors.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            ip_service_->insert(batch);
+
+        } else {
+            vec<ComputeService<L2Distance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vectors.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            l2_service_->insert(batch);
         }
-
-        service_->insert(batch);
     }
 }
 
@@ -102,31 +120,41 @@ void ShineGpuIndex::search(const std::vector<float>& query,
         throw std::runtime_error("search dimension mismatch");
     }
 
-    const auto results = service_->search(query, static_cast<u32>(top_k));
+    vec<node_t> results;
+    if (ip_distance_) {
+        results = ip_service_->search(query, static_cast<u32>(top_k));
+    } else {
+        results = l2_service_->search(query, static_cast<u32>(top_k));
+    }
+
     ids.assign(results.begin(), results.end());
     distances.assign(ids.size(), 0.0f);
 }
 
 void ShineGpuIndex::load(const std::string& index_path) {
     str error_message;
-    if (!service_->load_index(index_path, &error_message)) {
+    const bool ok = ip_distance_ ? ip_service_->load_index(index_path, &error_message)
+                                 : l2_service_->load_index(index_path, &error_message);
+    if (!ok) {
         throw std::runtime_error("failed to load index: " + error_message);
     }
 }
 
 void ShineGpuIndex::save(const std::string& index_path) {
     str error_message;
-    if (!service_->store_index(index_path, &error_message)) {
+    const bool ok = ip_distance_ ? ip_service_->store_index(index_path, &error_message)
+                                 : l2_service_->store_index(index_path, &error_message);
+    if (!ok) {
         throw std::runtime_error("failed to save index: " + error_message);
     }
 }
 
 std::string ShineGpuIndex::getIndexType() const {
-    return "ShineGPU";
+    return "ShineGpu";
 }
 
 size_t ShineGpuIndex::dim() const {
-    return service_->config().dim;
+    return ip_distance_ ? ip_service_->config().dim : l2_service_->config().dim;
 }
 
 std::vector<std::string> ShineGpuIndex::build_service_argv(const std::string& service_config_path) {
