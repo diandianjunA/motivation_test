@@ -1,21 +1,427 @@
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim5M/base.fbin
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: data_pool_size = 16000
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: dim = 1024
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim5M/queries/groundtruth-test.bin
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/fresh_diskann_test/config/index_conf/0.8-1024dim5M.ini
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: index_path = /data/xjs/index/fresh_diskann_index/1024dim5M
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: insert_batch_size = 64
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/fresh_diskann_test/log
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: num = 5000000
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: option = build
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim5M/queries/query-test.fbin
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: read_batch_size = 64
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: read_ratio = 0.5
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: run_seconds = 60
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: threads = 16
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: topk = 10
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: total_test = false
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: warmup_seconds = 30
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Config: write_id_base = 5000000
-[2026-03-28 21:05:05.353] [GlobalLogger] [info] Build index FreshDiskANN
-[2026-03-28 21:05:05.388] [GlobalLogger] [info] Build time: 0.034973208 s
+nohup: ignoring input
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Global logger initialized
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim5M/base.fbin
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: dim = 1024
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim5M/queries/groundtruth-test.bin
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/fresh_diskann_test/config/index_conf/usual.ini
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: index_path = /data/xjs/index/fresh_diskann_index/1024dim5M
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/fresh_diskann_test/log
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: num = 5000000
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: option = build
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim5M/queries/query-test.fbin
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: threads = 16
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: topk = 10
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: total_test = false
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Config: write_id_base = 5000000
+[2026-03-31 23:02:02.900] [GlobalLogger] [info] Build index FreshDiskANN
+[2026-03-31 23:02:02.929] [GlobalLogger] [info] Build time: 0.029251496 s
+Starting index build: R=48 L=150 Query RAM budget: 8.3215e+09 Indexing RAM budget: 16 T: 32 Final index will be in multiple files
+(Normalized, if required) file : /data/xjs/random_dataset/1024dim5M/base.fbin has: 5000000 points. Changing training set size to 256000 points
+Calculated num_pq_chunks :1664
+Compressing 1024-dimensional data into 100 bytes per vector.
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Generating PQ pivots with training data of size: 255534 num PQ chunks: 100
+Kmeans time: 153.621 Lloyds time: 152.734 Copy time: 2.40565
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin does not exist
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin
+bin: #pts = 256, #dims = 1024, size = 1048584B
+Finished writing bin.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: 0
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin
+bin: #pts = 1024, #dims = 1, size = 4104B
+Finished writing bin.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: 0
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin
+bin: #pts = 1024, #dims = 1, size = 4104B
+Finished writing bin.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: 0
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin
+bin: #pts = 101, #dims = 1, size = 412B
+Finished writing bin.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: 0
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin
+bin: #pts = 5, #dims = 1, size = 48B
+Finished writing bin.
+Saved pq pivot data to /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin of size 1061300B.
+Pivots generated in 325.764s.
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin) returned: 0
+Reading bin file /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin ...
+Metadata: #pts = 5, #dims = 1...
+Reading bin file /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin ...
+Metadata: #pts = 256, #dims = 1024...
+Reading bin file /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin ...
+Metadata: #pts = 1024, #dims = 1...
+Reading bin file /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin ...
+Metadata: #pts = 1024, #dims = 1...
+Reading bin file /data/xjs/index/fresh_diskann_index/1024dim5M_pq_pivots.bin ...
+Metadata: #pts = 101, #dims = 1...
+Loaded PQ pivot information
+Compressed data generated and written in: 45.6709s.
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Processing global k-means (kmeans_partitioning Step)
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Estimated cluster sizes: 3.3596e+06 3.3763e+06 3.3185e+06 
+With 3 parts, max estimated RAM usage: 17.4236GB, budget given is 16
+Processing global k-means (kmeans_partitioning Step)
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Estimated cluster sizes: 2.4374e+06 2.4186e+06 2.5161e+06 2.5227e+06 
+With 4 parts, max estimated RAM usage: 13.0186GB, budget given is 16
+Saving global k-center pivots
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_centroids.bin) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_centroids.bin does not exist
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_centroids.bin
+bin: #pts = 4, #dims = 1024, size = 16392B
+Finished writing bin.
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Actual shard sizes: 2475377 2431845 2529088 2563690 
+ Partitioned 5000000 with replication factor 2 to get 10000000 points across 4 shards 
+Getting distance function for metric: l2
+L2: Using AVX2 distance computation
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0.bin) returned: 0
+Loading only first 2475377 from file.. 
+Number of syncs: 605
+Completed  (round: 0, sync: 7/605 with L 150) sync_time: 1.458s; inter_time: 3.999s
+Completed  (round: 0, sync: 37/605 with L 150) sync_time: 11.65s; inter_time: 9.26s
+Completed  (round: 0, sync: 67/605 with L 150) sync_time: 9.742s; inter_time: 2.593s
+Completed  (round: 0, sync: 97/605 with L 150) sync_time: 7.258s; inter_time: 1.263s
+Completed  (round: 0, sync: 128/605 with L 150) sync_time: 6.085s; inter_time: 0.891s
+Completed  (round: 0, sync: 158/605 with L 150) sync_time: 5.315s; inter_time: 0.7172s
+Completed  (round: 0, sync: 188/605 with L 150) sync_time: 5.085s; inter_time: 0.6303s
+Completed  (round: 0, sync: 218/605 with L 150) sync_time: 4.984s; inter_time: 0.5736s
+Completed  (round: 0, sync: 249/605 with L 150) sync_time: 5.145s; inter_time: 0.5509s
+Completed  (round: 0, sync: 279/605 with L 150) sync_time: 5.006s; inter_time: 0.5095s
+Completed  (round: 0, sync: 309/605 with L 150) sync_time: 5.371s; inter_time: 0.4912s
+Completed  (round: 0, sync: 339/605 with L 150) sync_time: 5.445s; inter_time: 0.4501s
+Completed  (round: 0, sync: 370/605 with L 150) sync_time: 5.951s; inter_time: 0.4467s
+Completed  (round: 0, sync: 400/605 with L 150) sync_time: 6.022s; inter_time: 0.4235s
+Completed  (round: 0, sync: 430/605 with L 150) sync_time: 6.079s; inter_time: 0.4114s
+Completed  (round: 0, sync: 460/605 with L 150) sync_time: 6.775s; inter_time: 0.4079s
+Completed  (round: 0, sync: 491/605 with L 150) sync_time: 6.961s; inter_time: 0.3982s
+Completed  (round: 0, sync: 521/605 with L 150) sync_time: 6.806s; inter_time: 0.4009s
+Completed  (round: 0, sync: 551/605 with L 150) sync_time: 6.966s; inter_time: 0.3777s
+Completed  (round: 0, sync: 581/605 with L 150) sync_time: 7.039s; inter_time: 0.3599s
+Completed Pass 0 of data using L=150 and alpha=1. Stats: search+prune_time=125.1s, inter_time=25.15s, inter_count=787832
+Completed  (round: 1, sync: 7/605 with L 150) sync_time: 2.277s; inter_time: 0.4623s
+Completed  (round: 1, sync: 37/605 with L 150) sync_time: 8.466s; inter_time: 0.9989s
+Completed  (round: 1, sync: 67/605 with L 150) sync_time: 8.408s; inter_time: 1.203s
+Completed  (round: 1, sync: 97/605 with L 150) sync_time: 8.512s; inter_time: 1.038s
+Completed  (round: 1, sync: 128/605 with L 150) sync_time: 8.799s; inter_time: 0.9527s
+Completed  (round: 1, sync: 158/605 with L 150) sync_time: 8.622s; inter_time: 0.953s
+Completed  (round: 1, sync: 188/605 with L 150) sync_time: 8.69s; inter_time: 0.9699s
+Completed  (round: 1, sync: 218/605 with L 150) sync_time: 8.89s; inter_time: 0.9669s
+Completed  (round: 1, sync: 249/605 with L 150) sync_time: 9.141s; inter_time: 1.023s
+Completed  (round: 1, sync: 279/605 with L 150) sync_time: 8.806s; inter_time: 1.001s
+Completed  (round: 1, sync: 309/605 with L 150) sync_time: 8.809s; inter_time: 1.004s
+Completed  (round: 1, sync: 339/605 with L 150) sync_time: 8.78s; inter_time: 1.006s
+Completed  (round: 1, sync: 370/605 with L 150) sync_time: 9.025s; inter_time: 1.069s
+Completed  (round: 1, sync: 400/605 with L 150) sync_time: 8.72s; inter_time: 1.043s
+Completed  (round: 1, sync: 430/605 with L 150) sync_time: 8.671s; inter_time: 1.057s
+Completed  (round: 1, sync: 460/605 with L 150) sync_time: 8.96s; inter_time: 1.058s
+Completed  (round: 1, sync: 491/605 with L 150) sync_time: 9.088s; inter_time: 1.117s
+Completed  (round: 1, sync: 521/605 with L 150) sync_time: 8.642s; inter_time: 1.112s
+Completed  (round: 1, sync: 551/605 with L 150) sync_time: 8.723s; inter_time: 1.126s
+Completed  (round: 1, sync: 581/605 with L 150) sync_time: 8.79s; inter_time: 1.18s
+Completed Pass 1 of data using L=150 and alpha=1.2. Stats: search+prune_time=168.8s, inter_time=20.34s, inter_count=2237124
+Starting final cleanup..done. Link time: 360.2s
+Index built with degree: max:32  avg:31.79  min:2  count(deg<2):0
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.tags) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.tags does not exist
+Not saving tags as they are not enabled.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.del) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index.del does not exist
+Time taken for save: 7.992s.
+Getting distance function for metric: l2
+L2: Using AVX2 distance computation
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1.bin) returned: 0
+Loading only first 2431845 from file.. 
+Number of syncs: 594
+Completed  (round: 0, sync: 6/594 with L 150) sync_time: 1.223s; inter_time: 3.322s
+Completed  (round: 0, sync: 36/594 with L 150) sync_time: 11.51s; inter_time: 9.631s
+Completed  (round: 0, sync: 66/594 with L 150) sync_time: 9.228s; inter_time: 2.516s
+Completed  (round: 0, sync: 96/594 with L 150) sync_time: 7.118s; inter_time: 1.326s
+Completed  (round: 0, sync: 125/594 with L 150) sync_time: 5.642s; inter_time: 0.8536s
+Completed  (round: 0, sync: 155/594 with L 150) sync_time: 5.394s; inter_time: 0.7148s
+Completed  (round: 0, sync: 185/594 with L 150) sync_time: 5.163s; inter_time: 0.6467s
+Completed  (round: 0, sync: 214/594 with L 150) sync_time: 4.897s; inter_time: 0.5915s
+Completed  (round: 0, sync: 244/594 with L 150) sync_time: 5.012s; inter_time: 0.5349s
+Completed  (round: 0, sync: 274/594 with L 150) sync_time: 5.025s; inter_time: 0.5018s
+Completed  (round: 0, sync: 303/594 with L 150) sync_time: 4.893s; inter_time: 0.4617s
+Completed  (round: 0, sync: 333/594 with L 150) sync_time: 5.162s; inter_time: 0.4666s
+Completed  (round: 0, sync: 363/594 with L 150) sync_time: 5.252s; inter_time: 0.4439s
+Completed  (round: 0, sync: 393/594 with L 150) sync_time: 5.378s; inter_time: 0.4359s
+Completed  (round: 0, sync: 422/594 with L 150) sync_time: 5.364s; inter_time: 0.4056s
+Completed  (round: 0, sync: 452/594 with L 150) sync_time: 5.701s; inter_time: 0.4075s
+Completed  (round: 0, sync: 482/594 with L 150) sync_time: 5.768s; inter_time: 0.4076s
+Completed  (round: 0, sync: 511/594 with L 150) sync_time: 5.778s; inter_time: 0.3688s
+Completed  (round: 0, sync: 541/594 with L 150) sync_time: 6.349s; inter_time: 0.3817s
+Completed  (round: 0, sync: 571/594 with L 150) sync_time: 6.417s; inter_time: 0.3832s
+Completed Pass 0 of data using L=150 and alpha=1. Stats: search+prune_time=116.3s, inter_time=24.8s, inter_count=768621
+Completed  (round: 1, sync: 6/594 with L 150) sync_time: 1.873s; inter_time: 0.442s
+Completed  (round: 1, sync: 36/594 with L 150) sync_time: 8.027s; inter_time: 1.054s
+Completed  (round: 1, sync: 66/594 with L 150) sync_time: 8.039s; inter_time: 1.228s
+Completed  (round: 1, sync: 96/594 with L 150) sync_time: 8.06s; inter_time: 1.068s
+Completed  (round: 1, sync: 125/594 with L 150) sync_time: 7.801s; inter_time: 0.91s
+Completed  (round: 1, sync: 155/594 with L 150) sync_time: 8.055s; inter_time: 0.9646s
+Completed  (round: 1, sync: 185/594 with L 150) sync_time: 8.074s; inter_time: 0.9963s
+Completed  (round: 1, sync: 214/594 with L 150) sync_time: 7.795s; inter_time: 0.9497s
+Completed  (round: 1, sync: 244/594 with L 150) sync_time: 8.08s; inter_time: 1.018s
+Completed  (round: 1, sync: 274/594 with L 150) sync_time: 8.115s; inter_time: 1.005s
+Completed  (round: 1, sync: 303/594 with L 150) sync_time: 7.822s; inter_time: 0.9977s
+Completed  (round: 1, sync: 333/594 with L 150) sync_time: 8.058s; inter_time: 1.016s
+Completed  (round: 1, sync: 363/594 with L 150) sync_time: 8.095s; inter_time: 1.048s
+Completed  (round: 1, sync: 393/594 with L 150) sync_time: 8.106s; inter_time: 1.076s
+Completed  (round: 1, sync: 422/594 with L 150) sync_time: 7.837s; inter_time: 1.036s
+Completed  (round: 1, sync: 452/594 with L 150) sync_time: 8.102s; inter_time: 1.065s
+Completed  (round: 1, sync: 482/594 with L 150) sync_time: 8.117s; inter_time: 1.085s
+Completed  (round: 1, sync: 511/594 with L 150) sync_time: 7.881s; inter_time: 1.063s
+Completed  (round: 1, sync: 541/594 with L 150) sync_time: 8.325s; inter_time: 1.119s
+Completed  (round: 1, sync: 571/594 with L 150) sync_time: 8.333s; inter_time: 1.222s
+Completed Pass 1 of data using L=150 and alpha=1.2. Stats: search+prune_time=154.6s, inter_time=20.36s, inter_count=2211271
+Starting final cleanup..done. Link time: 335.3s
+Index built with degree: max:32  avg:31.78  min:2  count(deg<2):0
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.tags) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.tags does not exist
+Not saving tags as they are not enabled.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.del) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index.del does not exist
+Time taken for save: 7.495s.
+Getting distance function for metric: l2
+L2: Using AVX2 distance computation
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2.bin) returned: 0
+Loading only first 2529088 from file.. 
+Number of syncs: 618
+Completed  (round: 0, sync: 7/618 with L 150) sync_time: 1.742s; inter_time: 4.349s
+Completed  (round: 0, sync: 38/618 with L 150) sync_time: 15.08s; inter_time: 9.541s
+Completed  (round: 0, sync: 68/618 with L 150) sync_time: 11.79s; inter_time: 2.419s
+Completed  (round: 0, sync: 99/618 with L 150) sync_time: 9.316s; inter_time: 1.31s
+Completed  (round: 0, sync: 130/618 with L 150) sync_time: 7.594s; inter_time: 0.8681s
+Completed  (round: 0, sync: 161/618 with L 150) sync_time: 6.955s; inter_time: 0.7387s
+Completed  (round: 0, sync: 192/618 with L 150) sync_time: 6.637s; inter_time: 0.6456s
+Completed  (round: 0, sync: 223/618 with L 150) sync_time: 6.506s; inter_time: 0.6113s
+Completed  (round: 0, sync: 254/618 with L 150) sync_time: 6.493s; inter_time: 0.5317s
+Completed  (round: 0, sync: 285/618 with L 150) sync_time: 6.534s; inter_time: 0.5087s
+Completed  (round: 0, sync: 316/618 with L 150) sync_time: 6.611s; inter_time: 0.4871s
+Completed  (round: 0, sync: 347/618 with L 150) sync_time: 6.822s; inter_time: 0.4722s
+Completed  (round: 0, sync: 377/618 with L 150) sync_time: 6.816s; inter_time: 0.4433s
+Completed  (round: 0, sync: 408/618 with L 150) sync_time: 7.45s; inter_time: 0.4317s
+Completed  (round: 0, sync: 439/618 with L 150) sync_time: 7.596s; inter_time: 0.4202s
+Completed  (round: 0, sync: 470/618 with L 150) sync_time: 7.659s; inter_time: 0.4149s
+Completed  (round: 0, sync: 501/618 with L 150) sync_time: 7.687s; inter_time: 0.4012s
+Completed  (round: 0, sync: 532/618 with L 150) sync_time: 8.381s; inter_time: 0.3899s
+Completed  (round: 0, sync: 563/618 with L 150) sync_time: 8.571s; inter_time: 0.3738s
+Completed  (round: 0, sync: 594/618 with L 150) sync_time: 8.741s; inter_time: 0.3804s
+Completed Pass 0 of data using L=150 and alpha=1. Stats: search+prune_time=155s, inter_time=25.74s, inter_count=805121
+Completed  (round: 1, sync: 7/618 with L 150) sync_time: 2.665s; inter_time: 0.4498s
+Completed  (round: 1, sync: 38/618 with L 150) sync_time: 10.49s; inter_time: 1.074s
+Completed  (round: 1, sync: 68/618 with L 150) sync_time: 9.997s; inter_time: 1.206s
+Completed  (round: 1, sync: 99/618 with L 150) sync_time: 10.21s; inter_time: 1.107s
+Completed  (round: 1, sync: 130/618 with L 150) sync_time: 10.17s; inter_time: 0.9606s
+Completed  (round: 1, sync: 161/618 with L 150) sync_time: 10.16s; inter_time: 0.9581s
+Completed  (round: 1, sync: 192/618 with L 150) sync_time: 10.15s; inter_time: 1.01s
+Completed  (round: 1, sync: 223/618 with L 150) sync_time: 10.17s; inter_time: 1.027s
+Completed  (round: 1, sync: 254/618 with L 150) sync_time: 10.15s; inter_time: 1.037s
+Completed  (round: 1, sync: 285/618 with L 150) sync_time: 10.11s; inter_time: 1.058s
+Completed  (round: 1, sync: 316/618 with L 150) sync_time: 10.12s; inter_time: 1.083s
+Completed  (round: 1, sync: 347/618 with L 150) sync_time: 10.18s; inter_time: 1.117s
+Completed  (round: 1, sync: 377/618 with L 150) sync_time: 9.897s; inter_time: 1.085s
+Completed  (round: 1, sync: 408/618 with L 150) sync_time: 10.1s; inter_time: 1.096s
+Completed  (round: 1, sync: 439/618 with L 150) sync_time: 10.12s; inter_time: 1.131s
+Completed  (round: 1, sync: 470/618 with L 150) sync_time: 10.04s; inter_time: 1.151s
+Completed  (round: 1, sync: 501/618 with L 150) sync_time: 10.05s; inter_time: 1.154s
+Completed  (round: 1, sync: 532/618 with L 150) sync_time: 10.18s; inter_time: 1.162s
+Completed  (round: 1, sync: 563/618 with L 150) sync_time: 10.07s; inter_time: 1.183s
+Completed  (round: 1, sync: 594/618 with L 150) sync_time: 10.03s; inter_time: 1.253s
+Completed Pass 1 of data using L=150 and alpha=1.2. Stats: search+prune_time=195s, inter_time=21.3s, inter_count=2291447
+Starting final cleanup..done. Link time: 420.2s
+Index built with degree: max:32  avg:31.79  min:2  count(deg<2):0
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.tags) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.tags does not exist
+Not saving tags as they are not enabled.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.del) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index.del does not exist
+Time taken for save: 8.114s.
+Getting distance function for metric: l2
+L2: Using AVX2 distance computation
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3.bin) returned: 0
+Loading only first 2563690 from file.. 
+Number of syncs: 626
+Completed  (round: 0, sync: 7/626 with L 150) sync_time: 1.753s; inter_time: 4.611s
+Completed  (round: 0, sync: 38/626 with L 150) sync_time: 15.22s; inter_time: 9.533s
+Completed  (round: 0, sync: 69/626 with L 150) sync_time: 12.16s; inter_time: 2.445s
+Completed  (round: 0, sync: 101/626 with L 150) sync_time: 9.58s; inter_time: 1.336s
+Completed  (round: 0, sync: 132/626 with L 150) sync_time: 7.487s; inter_time: 0.8546s
+Completed  (round: 0, sync: 163/626 with L 150) sync_time: 6.85s; inter_time: 0.7299s
+Completed  (round: 0, sync: 195/626 with L 150) sync_time: 6.721s; inter_time: 0.6823s
+Completed  (round: 0, sync: 226/626 with L 150) sync_time: 6.335s; inter_time: 0.5902s
+Completed  (round: 0, sync: 257/626 with L 150) sync_time: 6.321s; inter_time: 0.5473s
+Completed  (round: 0, sync: 288/626 with L 150) sync_time: 6.336s; inter_time: 0.5355s
+Completed  (round: 0, sync: 320/626 with L 150) sync_time: 6.594s; inter_time: 0.5075s
+Completed  (round: 0, sync: 351/626 with L 150) sync_time: 6.533s; inter_time: 0.4782s
+Completed  (round: 0, sync: 382/626 with L 150) sync_time: 6.72s; inter_time: 0.4435s
+Completed  (round: 0, sync: 414/626 with L 150) sync_time: 7.163s; inter_time: 0.4905s
+Completed  (round: 0, sync: 445/626 with L 150) sync_time: 6.963s; inter_time: 0.4224s
+Completed  (round: 0, sync: 476/626 with L 150) sync_time: 7.149s; inter_time: 0.417s
+Completed  (round: 0, sync: 508/626 with L 150) sync_time: 7.63s; inter_time: 0.4217s
+Completed  (round: 0, sync: 539/626 with L 150) sync_time: 7.657s; inter_time: 0.3871s
+Completed  (round: 0, sync: 570/626 with L 150) sync_time: 7.792s; inter_time: 0.3912s
+Completed  (round: 0, sync: 601/626 with L 150) sync_time: 7.994s; inter_time: 0.3939s
+Completed Pass 0 of data using L=150 and alpha=1. Stats: search+prune_time=151s, inter_time=26.22s, inter_count=816251
+Completed  (round: 1, sync: 7/626 with L 150) sync_time: 2.425s; inter_time: 0.4366s
+Completed  (round: 1, sync: 38/626 with L 150) sync_time: 9.339s; inter_time: 1.046s
+Completed  (round: 1, sync: 69/626 with L 150) sync_time: 9.306s; inter_time: 1.227s
+Completed  (round: 1, sync: 101/626 with L 150) sync_time: 9.59s; inter_time: 1.086s
+Completed  (round: 1, sync: 132/626 with L 150) sync_time: 9.269s; inter_time: 0.9968s
+Completed  (round: 1, sync: 163/626 with L 150) sync_time: 9.4s; inter_time: 0.9971s
+Completed  (round: 1, sync: 195/626 with L 150) sync_time: 9.968s; inter_time: 1.057s
+Completed  (round: 1, sync: 226/626 with L 150) sync_time: 9.449s; inter_time: 1.057s
+Completed  (round: 1, sync: 257/626 with L 150) sync_time: 9.372s; inter_time: 1.077s
+Completed  (round: 1, sync: 288/626 with L 150) sync_time: 9.33s; inter_time: 1.1s
+Completed  (round: 1, sync: 320/626 with L 150) sync_time: 9.588s; inter_time: 1.163s
+Completed  (round: 1, sync: 351/626 with L 150) sync_time: 9.259s; inter_time: 1.125s
+Completed  (round: 1, sync: 382/626 with L 150) sync_time: 9.263s; inter_time: 1.148s
+Completed  (round: 1, sync: 414/626 with L 150) sync_time: 9.545s; inter_time: 1.231s
+Completed  (round: 1, sync: 445/626 with L 150) sync_time: 9.245s; inter_time: 1.195s
+Completed  (round: 1, sync: 476/626 with L 150) sync_time: 9.251s; inter_time: 1.206s
+Completed  (round: 1, sync: 508/626 with L 150) sync_time: 9.499s; inter_time: 1.213s
+Completed  (round: 1, sync: 539/626 with L 150) sync_time: 9.191s; inter_time: 1.203s
+Completed  (round: 1, sync: 570/626 with L 150) sync_time: 9.197s; inter_time: 1.242s
+Completed  (round: 1, sync: 601/626 with L 150) sync_time: 9.186s; inter_time: 1.314s
+Completed Pass 1 of data using L=150 and alpha=1.2. Stats: search+prune_time=180.7s, inter_time=22.12s, inter_count=2339451
+Starting final cleanup..done. Link time: 402.1s
+Index built with degree: max:32  avg:31.78  min:2  count(deg<2):0
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.data) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.data does not exist
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.tags) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.tags does not exist
+Not saving tags as they are not enabled.
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.del) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index.del does not exist
+Time taken for save: 7.744s.
+# nodes: 5000000, max. degree: 48
+Creating inverse map -- shard #0
+Creating inverse map -- shard #1
+Creating inverse map -- shard #2
+Creating inverse map -- shard #3
+Finished computing node -> shards map
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-0_mem.index, size: 324671724, cache_size: 324671724
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-1_mem.index, size: 318894640, cache_size: 318894640
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-2_mem.index, size: 331758584, cache_size: 331758584
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index_tempFiles_subshard-3_mem.index, size: 336200364, cache_size: 336200364
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_mem.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index does not exist
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index, cache_size: 1073741824
+Max input width: 32, output width: 48
+Starting merge
+...........Expected size: 819887172
+Finished merge
+Finished writing 819887180B
+Vamana index built in: 1665s.
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_disk.index) returned: -1
+File /data/xjs/index/fresh_diskann_index/1024dim5M_disk.index does not exist
+Opened: /data/xjs/index/fresh_diskann_index/1024dim5M_disk.index, cache_size: 67108864
+medoid: 1236848B
+max_node_len: 4292B
+nnodes_per_sector: 1B
+# sectors: 5000000
+Sector #0written
+Sector #100000written
+Sector #200000written
+Sector #300000written
+Sector #400000written
+Sector #500000written
+Sector #600000written
+Sector #700000written
+Sector #800000written
+Sector #900000written
+Sector #1000000written
+Sector #1100000written
+Sector #1200000written
+Sector #1300000written
+Sector #1400000written
+Sector #1500000written
+Sector #1600000written
+Sector #1700000written
+Sector #1800000written
+Sector #1900000written
+Sector #2000000written
+Sector #2100000written
+Sector #2200000written
+Sector #2300000written
+Sector #2400000written
+Sector #2500000written
+Sector #2600000written
+Sector #2700000written
+Sector #2800000written
+Sector #2900000written
+Sector #3000000written
+Sector #3100000written
+Sector #3200000written
+Sector #3300000written
+Sector #3400000written
+Sector #3500000written
+Sector #3600000written
+Sector #3700000written
+Sector #3800000written
+Sector #3900000written
+Sector #4000000written
+Sector #4100000written
+Sector #4200000written
+Sector #4300000written
+Sector #4400000written
+Sector #4500000written
+Sector #4600000written
+Sector #4700000written
+Sector #4800000written
+Sector #4900000written
+Finished writing 40960008192B
+ Stat(/data/xjs/index/fresh_diskann_index/1024dim5M_disk.index) returned: 0
+Writing bin: /data/xjs/index/fresh_diskann_index/1024dim5M_disk.index
+bin: #pts = 9, #dims = 1, size = 80B
+Finished writing bin.
+Output file written.
+Finished writing 40960008192B
+Generating warmup file with 5e+05 points using a sampling rate of: 0.1
+Opened: /data/xjs/random_dataset/1024dim5M/base.fbin, size: 20480000008, cache_size: 67108864
+Loading base /data/xjs/random_dataset/1024dim5M/base.fbin. #points: 5000000. #dim: 1024.
+Wrote 500798 points to sample file: /data/xjs/index/fresh_diskann_index/1024dim5M_sample_data.bin
+Deleting memory index file: /data/xjs/index/fresh_diskann_index/1024dim5M_mem.index
+Indexing time: 2077

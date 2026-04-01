@@ -1,0 +1,1811 @@
+nohup: ignoring input
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Global logger initialized
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim50M/base.fbin
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: dim = 1024
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim50M/queries/groundtruth-test.bin
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/odinann_test/config/index_conf/0.95-1024dim50M.ini
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: index_path = /data/xjs/index/odinann_index/1024dim50M
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/odinann_test/log
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: num = 50000000
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: option = build
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim50M/queries/query-test.fbin
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: read_ratio = 0.9
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: threads = 16
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: topk = 10
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: total_test = false
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: warmup_seconds = 0
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Config: write_id_base = 50000000
+[2026-04-01 13:36:47.006] [GlobalLogger] [info] Build index OdinANN
+[2026-04-01 13:36:47.007] [GlobalLogger] [info] Build time: 0.000176737 s
+[aux_utils.cpp:708:INFO] Starting index build: R=64 L=220 Query RAM budget: 6.8451e+10 Indexing RAM budget: 128 T: 32 Final index will be in multiple files
+[aux_utils.cpp:738:INFO] (Normalized, if required) file : /data/xjs/random_dataset/1024dim50M/base.fbin has: 50000000 points. Changing training set size to 256000 points
+[aux_utils.cpp:89:INFO] Calculated num_pq_chunks :1369
+[aux_utils.cpp:94:INFO] Compressing 1024-dimensional data into 128 bytes per vector.
+[aux_utils.cpp:751:INFO] Generating PQ pivots with training data of size: 256094 num PQ chunks: 128
+[partition_and_pq.cpp:306:INFO] Kmeans time: 255.072 Lloyds time: 254.42 Copy time: 2.99307
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin does not exist
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 256, #dims = 1024, size = 1048584B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 1024, #dims = 1, size = 4104B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 1024, #dims = 1, size = 4104B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 129, #dims = 1, size = 524B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 5, #dims = 1, size = 48B
+[utils.h:365:INFO] Finished writing bin.
+[partition_and_pq.cpp:320:INFO] Saved pq pivot data to /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin of size 1061412B.
+[aux_utils.cpp:757:INFO] Pivots generated in 556.793s.
+[cached_io.h:37:INFO] Opened: /data/xjs/random_dataset/1024dim50M/base.fbin, size: 204800000008, cache_size: 67108864
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin) returned: 0
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 5, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 256, #dims = 1024...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 1024, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 1024, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim50M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 129, #dims = 1...
+[partition_and_pq.cpp:401:INFO] Loaded PQ pivot information
+[aux_utils.cpp:764:INFO] Compressed data generated and written in: 2151.25s.
+[partition_and_pq.cpp:683:INFO] Processing global k-means (kmeans_partitioning Step)
+[partition_and_pq.cpp:555:INFO] Estimated cluster sizes: 
+3.33166e+07 3.3269e+07 3.3315e+07 
+[partition_and_pq.cpp:700:INFO] With 3 parts, max estimated RAM usage: 147.256GB, budget given is 128
+[partition_and_pq.cpp:683:INFO] Processing global k-means (kmeans_partitioning Step)
+[partition_and_pq.cpp:555:INFO] Estimated cluster sizes: 
+2.51169e+07 2.47286e+07 2.49942e+07 2.52193e+07 
+[partition_and_pq.cpp:700:INFO] With 4 parts, max estimated RAM usage: 111.467GB, budget given is 128
+[partition_and_pq.cpp:708:INFO] Saving global k-center pivots
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_centroids.bin) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_centroids.bin does not exist
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_centroids.bin
+[utils.h:361:INFO] bin: #pts = 4, #dims = 1024, size = 16392B
+[utils.h:365:INFO] Finished writing bin.
+[cached_io.h:37:INFO] Opened: /data/xjs/random_dataset/1024dim50M/base.fbin, size: 204800000008, cache_size: 67108864
+[partition_and_pq.cpp:633:INFO] Actual shard sizes: 
+[partition_and_pq.cpp:637:INFO] 25046564 
+[partition_and_pq.cpp:637:INFO] 24742177 
+[partition_and_pq.cpp:637:INFO] 24974703 
+[partition_and_pq.cpp:637:INFO] 25236556 
+[partition_and_pq.cpp:646:INFO] 
+ Partitioned 50000000 with replication factor 2 to get 100000000 points across 4 shards 
+[index.cpp:70:INFO] Getting distance function for metric: l2
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0.bin) returned: 0
+[index.cpp:958:INFO] Loading only first 25046564 from file.. 
+[index.cpp:853:INFO] Parameters: L: 220, R: 42, saturate_graph: false, num_threads: 0, alpha: 1.2
+
+0% of index build completed.
+0.399256% of index build completed.
+0.798513% of index build completed.
+1.19777% of index build completed.
+1.59703% of index build completed.
+1.99628% of index build completed.
+2.39554% of index build completed.
+2.79479% of index build completed.
+3.19405% of index build completed.
+3.59331% of index build completed.
+3.99256% of index build completed.
+4.39182% of index build completed.
+4.79108% of index build completed.
+5.19033% of index build completed.
+5.58959% of index build completed.
+5.98885% of index build completed.
+6.3881% of index build completed.
+6.78736% of index build completed.
+7.18661% of index build completed.
+7.58587% of index build completed.
+7.98513% of index build completed.
+8.38438% of index build completed.
+8.78364% of index build completed.
+9.1829% of index build completed.
+9.58215% of index build completed.
+9.98141% of index build completed.
+10.3807% of index build completed.
+10.7799% of index build completed.
+11.1792% of index build completed.
+11.5784% of index build completed.
+11.9777% of index build completed.
+12.3769% of index build completed.
+12.7762% of index build completed.
+13.1755% of index build completed.
+13.5747% of index build completed.
+13.974% of index build completed.
+14.3732% of index build completed.
+14.7725% of index build completed.
+15.1717% of index build completed.
+15.571% of index build completed.
+15.9703% of index build completed.
+16.3695% of index build completed.
+16.7688% of index build completed.
+17.168% of index build completed.
+17.5673% of index build completed.
+17.9665% of index build completed.
+18.3658% of index build completed.
+18.765% of index build completed.
+19.1643% of index build completed.
+19.5636% of index build completed.
+19.9628% of index build completed.
+20.3621% of index build completed.
+20.7613% of index build completed.
+21.1606% of index build completed.
+21.5598% of index build completed.
+21.9591% of index build completed.
+22.3584% of index build completed.
+22.7576% of index build completed.
+23.1569% of index build completed.
+23.5561% of index build completed.
+23.9554% of index build completed.
+24.3546% of index build completed.
+24.7539% of index build completed.
+25.1532% of index build completed.
+25.5524% of index build completed.
+25.9517% of index build completed.
+26.3509% of index build completed.
+26.7502% of index build completed.
+27.1494% of index build completed.
+27.5487% of index build completed.
+27.9479% of index build completed.
+28.3472% of index build completed.
+28.7465% of index build completed.
+29.1457% of index build completed.
+29.545% of index build completed.
+29.9442% of index build completed.
+30.3435% of index build completed.
+30.7427% of index build completed.
+31.142% of index build completed.
+31.5413% of index build completed.
+31.9405% of index build completed.
+32.3398% of index build completed.
+32.739% of index build completed.
+33.1383% of index build completed.
+33.5375% of index build completed.
+33.9368% of index build completed.
+34.336% of index build completed.
+34.7353% of index build completed.
+35.1346% of index build completed.
+35.5338% of index build completed.
+35.9331% of index build completed.
+36.3323% of index build completed.
+36.7316% of index build completed.
+37.1308% of index build completed.
+37.5301% of index build completed.
+37.9294% of index build completed.
+38.3286% of index build completed.
+38.7279% of index build completed.
+39.1271% of index build completed.
+39.5264% of index build completed.
+39.9256% of index build completed.
+40.3249% of index build completed.
+40.7241% of index build completed.
+41.1234% of index build completed.
+41.5227% of index build completed.
+41.9219% of index build completed.
+42.3212% of index build completed.
+42.7204% of index build completed.
+43.1197% of index build completed.
+43.5189% of index build completed.
+43.9182% of index build completed.
+44.3175% of index build completed.
+44.7167% of index build completed.
+45.116% of index build completed.
+45.5152% of index build completed.
+45.9145% of index build completed.
+46.3137% of index build completed.
+46.713% of index build completed.
+47.1123% of index build completed.
+47.5115% of index build completed.
+47.9108% of index build completed.
+48.31% of index build completed.
+48.7093% of index build completed.
+49.1085% of index build completed.
+49.5078% of index build completed.
+49.907% of index build completed.
+50.3063% of index build completed.
+50.7056% of index build completed.
+51.1048% of index build completed.
+51.5041% of index build completed.
+51.9033% of index build completed.
+52.3026% of index build completed.
+52.7018% of index build completed.
+53.1011% of index build completed.
+53.5004% of index build completed.
+53.8996% of index build completed.
+54.2989% of index build completed.
+54.6981% of index build completed.
+55.0974% of index build completed.
+55.4966% of index build completed.
+55.8959% of index build completed.
+56.2951% of index build completed.
+56.6944% of index build completed.
+57.0937% of index build completed.
+57.4929% of index build completed.
+57.8922% of index build completed.
+58.2914% of index build completed.
+58.6907% of index build completed.
+59.0899% of index build completed.
+59.4892% of index build completed.
+59.8885% of index build completed.
+60.2877% of index build completed.
+60.687% of index build completed.
+61.0862% of index build completed.
+61.4855% of index build completed.
+61.8847% of index build completed.
+62.284% of index build completed.
+62.6832% of index build completed.
+63.0825% of index build completed.
+63.4818% of index build completed.
+63.881% of index build completed.
+64.2803% of index build completed.
+64.6795% of index build completed.
+65.0788% of index build completed.
+65.478% of index build completed.
+65.8773% of index build completed.
+66.2766% of index build completed.
+66.6758% of index build completed.
+67.0751% of index build completed.
+67.4743% of index build completed.
+67.8736% of index build completed.
+68.2728% of index build completed.
+68.6721% of index build completed.
+69.0714% of index build completed.
+69.4706% of index build completed.
+69.8699% of index build completed.
+70.2691% of index build completed.
+70.6684% of index build completed.
+71.0676% of index build completed.
+71.4669% of index build completed.
+71.8661% of index build completed.
+72.2654% of index build completed.
+72.6647% of index build completed.
+73.0639% of index build completed.
+73.4632% of index build completed.
+73.8624% of index build completed.
+74.2617% of index build completed.
+74.6609% of index build completed.
+75.0602% of index build completed.
+75.4595% of index build completed.
+75.8587% of index build completed.
+76.258% of index build completed.
+76.6572% of index build completed.
+77.0565% of index build completed.
+77.4557% of index build completed.
+77.855% of index build completed.
+78.2542% of index build completed.
+78.6535% of index build completed.
+79.0528% of index build completed.
+79.452% of index build completed.
+79.8513% of index build completed.
+80.2505% of index build completed.
+80.6498% of index build completed.
+81.049% of index build completed.
+81.4483% of index build completed.
+81.8476% of index build completed.
+82.2468% of index build completed.
+82.6461% of index build completed.
+83.0453% of index build completed.
+83.4446% of index build completed.
+83.8438% of index build completed.
+84.2431% of index build completed.
+84.6423% of index build completed.
+85.0416% of index build completed.
+85.4409% of index build completed.
+85.8401% of index build completed.
+86.2394% of index build completed.
+86.6386% of index build completed.
+87.0379% of index build completed.
+87.4371% of index build completed.
+87.8364% of index build completed.
+88.2357% of index build completed.
+88.6349% of index build completed.
+89.0342% of index build completed.
+89.4334% of index build completed.
+89.8327% of index build completed.
+90.2319% of index build completed.
+90.6312% of index build completed.
+91.0305% of index build completed.
+91.4297% of index build completed.
+91.829% of index build completed.
+92.2282% of index build completed.
+92.6275% of index build completed.
+93.0267% of index build completed.
+93.426% of index build completed.
+93.8252% of index build completed.
+94.2245% of index build completed.
+94.6238% of index build completed.
+95.023% of index build completed.
+95.4223% of index build completed.
+95.8215% of index build completed.
+96.2208% of index build completed.
+96.62% of index build completed.
+97.0193% of index build completed.
+97.4186% of index build completed.
+97.8178% of index build completed.
+98.2171% of index build completed.
+98.6163% of index build completed.
+99.0156% of index build completed.
+99.4148% of index build completed.
+99.8141% of index build completed.[index.cpp:900:INFO] Starting final cleanup..
+[index.cpp:926:INFO] done. Link time: 3718.03s
+[index.cpp:989:INFO] Index built with degree: max:42  avg:41.3387  min:2  count(deg<2):0
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.tags) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.tags does not exist
+[index.cpp:99:INFO] Not saving tags as they are not enabled.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.del) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index.del does not exist
+[index.cpp:214:INFO] Time taken for save: 103.569s.
+[index.cpp:70:INFO] Getting distance function for metric: l2
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1.bin) returned: 0
+[index.cpp:958:INFO] Loading only first 24742177 from file.. 
+[index.cpp:853:INFO] Parameters: L: 220, R: 42, saturate_graph: false, num_threads: 0, alpha: 1.2
+
+0% of index build completed.
+0.404168% of index build completed.
+0.808336% of index build completed.
+1.2125% of index build completed.
+1.61667% of index build completed.
+2.02084% of index build completed.
+2.42501% of index build completed.
+2.82918% of index build completed.
+3.23335% of index build completed.
+3.63751% of index build completed.
+4.04168% of index build completed.
+4.44585% of index build completed.
+4.85002% of index build completed.
+5.25419% of index build completed.
+5.65835% of index build completed.
+6.06252% of index build completed.
+6.46669% of index build completed.
+6.87086% of index build completed.
+7.27503% of index build completed.
+7.67919% of index build completed.
+8.08336% of index build completed.
+8.48753% of index build completed.
+8.8917% of index build completed.
+9.29587% of index build completed.
+9.70004% of index build completed.
+10.1042% of index build completed.
+10.5084% of index build completed.
+10.9125% of index build completed.
+11.3167% of index build completed.
+11.7209% of index build completed.
+12.125% of index build completed.
+12.5292% of index build completed.
+12.9334% of index build completed.
+13.3375% of index build completed.
+13.7417% of index build completed.
+14.1459% of index build completed.
+14.5501% of index build completed.
+14.9542% of index build completed.
+15.3584% of index build completed.
+15.7626% of index build completed.
+16.1667% of index build completed.
+16.5709% of index build completed.
+16.9751% of index build completed.
+17.3792% of index build completed.
+17.7834% of index build completed.
+18.1876% of index build completed.
+18.5917% of index build completed.
+18.9959% of index build completed.
+19.4001% of index build completed.
+19.8042% of index build completed.
+20.2084% of index build completed.
+20.6126% of index build completed.
+21.0167% of index build completed.
+21.4209% of index build completed.
+21.8251% of index build completed.
+22.2292% of index build completed.
+22.6334% of index build completed.
+23.0376% of index build completed.
+23.4418% of index build completed.
+23.8459% of index build completed.
+24.2501% of index build completed.
+24.6543% of index build completed.
+25.0584% of index build completed.
+25.4626% of index build completed.
+25.8668% of index build completed.
+26.2709% of index build completed.
+26.6751% of index build completed.
+27.0793% of index build completed.
+27.4834% of index build completed.
+27.8876% of index build completed.
+28.2918% of index build completed.
+28.6959% of index build completed.
+29.1001% of index build completed.
+29.5043% of index build completed.
+29.9084% of index build completed.
+30.3126% of index build completed.
+30.7168% of index build completed.
+31.1209% of index build completed.
+31.5251% of index build completed.
+31.9293% of index build completed.
+32.3335% of index build completed.
+32.7376% of index build completed.
+33.1418% of index build completed.
+33.546% of index build completed.
+33.9501% of index build completed.
+34.3543% of index build completed.
+34.7585% of index build completed.
+35.1626% of index build completed.
+35.5668% of index build completed.
+35.971% of index build completed.
+36.3751% of index build completed.
+36.7793% of index build completed.
+37.1835% of index build completed.
+37.5876% of index build completed.
+37.9918% of index build completed.
+38.396% of index build completed.
+38.8001% of index build completed.
+39.2043% of index build completed.
+39.6085% of index build completed.
+40.0126% of index build completed.
+40.4168% of index build completed.
+40.821% of index build completed.
+41.2252% of index build completed.
+41.6293% of index build completed.
+42.0335% of index build completed.
+42.4377% of index build completed.
+42.8418% of index build completed.
+43.246% of index build completed.
+43.6502% of index build completed.
+44.0543% of index build completed.
+44.4585% of index build completed.
+44.8627% of index build completed.
+45.2668% of index build completed.
+45.671% of index build completed.
+46.0752% of index build completed.
+46.4793% of index build completed.
+46.8835% of index build completed.
+47.2877% of index build completed.
+47.6918% of index build completed.
+48.096% of index build completed.
+48.5002% of index build completed.
+48.9043% of index build completed.
+49.3085% of index build completed.
+49.7127% of index build completed.
+50.1169% of index build completed.
+50.521% of index build completed.
+50.9252% of index build completed.
+51.3294% of index build completed.
+51.7335% of index build completed.
+52.1377% of index build completed.
+52.5419% of index build completed.
+52.946% of index build completed.
+53.3502% of index build completed.
+53.7544% of index build completed.
+54.1585% of index build completed.
+54.5627% of index build completed.
+54.9669% of index build completed.
+55.371% of index build completed.
+55.7752% of index build completed.
+56.1794% of index build completed.
+56.5835% of index build completed.
+56.9877% of index build completed.
+57.3919% of index build completed.
+57.796% of index build completed.
+58.2002% of index build completed.
+58.6044% of index build completed.
+59.0086% of index build completed.
+59.4127% of index build completed.
+59.8169% of index build completed.
+60.2211% of index build completed.
+60.6252% of index build completed.
+61.0294% of index build completed.
+61.4336% of index build completed.
+61.8377% of index build completed.
+62.2419% of index build completed.
+62.6461% of index build completed.
+63.0502% of index build completed.
+63.4544% of index build completed.
+63.8586% of index build completed.
+64.2627% of index build completed.
+64.6669% of index build completed.
+65.0711% of index build completed.
+65.4752% of index build completed.
+65.8794% of index build completed.
+66.2836% of index build completed.
+66.6877% of index build completed.
+67.0919% of index build completed.
+67.4961% of index build completed.
+67.9002% of index build completed.
+68.3044% of index build completed.
+68.7086% of index build completed.
+69.1128% of index build completed.
+69.5169% of index build completed.
+69.9211% of index build completed.
+70.3253% of index build completed.
+70.7294% of index build completed.
+71.1336% of index build completed.
+71.5378% of index build completed.
+71.9419% of index build completed.
+72.3461% of index build completed.
+72.7503% of index build completed.
+73.1544% of index build completed.
+73.5586% of index build completed.
+73.9628% of index build completed.
+74.3669% of index build completed.
+74.7711% of index build completed.
+75.1753% of index build completed.
+75.5794% of index build completed.
+75.9836% of index build completed.
+76.3878% of index build completed.
+76.7919% of index build completed.
+77.1961% of index build completed.
+77.6003% of index build completed.
+78.0045% of index build completed.
+78.4086% of index build completed.
+78.8128% of index build completed.
+79.217% of index build completed.
+79.6211% of index build completed.
+80.0253% of index build completed.
+80.4295% of index build completed.
+80.8336% of index build completed.
+81.2378% of index build completed.
+81.642% of index build completed.
+82.0461% of index build completed.
+82.4503% of index build completed.
+82.8545% of index build completed.
+83.2586% of index build completed.
+83.6628% of index build completed.
+84.067% of index build completed.
+84.4711% of index build completed.
+84.8753% of index build completed.
+85.2795% of index build completed.
+85.6836% of index build completed.
+86.0878% of index build completed.
+86.492% of index build completed.
+86.8962% of index build completed.
+87.3003% of index build completed.
+87.7045% of index build completed.
+88.1087% of index build completed.
+88.5128% of index build completed.
+88.917% of index build completed.
+89.3212% of index build completed.
+89.7253% of index build completed.
+90.1295% of index build completed.
+90.5337% of index build completed.
+90.9378% of index build completed.
+91.342% of index build completed.
+91.7462% of index build completed.
+92.1503% of index build completed.
+92.5545% of index build completed.
+92.9587% of index build completed.
+93.3628% of index build completed.
+93.767% of index build completed.
+94.1712% of index build completed.
+94.5753% of index build completed.
+94.9795% of index build completed.
+95.3837% of index build completed.
+95.7879% of index build completed.
+96.192% of index build completed.
+96.5962% of index build completed.
+97.0004% of index build completed.
+97.4045% of index build completed.
+97.8087% of index build completed.
+98.2129% of index build completed.
+98.617% of index build completed.
+99.0212% of index build completed.
+99.4254% of index build completed.
+99.8295% of index build completed.[index.cpp:900:INFO] Starting final cleanup..
+[index.cpp:926:INFO] done. Link time: 3933.93s
+[index.cpp:989:INFO] Index built with degree: max:42  avg:41.2732  min:2  count(deg<2):0
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.tags) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.tags does not exist
+[index.cpp:99:INFO] Not saving tags as they are not enabled.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.del) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index.del does not exist
+[index.cpp:214:INFO] Time taken for save: 88.5636s.
+[index.cpp:70:INFO] Getting distance function for metric: l2
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2.bin) returned: 0
+[index.cpp:958:INFO] Loading only first 24974703 from file.. 
+[index.cpp:853:INFO] Parameters: L: 220, R: 42, saturate_graph: false, num_threads: 0, alpha: 1.2
+
+0% of index build completed.
+0.400405% of index build completed.
+0.80081% of index build completed.
+1.20122% of index build completed.
+1.60162% of index build completed.
+2.00203% of index build completed.
+2.40243% of index build completed.
+2.80284% of index build completed.
+3.20324% of index build completed.
+3.60365% of index build completed.
+4.00405% of index build completed.
+4.40446% of index build completed.
+4.80486% of index build completed.
+5.20527% of index build completed.
+5.60567% of index build completed.
+6.00608% of index build completed.
+6.40648% of index build completed.
+6.80689% of index build completed.
+7.20729% of index build completed.
+7.6077% of index build completed.
+8.0081% of index build completed.
+8.40851% of index build completed.
+8.80891% of index build completed.
+9.20932% of index build completed.
+9.60972% of index build completed.
+10.0101% of index build completed.
+10.4105% of index build completed.
+10.8109% of index build completed.
+11.2113% of index build completed.
+11.6117% of index build completed.
+12.0122% of index build completed.
+12.4126% of index build completed.
+12.813% of index build completed.
+13.2134% of index build completed.
+13.6138% of index build completed.
+14.0142% of index build completed.
+14.4146% of index build completed.
+14.815% of index build completed.
+15.2154% of index build completed.
+15.6158% of index build completed.
+16.0162% of index build completed.
+16.4166% of index build completed.
+16.817% of index build completed.
+17.2174% of index build completed.
+17.6178% of index build completed.
+18.0182% of index build completed.
+18.4186% of index build completed.
+18.819% of index build completed.
+19.2194% of index build completed.
+19.6199% of index build completed.
+20.0203% of index build completed.
+20.4207% of index build completed.
+20.8211% of index build completed.
+21.2215% of index build completed.
+21.6219% of index build completed.
+22.0223% of index build completed.
+22.4227% of index build completed.
+22.8231% of index build completed.
+23.2235% of index build completed.
+23.6239% of index build completed.
+24.0243% of index build completed.
+24.4247% of index build completed.
+24.8251% of index build completed.
+25.2255% of index build completed.
+25.6259% of index build completed.
+26.0263% of index build completed.
+26.4267% of index build completed.
+26.8271% of index build completed.
+27.2276% of index build completed.
+27.628% of index build completed.
+28.0284% of index build completed.
+28.4288% of index build completed.
+28.8292% of index build completed.
+29.2296% of index build completed.
+29.63% of index build completed.
+30.0304% of index build completed.
+30.4308% of index build completed.
+30.8312% of index build completed.
+31.2316% of index build completed.
+31.632% of index build completed.
+32.0324% of index build completed.
+32.4328% of index build completed.
+32.8332% of index build completed.
+33.2336% of index build completed.
+33.634% of index build completed.
+34.0344% of index build completed.
+34.4348% of index build completed.
+34.8352% of index build completed.
+35.2357% of index build completed.
+35.6361% of index build completed.
+36.0365% of index build completed.
+36.4369% of index build completed.
+36.8373% of index build completed.
+37.2377% of index build completed.
+37.6381% of index build completed.
+38.0385% of index build completed.
+38.4389% of index build completed.
+38.8393% of index build completed.
+39.2397% of index build completed.
+39.6401% of index build completed.
+40.0405% of index build completed.
+40.4409% of index build completed.
+40.8413% of index build completed.
+41.2417% of index build completed.
+41.6421% of index build completed.
+42.0425% of index build completed.
+42.4429% of index build completed.
+42.8434% of index build completed.
+43.2438% of index build completed.
+43.6442% of index build completed.
+44.0446% of index build completed.
+44.445% of index build completed.
+44.8454% of index build completed.
+45.2458% of index build completed.
+45.6462% of index build completed.
+46.0466% of index build completed.
+46.447% of index build completed.
+46.8474% of index build completed.
+47.2478% of index build completed.
+47.6482% of index build completed.
+48.0486% of index build completed.
+48.449% of index build completed.
+48.8494% of index build completed.
+49.2498% of index build completed.
+49.6502% of index build completed.
+50.0506% of index build completed.
+50.4511% of index build completed.
+50.8515% of index build completed.
+51.2519% of index build completed.
+51.6523% of index build completed.
+52.0527% of index build completed.
+52.4531% of index build completed.
+52.8535% of index build completed.
+53.2539% of index build completed.
+53.6543% of index build completed.
+54.0547% of index build completed.
+54.4551% of index build completed.
+54.8555% of index build completed.
+55.2559% of index build completed.
+55.6563% of index build completed.
+56.0567% of index build completed.
+56.4571% of index build completed.
+56.8575% of index build completed.
+57.2579% of index build completed.
+57.6583% of index build completed.
+58.0587% of index build completed.
+58.4592% of index build completed.
+58.8596% of index build completed.
+59.26% of index build completed.
+59.6604% of index build completed.
+60.0608% of index build completed.
+60.4612% of index build completed.
+60.8616% of index build completed.
+61.262% of index build completed.
+61.6624% of index build completed.
+62.0628% of index build completed.
+62.4632% of index build completed.
+62.8636% of index build completed.
+63.264% of index build completed.
+63.6644% of index build completed.
+64.0648% of index build completed.
+64.4652% of index build completed.
+64.8656% of index build completed.
+65.266% of index build completed.
+65.6664% of index build completed.
+66.0669% of index build completed.
+66.4673% of index build completed.
+66.8677% of index build completed.
+67.2681% of index build completed.
+67.6685% of index build completed.
+68.0689% of index build completed.
+68.4693% of index build completed.
+68.8697% of index build completed.
+69.2701% of index build completed.
+69.6705% of index build completed.
+70.0709% of index build completed.
+70.4713% of index build completed.
+70.8717% of index build completed.
+71.2721% of index build completed.
+71.6725% of index build completed.
+72.0729% of index build completed.
+72.4733% of index build completed.
+72.8737% of index build completed.
+73.2741% of index build completed.
+73.6745% of index build completed.
+74.075% of index build completed.
+74.4754% of index build completed.
+74.8758% of index build completed.
+75.2762% of index build completed.
+75.6766% of index build completed.
+76.077% of index build completed.
+76.4774% of index build completed.
+76.8778% of index build completed.
+77.2782% of index build completed.
+77.6786% of index build completed.
+78.079% of index build completed.
+78.4794% of index build completed.
+78.8798% of index build completed.
+79.2802% of index build completed.
+79.6806% of index build completed.
+80.081% of index build completed.
+80.4814% of index build completed.
+80.8818% of index build completed.
+81.2822% of index build completed.
+81.6827% of index build completed.
+82.0831% of index build completed.
+82.4835% of index build completed.
+82.8839% of index build completed.
+83.2843% of index build completed.
+83.6847% of index build completed.
+84.0851% of index build completed.
+84.4855% of index build completed.
+84.8859% of index build completed.
+85.2863% of index build completed.
+85.6867% of index build completed.
+86.0871% of index build completed.
+86.4875% of index build completed.
+86.8879% of index build completed.
+87.2883% of index build completed.
+87.6887% of index build completed.
+88.0891% of index build completed.
+88.4895% of index build completed.
+88.8899% of index build completed.
+89.2904% of index build completed.
+89.6908% of index build completed.
+90.0912% of index build completed.
+90.4916% of index build completed.
+90.892% of index build completed.
+91.2924% of index build completed.
+91.6928% of index build completed.
+92.0932% of index build completed.
+92.4936% of index build completed.
+92.894% of index build completed.
+93.2944% of index build completed.
+93.6948% of index build completed.
+94.0952% of index build completed.
+94.4956% of index build completed.
+94.896% of index build completed.
+95.2964% of index build completed.
+95.6968% of index build completed.
+96.0972% of index build completed.
+96.4976% of index build completed.
+96.898% of index build completed.
+97.2985% of index build completed.
+97.6989% of index build completed.
+98.0993% of index build completed.
+98.4997% of index build completed.
+98.9001% of index build completed.
+99.3005% of index build completed.
+99.7009% of index build completed.[index.cpp:900:INFO] Starting final cleanup..
+[index.cpp:926:INFO] done. Link time: 3974.16s
+[index.cpp:989:INFO] Index built with degree: max:42  avg:41.2476  min:2  count(deg<2):0
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.tags) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.tags does not exist
+[index.cpp:99:INFO] Not saving tags as they are not enabled.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.del) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index.del does not exist
+[index.cpp:214:INFO] Time taken for save: 93.4169s.
+[index.cpp:70:INFO] Getting distance function for metric: l2
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3.bin) returned: 0
+[index.cpp:958:INFO] Loading only first 25236556 from file.. 
+[index.cpp:853:INFO] Parameters: L: 220, R: 42, saturate_graph: false, num_threads: 0, alpha: 1.2
+
+0% of index build completed.
+0.396251% of index build completed.
+0.792501% of index build completed.
+1.18875% of index build completed.
+1.585% of index build completed.
+1.98125% of index build completed.
+2.3775% of index build completed.
+2.77375% of index build completed.
+3.17% of index build completed.
+3.56626% of index build completed.
+3.96251% of index build completed.
+4.35876% of index build completed.
+4.75501% of index build completed.
+5.15126% of index build completed.
+5.54751% of index build completed.
+5.94376% of index build completed.
+6.34001% of index build completed.
+6.73626% of index build completed.
+7.13251% of index build completed.
+7.52876% of index build completed.
+7.92501% of index build completed.
+8.32126% of index build completed.
+8.71751% of index build completed.
+9.11376% of index build completed.
+9.51001% of index build completed.
+9.90626% of index build completed.
+10.3025% of index build completed.
+10.6988% of index build completed.
+11.095% of index build completed.
+11.4913% of index build completed.
+11.8875% of index build completed.
+12.2838% of index build completed.
+12.68% of index build completed.
+13.0763% of index build completed.
+13.4725% of index build completed.
+13.8688% of index build completed.
+14.265% of index build completed.
+14.6613% of index build completed.
+15.0575% of index build completed.
+15.4538% of index build completed.
+15.85% of index build completed.
+16.2463% of index build completed.
+16.6425% of index build completed.
+17.0388% of index build completed.
+17.435% of index build completed.
+17.8313% of index build completed.
+18.2275% of index build completed.
+18.6238% of index build completed.
+19.02% of index build completed.
+19.4163% of index build completed.
+19.8125% of index build completed.
+20.2088% of index build completed.
+20.605% of index build completed.
+21.0013% of index build completed.
+21.3975% of index build completed.
+21.7938% of index build completed.
+22.19% of index build completed.
+22.5863% of index build completed.
+22.9825% of index build completed.
+23.3788% of index build completed.
+23.775% of index build completed.
+24.1713% of index build completed.
+24.5675% of index build completed.
+24.9638% of index build completed.
+25.36% of index build completed.
+25.7563% of index build completed.
+26.1525% of index build completed.
+26.5488% of index build completed.
+26.945% of index build completed.
+27.3413% of index build completed.
+27.7375% of index build completed.
+28.1338% of index build completed.
+28.53% of index build completed.
+28.9263% of index build completed.
+29.3225% of index build completed.
+29.7188% of index build completed.
+30.115% of index build completed.
+30.5113% of index build completed.
+30.9075% of index build completed.
+31.3038% of index build completed.
+31.7% of index build completed.
+32.0963% of index build completed.
+32.4925% of index build completed.
+32.8888% of index build completed.
+33.285% of index build completed.
+33.6813% of index build completed.
+34.0776% of index build completed.
+34.4738% of index build completed.
+34.8701% of index build completed.
+35.2663% of index build completed.
+35.6626% of index build completed.
+36.0588% of index build completed.
+36.4551% of index build completed.
+36.8513% of index build completed.
+37.2476% of index build completed.
+37.6438% of index build completed.
+38.0401% of index build completed.
+38.4363% of index build completed.
+38.8326% of index build completed.
+39.2288% of index build completed.
+39.6251% of index build completed.
+40.0213% of index build completed.
+40.4176% of index build completed.
+40.8138% of index build completed.
+41.2101% of index build completed.
+41.6063% of index build completed.
+42.0026% of index build completed.
+42.3988% of index build completed.
+42.7951% of index build completed.
+43.1913% of index build completed.
+43.5876% of index build completed.
+43.9838% of index build completed.
+44.3801% of index build completed.
+44.7763% of index build completed.
+45.1726% of index build completed.
+45.5688% of index build completed.
+45.9651% of index build completed.
+46.3613% of index build completed.
+46.7576% of index build completed.
+47.1538% of index build completed.
+47.5501% of index build completed.
+47.9463% of index build completed.
+48.3426% of index build completed.
+48.7388% of index build completed.
+49.1351% of index build completed.
+49.5313% of index build completed.
+49.9276% of index build completed.
+50.3238% of index build completed.
+50.7201% of index build completed.
+51.1163% of index build completed.
+51.5126% of index build completed.
+51.9088% of index build completed.
+52.3051% of index build completed.
+52.7013% of index build completed.
+53.0976% of index build completed.
+53.4938% of index build completed.
+53.8901% of index build completed.
+54.2863% of index build completed.
+54.6826% of index build completed.
+55.0788% of index build completed.
+55.4751% of index build completed.
+55.8713% of index build completed.
+56.2676% of index build completed.
+56.6638% of index build completed.
+57.0601% of index build completed.
+57.4563% of index build completed.
+57.8526% of index build completed.
+58.2488% of index build completed.
+58.6451% of index build completed.
+59.0413% of index build completed.
+59.4376% of index build completed.
+59.8338% of index build completed.
+60.2301% of index build completed.
+60.6263% of index build completed.
+61.0226% of index build completed.
+61.4188% of index build completed.
+61.8151% of index build completed.
+62.2113% of index build completed.
+62.6076% of index build completed.
+63.0038% of index build completed.
+63.4001% of index build completed.
+63.7963% of index build completed.
+64.1926% of index build completed.
+64.5888% of index build completed.
+64.9851% of index build completed.
+65.3813% of index build completed.
+65.7776% of index build completed.
+66.1738% of index build completed.
+66.5701% of index build completed.
+66.9663% of index build completed.
+67.3626% of index build completed.
+67.7588% of index build completed.
+68.1551% of index build completed.
+68.5514% of index build completed.
+68.9476% of index build completed.
+69.3439% of index build completed.
+69.7401% of index build completed.
+70.1364% of index build completed.
+70.5326% of index build completed.
+70.9289% of index build completed.
+71.3251% of index build completed.
+71.7214% of index build completed.
+72.1176% of index build completed.
+72.5139% of index build completed.
+72.9101% of index build completed.
+73.3064% of index build completed.
+73.7026% of index build completed.
+74.0989% of index build completed.
+74.4951% of index build completed.
+74.8914% of index build completed.
+75.2876% of index build completed.
+75.6839% of index build completed.
+76.0801% of index build completed.
+76.4764% of index build completed.
+76.8726% of index build completed.
+77.2689% of index build completed.
+77.6651% of index build completed.
+78.0614% of index build completed.
+78.4576% of index build completed.
+78.8539% of index build completed.
+79.2501% of index build completed.
+79.6464% of index build completed.
+80.0426% of index build completed.
+80.4389% of index build completed.
+80.8351% of index build completed.
+81.2314% of index build completed.
+81.6276% of index build completed.
+82.0239% of index build completed.
+82.4201% of index build completed.
+82.8164% of index build completed.
+83.2126% of index build completed.
+83.6089% of index build completed.
+84.0051% of index build completed.
+84.4014% of index build completed.
+84.7976% of index build completed.
+85.1939% of index build completed.
+85.5901% of index build completed.
+85.9864% of index build completed.
+86.3826% of index build completed.
+86.7789% of index build completed.
+87.1751% of index build completed.
+87.5714% of index build completed.
+87.9676% of index build completed.
+88.3639% of index build completed.
+88.7601% of index build completed.
+89.1564% of index build completed.
+89.5526% of index build completed.
+89.9489% of index build completed.
+90.3451% of index build completed.
+90.7414% of index build completed.
+91.1376% of index build completed.
+91.5339% of index build completed.
+91.9301% of index build completed.
+92.3264% of index build completed.
+92.7226% of index build completed.
+93.1189% of index build completed.
+93.5151% of index build completed.
+93.9114% of index build completed.
+94.3076% of index build completed.
+94.7039% of index build completed.
+95.1001% of index build completed.
+95.4964% of index build completed.
+95.8926% of index build completed.
+96.2889% of index build completed.
+96.6851% of index build completed.
+97.0814% of index build completed.
+97.4776% of index build completed.
+97.8739% of index build completed.
+98.2701% of index build completed.
+98.6664% of index build completed.
+99.0626% of index build completed.
+99.4589% of index build completed.
+99.8551% of index build completed.[index.cpp:900:INFO] Starting final cleanup..
+[index.cpp:926:INFO] done. Link time: 3783.56s
+[index.cpp:989:INFO] Index built with degree: max:42  avg:41.2976  min:2  count(deg<2):0
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.tags) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.tags does not exist
+[index.cpp:99:INFO] Not saving tags as they are not enabled.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.del) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index.del does not exist
+[index.cpp:214:INFO] Time taken for save: 99.1157s.
+[aux_utils.cpp:220:INFO] # nodes: 50000000, max. degree: 64
+[aux_utils.cpp:226:INFO] Creating inverse map -- shard #0
+[aux_utils.cpp:226:INFO] Creating inverse map -- shard #1
+[aux_utils.cpp:226:INFO] Creating inverse map -- shard #2
+[aux_utils.cpp:226:INFO] Creating inverse map -- shard #3
+[aux_utils.cpp:235:INFO] Finished computing node -> shards map
+[cached_io.h:37:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-0_mem.index, size: 4241758632, cache_size: 1073741824
+[cached_io.h:37:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-1_mem.index, size: 4183721968, cache_size: 1073741824
+[cached_io.h:37:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-2_mem.index, size: 4220486092, cache_size: 1073741824
+[cached_io.h:37:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_mem.index_tempFiles_subshard-3_mem.index, size: 4269787384, cache_size: 1073741824
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_mem.index does not exist
+[cached_io.h:113:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_mem.index, cache_size: 1073741824
+[aux_utils.cpp:260:INFO] Max input width: 42, output width: 64
+[aux_utils.cpp:287:INFO] Starting merge
+[aux_utils.cpp:310:INFO] 1...
+[aux_utils.cpp:310:INFO] 500000...
+[aux_utils.cpp:310:INFO] 999999...
+[aux_utils.cpp:310:INFO] 1499998...
+[aux_utils.cpp:310:INFO] 1999997...
+[aux_utils.cpp:310:INFO] 2499996...
+[aux_utils.cpp:310:INFO] 2999995...
+[aux_utils.cpp:310:INFO] 3499994...
+[aux_utils.cpp:310:INFO] 3999993...
+[aux_utils.cpp:310:INFO] 4499992...
+[aux_utils.cpp:310:INFO] 4999991...
+[aux_utils.cpp:310:INFO] 5499990...
+[aux_utils.cpp:310:INFO] 5999989...
+[aux_utils.cpp:310:INFO] 6499988...
+[aux_utils.cpp:310:INFO] 6999987...
+[aux_utils.cpp:310:INFO] 7499986...
+[aux_utils.cpp:310:INFO] 7999985...
+[aux_utils.cpp:310:INFO] 8499984...
+[aux_utils.cpp:310:INFO] 8999983...
+[aux_utils.cpp:310:INFO] 9499982...
+[aux_utils.cpp:310:INFO] 9999981...
+[aux_utils.cpp:310:INFO] 10499980...
+[aux_utils.cpp:310:INFO] 10999979...
+[aux_utils.cpp:310:INFO] 11499978...
+[aux_utils.cpp:310:INFO] 11999977...
+[aux_utils.cpp:310:INFO] 12499976...
+[aux_utils.cpp:310:INFO] 12999975...
+[aux_utils.cpp:310:INFO] 13499974...
+[aux_utils.cpp:310:INFO] 13999973...
+[aux_utils.cpp:310:INFO] 14499972...
+[aux_utils.cpp:310:INFO] 14999971...
+[aux_utils.cpp:310:INFO] 15499970...
+[aux_utils.cpp:310:INFO] 15999969...
+[aux_utils.cpp:310:INFO] 16499968...
+[aux_utils.cpp:310:INFO] 16999967...
+[aux_utils.cpp:310:INFO] 17499966...
+[aux_utils.cpp:310:INFO] 17999965...
+[aux_utils.cpp:310:INFO] 18499964...
+[aux_utils.cpp:310:INFO] 18999963...
+[aux_utils.cpp:310:INFO] 19499962...
+[aux_utils.cpp:310:INFO] 19999961...
+[aux_utils.cpp:310:INFO] 20499960...
+[aux_utils.cpp:310:INFO] 20999959...
+[aux_utils.cpp:310:INFO] 21499958...
+[aux_utils.cpp:310:INFO] 21999957...
+[aux_utils.cpp:310:INFO] 22499956...
+[aux_utils.cpp:310:INFO] 22999955...
+[aux_utils.cpp:310:INFO] 23499954...
+[aux_utils.cpp:310:INFO] 23999953...
+[aux_utils.cpp:310:INFO] 24499952...
+[aux_utils.cpp:310:INFO] 24999951...
+[aux_utils.cpp:310:INFO] 25499950...
+[aux_utils.cpp:310:INFO] 25999949...
+[aux_utils.cpp:310:INFO] 26499948...
+[aux_utils.cpp:310:INFO] 26999947...
+[aux_utils.cpp:310:INFO] 27499946...
+[aux_utils.cpp:310:INFO] 27999945...
+[aux_utils.cpp:310:INFO] 28499944...
+[aux_utils.cpp:310:INFO] 28999943...
+[aux_utils.cpp:310:INFO] 29499942...
+[aux_utils.cpp:310:INFO] 29999941...
+[aux_utils.cpp:310:INFO] 30499940...
+[aux_utils.cpp:310:INFO] 30999939...
+[aux_utils.cpp:310:INFO] 31499938...
+[aux_utils.cpp:310:INFO] 31999937...
+[aux_utils.cpp:310:INFO] 32499936...
+[aux_utils.cpp:310:INFO] 32999935...
+[aux_utils.cpp:310:INFO] 33499934...
+[aux_utils.cpp:310:INFO] 33999933...
+[aux_utils.cpp:310:INFO] 34499932...
+[aux_utils.cpp:310:INFO] 34999931...
+[aux_utils.cpp:310:INFO] 35499930...
+[aux_utils.cpp:310:INFO] 35999929...
+[aux_utils.cpp:310:INFO] 36499928...
+[aux_utils.cpp:310:INFO] 36999927...
+[aux_utils.cpp:310:INFO] 37499926...
+[aux_utils.cpp:310:INFO] 37999925...
+[aux_utils.cpp:310:INFO] 38499924...
+[aux_utils.cpp:310:INFO] 38999923...
+[aux_utils.cpp:310:INFO] 39499922...
+[aux_utils.cpp:310:INFO] 39999921...
+[aux_utils.cpp:310:INFO] 40499920...
+[aux_utils.cpp:310:INFO] 40999919...
+[aux_utils.cpp:310:INFO] 41499918...
+[aux_utils.cpp:310:INFO] 41999917...
+[aux_utils.cpp:310:INFO] 42499916...
+[aux_utils.cpp:310:INFO] 42999915...
+[aux_utils.cpp:310:INFO] 43499914...
+[aux_utils.cpp:310:INFO] 43999913...
+[aux_utils.cpp:310:INFO] 44499912...
+[aux_utils.cpp:310:INFO] 44999911...
+[aux_utils.cpp:310:INFO] 45499910...
+[aux_utils.cpp:310:INFO] 45999909...
+[aux_utils.cpp:310:INFO] 46499908...
+[aux_utils.cpp:310:INFO] 46999907...
+[aux_utils.cpp:310:INFO] 47499906...
+[aux_utils.cpp:310:INFO] 47999905...
+[aux_utils.cpp:310:INFO] 48499904...
+[aux_utils.cpp:310:INFO] 48999903...
+[aux_utils.cpp:310:INFO] 49499902...
+[aux_utils.cpp:310:INFO] 49999901...
+[aux_utils.cpp:343:INFO] Expected size: 10974852528
+[aux_utils.cpp:348:INFO] Finished merge
+[cached_io.h:133:INFO] Finished writing 10974852536B
+[aux_utils.cpp:770:INFO] Vamana index built in: 17041.9s.
+[cached_io.h:37:INFO] Opened: /data/xjs/random_dataset/1024dim50M/base.fbin, size: 204800000008, cache_size: 67108864
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_disk.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim50M_disk.index does not exist
+[cached_io.h:113:INFO] Opened: /data/xjs/index/odinann_index/1024dim50M_disk.index, cache_size: 67108864
+[aux_utils.cpp:500:INFO] medoid: 8672393B
+[aux_utils.cpp:501:INFO] max_node_len: 4356B
+[aux_utils.cpp:502:INFO] nnodes_per_sector: 1B
+[aux_utils.cpp:532:INFO] # sectors: 50000000
+[aux_utils.cpp:538:INFO] Sector #0written
+[aux_utils.cpp:538:INFO] Sector #100000written
+[aux_utils.cpp:538:INFO] Sector #200000written
+[aux_utils.cpp:538:INFO] Sector #300000written
+[aux_utils.cpp:538:INFO] Sector #400000written
+[aux_utils.cpp:538:INFO] Sector #500000written
+[aux_utils.cpp:538:INFO] Sector #600000written
+[aux_utils.cpp:538:INFO] Sector #700000written
+[aux_utils.cpp:538:INFO] Sector #800000written
+[aux_utils.cpp:538:INFO] Sector #900000written
+[aux_utils.cpp:538:INFO] Sector #1000000written
+[aux_utils.cpp:538:INFO] Sector #1100000written
+[aux_utils.cpp:538:INFO] Sector #1200000written
+[aux_utils.cpp:538:INFO] Sector #1300000written
+[aux_utils.cpp:538:INFO] Sector #1400000written
+[aux_utils.cpp:538:INFO] Sector #1500000written
+[aux_utils.cpp:538:INFO] Sector #1600000written
+[aux_utils.cpp:538:INFO] Sector #1700000written
+[aux_utils.cpp:538:INFO] Sector #1800000written
+[aux_utils.cpp:538:INFO] Sector #1900000written
+[aux_utils.cpp:538:INFO] Sector #2000000written
+[aux_utils.cpp:538:INFO] Sector #2100000written
+[aux_utils.cpp:538:INFO] Sector #2200000written
+[aux_utils.cpp:538:INFO] Sector #2300000written
+[aux_utils.cpp:538:INFO] Sector #2400000written
+[aux_utils.cpp:538:INFO] Sector #2500000written
+[aux_utils.cpp:538:INFO] Sector #2600000written
+[aux_utils.cpp:538:INFO] Sector #2700000written
+[aux_utils.cpp:538:INFO] Sector #2800000written
+[aux_utils.cpp:538:INFO] Sector #2900000written
+[aux_utils.cpp:538:INFO] Sector #3000000written
+[aux_utils.cpp:538:INFO] Sector #3100000written
+[aux_utils.cpp:538:INFO] Sector #3200000written
+[aux_utils.cpp:538:INFO] Sector #3300000written
+[aux_utils.cpp:538:INFO] Sector #3400000written
+[aux_utils.cpp:538:INFO] Sector #3500000written
+[aux_utils.cpp:538:INFO] Sector #3600000written
+[aux_utils.cpp:538:INFO] Sector #3700000written
+[aux_utils.cpp:538:INFO] Sector #3800000written
+[aux_utils.cpp:538:INFO] Sector #3900000written
+[aux_utils.cpp:538:INFO] Sector #4000000written
+[aux_utils.cpp:538:INFO] Sector #4100000written
+[aux_utils.cpp:538:INFO] Sector #4200000written
+[aux_utils.cpp:538:INFO] Sector #4300000written
+[aux_utils.cpp:538:INFO] Sector #4400000written
+[aux_utils.cpp:538:INFO] Sector #4500000written
+[aux_utils.cpp:538:INFO] Sector #4600000written
+[aux_utils.cpp:538:INFO] Sector #4700000written
+[aux_utils.cpp:538:INFO] Sector #4800000written
+[aux_utils.cpp:538:INFO] Sector #4900000written
+[aux_utils.cpp:538:INFO] Sector #5000000written
+[aux_utils.cpp:538:INFO] Sector #5100000written
+[aux_utils.cpp:538:INFO] Sector #5200000written
+[aux_utils.cpp:538:INFO] Sector #5300000written
+[aux_utils.cpp:538:INFO] Sector #5400000written
+[aux_utils.cpp:538:INFO] Sector #5500000written
+[aux_utils.cpp:538:INFO] Sector #5600000written
+[aux_utils.cpp:538:INFO] Sector #5700000written
+[aux_utils.cpp:538:INFO] Sector #5800000written
+[aux_utils.cpp:538:INFO] Sector #5900000written
+[aux_utils.cpp:538:INFO] Sector #6000000written
+[aux_utils.cpp:538:INFO] Sector #6100000written
+[aux_utils.cpp:538:INFO] Sector #6200000written
+[aux_utils.cpp:538:INFO] Sector #6300000written
+[aux_utils.cpp:538:INFO] Sector #6400000written
+[aux_utils.cpp:538:INFO] Sector #6500000written
+[aux_utils.cpp:538:INFO] Sector #6600000written
+[aux_utils.cpp:538:INFO] Sector #6700000written
+[aux_utils.cpp:538:INFO] Sector #6800000written
+[aux_utils.cpp:538:INFO] Sector #6900000written
+[aux_utils.cpp:538:INFO] Sector #7000000written
+[aux_utils.cpp:538:INFO] Sector #7100000written
+[aux_utils.cpp:538:INFO] Sector #7200000written
+[aux_utils.cpp:538:INFO] Sector #7300000written
+[aux_utils.cpp:538:INFO] Sector #7400000written
+[aux_utils.cpp:538:INFO] Sector #7500000written
+[aux_utils.cpp:538:INFO] Sector #7600000written
+[aux_utils.cpp:538:INFO] Sector #7700000written
+[aux_utils.cpp:538:INFO] Sector #7800000written
+[aux_utils.cpp:538:INFO] Sector #7900000written
+[aux_utils.cpp:538:INFO] Sector #8000000written
+[aux_utils.cpp:538:INFO] Sector #8100000written
+[aux_utils.cpp:538:INFO] Sector #8200000written
+[aux_utils.cpp:538:INFO] Sector #8300000written
+[aux_utils.cpp:538:INFO] Sector #8400000written
+[aux_utils.cpp:538:INFO] Sector #8500000written
+[aux_utils.cpp:538:INFO] Sector #8600000written
+[aux_utils.cpp:538:INFO] Sector #8700000written
+[aux_utils.cpp:538:INFO] Sector #8800000written
+[aux_utils.cpp:538:INFO] Sector #8900000written
+[aux_utils.cpp:538:INFO] Sector #9000000written
+[aux_utils.cpp:538:INFO] Sector #9100000written
+[aux_utils.cpp:538:INFO] Sector #9200000written
+[aux_utils.cpp:538:INFO] Sector #9300000written
+[aux_utils.cpp:538:INFO] Sector #9400000written
+[aux_utils.cpp:538:INFO] Sector #9500000written
+[aux_utils.cpp:538:INFO] Sector #9600000written
+[aux_utils.cpp:538:INFO] Sector #9700000written
+[aux_utils.cpp:538:INFO] Sector #9800000written
+[aux_utils.cpp:538:INFO] Sector #9900000written
+[aux_utils.cpp:538:INFO] Sector #10000000written
+[aux_utils.cpp:538:INFO] Sector #10100000written
+[aux_utils.cpp:538:INFO] Sector #10200000written
+[aux_utils.cpp:538:INFO] Sector #10300000written
+[aux_utils.cpp:538:INFO] Sector #10400000written
+[aux_utils.cpp:538:INFO] Sector #10500000written
+[aux_utils.cpp:538:INFO] Sector #10600000written
+[aux_utils.cpp:538:INFO] Sector #10700000written
+[aux_utils.cpp:538:INFO] Sector #10800000written
+[aux_utils.cpp:538:INFO] Sector #10900000written
+[aux_utils.cpp:538:INFO] Sector #11000000written
+[aux_utils.cpp:538:INFO] Sector #11100000written
+[aux_utils.cpp:538:INFO] Sector #11200000written
+[aux_utils.cpp:538:INFO] Sector #11300000written
+[aux_utils.cpp:538:INFO] Sector #11400000written
+[aux_utils.cpp:538:INFO] Sector #11500000written
+[aux_utils.cpp:538:INFO] Sector #11600000written
+[aux_utils.cpp:538:INFO] Sector #11700000written
+[aux_utils.cpp:538:INFO] Sector #11800000written
+[aux_utils.cpp:538:INFO] Sector #11900000written
+[aux_utils.cpp:538:INFO] Sector #12000000written
+[aux_utils.cpp:538:INFO] Sector #12100000written
+[aux_utils.cpp:538:INFO] Sector #12200000written
+[aux_utils.cpp:538:INFO] Sector #12300000written
+[aux_utils.cpp:538:INFO] Sector #12400000written
+[aux_utils.cpp:538:INFO] Sector #12500000written
+[aux_utils.cpp:538:INFO] Sector #12600000written
+[aux_utils.cpp:538:INFO] Sector #12700000written
+[aux_utils.cpp:538:INFO] Sector #12800000written
+[aux_utils.cpp:538:INFO] Sector #12900000written
+[aux_utils.cpp:538:INFO] Sector #13000000written
+[aux_utils.cpp:538:INFO] Sector #13100000written
+[aux_utils.cpp:538:INFO] Sector #13200000written
+[aux_utils.cpp:538:INFO] Sector #13300000written
+[aux_utils.cpp:538:INFO] Sector #13400000written
+[aux_utils.cpp:538:INFO] Sector #13500000written
+[aux_utils.cpp:538:INFO] Sector #13600000written
+[aux_utils.cpp:538:INFO] Sector #13700000written
+[aux_utils.cpp:538:INFO] Sector #13800000written
+[aux_utils.cpp:538:INFO] Sector #13900000written
+[aux_utils.cpp:538:INFO] Sector #14000000written
+[aux_utils.cpp:538:INFO] Sector #14100000written
+[aux_utils.cpp:538:INFO] Sector #14200000written
+[aux_utils.cpp:538:INFO] Sector #14300000written
+[aux_utils.cpp:538:INFO] Sector #14400000written
+[aux_utils.cpp:538:INFO] Sector #14500000written
+[aux_utils.cpp:538:INFO] Sector #14600000written
+[aux_utils.cpp:538:INFO] Sector #14700000written
+[aux_utils.cpp:538:INFO] Sector #14800000written
+[aux_utils.cpp:538:INFO] Sector #14900000written
+[aux_utils.cpp:538:INFO] Sector #15000000written
+[aux_utils.cpp:538:INFO] Sector #15100000written
+[aux_utils.cpp:538:INFO] Sector #15200000written
+[aux_utils.cpp:538:INFO] Sector #15300000written
+[aux_utils.cpp:538:INFO] Sector #15400000written
+[aux_utils.cpp:538:INFO] Sector #15500000written
+[aux_utils.cpp:538:INFO] Sector #15600000written
+[aux_utils.cpp:538:INFO] Sector #15700000written
+[aux_utils.cpp:538:INFO] Sector #15800000written
+[aux_utils.cpp:538:INFO] Sector #15900000written
+[aux_utils.cpp:538:INFO] Sector #16000000written
+[aux_utils.cpp:538:INFO] Sector #16100000written
+[aux_utils.cpp:538:INFO] Sector #16200000written
+[aux_utils.cpp:538:INFO] Sector #16300000written
+[aux_utils.cpp:538:INFO] Sector #16400000written
+[aux_utils.cpp:538:INFO] Sector #16500000written
+[aux_utils.cpp:538:INFO] Sector #16600000written
+[aux_utils.cpp:538:INFO] Sector #16700000written
+[aux_utils.cpp:538:INFO] Sector #16800000written
+[aux_utils.cpp:538:INFO] Sector #16900000written
+[aux_utils.cpp:538:INFO] Sector #17000000written
+[aux_utils.cpp:538:INFO] Sector #17100000written
+[aux_utils.cpp:538:INFO] Sector #17200000written
+[aux_utils.cpp:538:INFO] Sector #17300000written
+[aux_utils.cpp:538:INFO] Sector #17400000written
+[aux_utils.cpp:538:INFO] Sector #17500000written
+[aux_utils.cpp:538:INFO] Sector #17600000written
+[aux_utils.cpp:538:INFO] Sector #17700000written
+[aux_utils.cpp:538:INFO] Sector #17800000written
+[aux_utils.cpp:538:INFO] Sector #17900000written
+[aux_utils.cpp:538:INFO] Sector #18000000written
+[aux_utils.cpp:538:INFO] Sector #18100000written
+[aux_utils.cpp:538:INFO] Sector #18200000written
+[aux_utils.cpp:538:INFO] Sector #18300000written
+[aux_utils.cpp:538:INFO] Sector #18400000written
+[aux_utils.cpp:538:INFO] Sector #18500000written
+[aux_utils.cpp:538:INFO] Sector #18600000written
+[aux_utils.cpp:538:INFO] Sector #18700000written
+[aux_utils.cpp:538:INFO] Sector #18800000written
+[aux_utils.cpp:538:INFO] Sector #18900000written
+[aux_utils.cpp:538:INFO] Sector #19000000written
+[aux_utils.cpp:538:INFO] Sector #19100000written
+[aux_utils.cpp:538:INFO] Sector #19200000written
+[aux_utils.cpp:538:INFO] Sector #19300000written
+[aux_utils.cpp:538:INFO] Sector #19400000written
+[aux_utils.cpp:538:INFO] Sector #19500000written
+[aux_utils.cpp:538:INFO] Sector #19600000written
+[aux_utils.cpp:538:INFO] Sector #19700000written
+[aux_utils.cpp:538:INFO] Sector #19800000written
+[aux_utils.cpp:538:INFO] Sector #19900000written
+[aux_utils.cpp:538:INFO] Sector #20000000written
+[aux_utils.cpp:538:INFO] Sector #20100000written
+[aux_utils.cpp:538:INFO] Sector #20200000written
+[aux_utils.cpp:538:INFO] Sector #20300000written
+[aux_utils.cpp:538:INFO] Sector #20400000written
+[aux_utils.cpp:538:INFO] Sector #20500000written
+[aux_utils.cpp:538:INFO] Sector #20600000written
+[aux_utils.cpp:538:INFO] Sector #20700000written
+[aux_utils.cpp:538:INFO] Sector #20800000written
+[aux_utils.cpp:538:INFO] Sector #20900000written
+[aux_utils.cpp:538:INFO] Sector #21000000written
+[aux_utils.cpp:538:INFO] Sector #21100000written
+[aux_utils.cpp:538:INFO] Sector #21200000written
+[aux_utils.cpp:538:INFO] Sector #21300000written
+[aux_utils.cpp:538:INFO] Sector #21400000written
+[aux_utils.cpp:538:INFO] Sector #21500000written
+[aux_utils.cpp:538:INFO] Sector #21600000written
+[aux_utils.cpp:538:INFO] Sector #21700000written
+[aux_utils.cpp:538:INFO] Sector #21800000written
+[aux_utils.cpp:538:INFO] Sector #21900000written
+[aux_utils.cpp:538:INFO] Sector #22000000written
+[aux_utils.cpp:538:INFO] Sector #22100000written
+[aux_utils.cpp:538:INFO] Sector #22200000written
+[aux_utils.cpp:538:INFO] Sector #22300000written
+[aux_utils.cpp:538:INFO] Sector #22400000written
+[aux_utils.cpp:538:INFO] Sector #22500000written
+[aux_utils.cpp:538:INFO] Sector #22600000written
+[aux_utils.cpp:538:INFO] Sector #22700000written
+[aux_utils.cpp:538:INFO] Sector #22800000written
+[aux_utils.cpp:538:INFO] Sector #22900000written
+[aux_utils.cpp:538:INFO] Sector #23000000written
+[aux_utils.cpp:538:INFO] Sector #23100000written
+[aux_utils.cpp:538:INFO] Sector #23200000written
+[aux_utils.cpp:538:INFO] Sector #23300000written
+[aux_utils.cpp:538:INFO] Sector #23400000written
+[aux_utils.cpp:538:INFO] Sector #23500000written
+[aux_utils.cpp:538:INFO] Sector #23600000written
+[aux_utils.cpp:538:INFO] Sector #23700000written
+[aux_utils.cpp:538:INFO] Sector #23800000written
+[aux_utils.cpp:538:INFO] Sector #23900000written
+[aux_utils.cpp:538:INFO] Sector #24000000written
+[aux_utils.cpp:538:INFO] Sector #24100000written
+[aux_utils.cpp:538:INFO] Sector #24200000written
+[aux_utils.cpp:538:INFO] Sector #24300000written
+[aux_utils.cpp:538:INFO] Sector #24400000written
+[aux_utils.cpp:538:INFO] Sector #24500000written
+[aux_utils.cpp:538:INFO] Sector #24600000written
+[aux_utils.cpp:538:INFO] Sector #24700000written
+[aux_utils.cpp:538:INFO] Sector #24800000written
+[aux_utils.cpp:538:INFO] Sector #24900000written
+[aux_utils.cpp:538:INFO] Sector #25000000written
+[aux_utils.cpp:538:INFO] Sector #25100000written
+[aux_utils.cpp:538:INFO] Sector #25200000written
+[aux_utils.cpp:538:INFO] Sector #25300000written
+[aux_utils.cpp:538:INFO] Sector #25400000written
+[aux_utils.cpp:538:INFO] Sector #25500000written
+[aux_utils.cpp:538:INFO] Sector #25600000written
+[aux_utils.cpp:538:INFO] Sector #25700000written
+[aux_utils.cpp:538:INFO] Sector #25800000written
+[aux_utils.cpp:538:INFO] Sector #25900000written
+[aux_utils.cpp:538:INFO] Sector #26000000written
+[aux_utils.cpp:538:INFO] Sector #26100000written
+[aux_utils.cpp:538:INFO] Sector #26200000written
+[aux_utils.cpp:538:INFO] Sector #26300000written
+[aux_utils.cpp:538:INFO] Sector #26400000written
+[aux_utils.cpp:538:INFO] Sector #26500000written
+[aux_utils.cpp:538:INFO] Sector #26600000written
+[aux_utils.cpp:538:INFO] Sector #26700000written
+[aux_utils.cpp:538:INFO] Sector #26800000written
+[aux_utils.cpp:538:INFO] Sector #26900000written
+[aux_utils.cpp:538:INFO] Sector #27000000written
+[aux_utils.cpp:538:INFO] Sector #27100000written
+[aux_utils.cpp:538:INFO] Sector #27200000written
+[aux_utils.cpp:538:INFO] Sector #27300000written
+[aux_utils.cpp:538:INFO] Sector #27400000written
+[aux_utils.cpp:538:INFO] Sector #27500000written
+[aux_utils.cpp:538:INFO] Sector #27600000written
+[aux_utils.cpp:538:INFO] Sector #27700000written
+[aux_utils.cpp:538:INFO] Sector #27800000written
+[aux_utils.cpp:538:INFO] Sector #27900000written
+[aux_utils.cpp:538:INFO] Sector #28000000written
+[aux_utils.cpp:538:INFO] Sector #28100000written
+[aux_utils.cpp:538:INFO] Sector #28200000written
+[aux_utils.cpp:538:INFO] Sector #28300000written
+[aux_utils.cpp:538:INFO] Sector #28400000written
+[aux_utils.cpp:538:INFO] Sector #28500000written
+[aux_utils.cpp:538:INFO] Sector #28600000written
+[aux_utils.cpp:538:INFO] Sector #28700000written
+[aux_utils.cpp:538:INFO] Sector #28800000written
+[aux_utils.cpp:538:INFO] Sector #28900000written
+[aux_utils.cpp:538:INFO] Sector #29000000written
+[aux_utils.cpp:538:INFO] Sector #29100000written
+[aux_utils.cpp:538:INFO] Sector #29200000written
+[aux_utils.cpp:538:INFO] Sector #29300000written
+[aux_utils.cpp:538:INFO] Sector #29400000written
+[aux_utils.cpp:538:INFO] Sector #29500000written
+[aux_utils.cpp:538:INFO] Sector #29600000written
+[aux_utils.cpp:538:INFO] Sector #29700000written
+[aux_utils.cpp:538:INFO] Sector #29800000written
+[aux_utils.cpp:538:INFO] Sector #29900000written
+[aux_utils.cpp:538:INFO] Sector #30000000written
+[aux_utils.cpp:538:INFO] Sector #30100000written
+[aux_utils.cpp:538:INFO] Sector #30200000written
+[aux_utils.cpp:538:INFO] Sector #30300000written
+[aux_utils.cpp:538:INFO] Sector #30400000written
+[aux_utils.cpp:538:INFO] Sector #30500000written
+[aux_utils.cpp:538:INFO] Sector #30600000written
+[aux_utils.cpp:538:INFO] Sector #30700000written
+[aux_utils.cpp:538:INFO] Sector #30800000written
+[aux_utils.cpp:538:INFO] Sector #30900000written
+[aux_utils.cpp:538:INFO] Sector #31000000written
+[aux_utils.cpp:538:INFO] Sector #31100000written
+[aux_utils.cpp:538:INFO] Sector #31200000written
+[aux_utils.cpp:538:INFO] Sector #31300000written
+[aux_utils.cpp:538:INFO] Sector #31400000written
+[aux_utils.cpp:538:INFO] Sector #31500000written
+[aux_utils.cpp:538:INFO] Sector #31600000written
+[aux_utils.cpp:538:INFO] Sector #31700000written
+[aux_utils.cpp:538:INFO] Sector #31800000written
+[aux_utils.cpp:538:INFO] Sector #31900000written
+[aux_utils.cpp:538:INFO] Sector #32000000written
+[aux_utils.cpp:538:INFO] Sector #32100000written
+[aux_utils.cpp:538:INFO] Sector #32200000written
+[aux_utils.cpp:538:INFO] Sector #32300000written
+[aux_utils.cpp:538:INFO] Sector #32400000written
+[aux_utils.cpp:538:INFO] Sector #32500000written
+[aux_utils.cpp:538:INFO] Sector #32600000written
+[aux_utils.cpp:538:INFO] Sector #32700000written
+[aux_utils.cpp:538:INFO] Sector #32800000written
+[aux_utils.cpp:538:INFO] Sector #32900000written
+[aux_utils.cpp:538:INFO] Sector #33000000written
+[aux_utils.cpp:538:INFO] Sector #33100000written
+[aux_utils.cpp:538:INFO] Sector #33200000written
+[aux_utils.cpp:538:INFO] Sector #33300000written
+[aux_utils.cpp:538:INFO] Sector #33400000written
+[aux_utils.cpp:538:INFO] Sector #33500000written
+[aux_utils.cpp:538:INFO] Sector #33600000written
+[aux_utils.cpp:538:INFO] Sector #33700000written
+[aux_utils.cpp:538:INFO] Sector #33800000written
+[aux_utils.cpp:538:INFO] Sector #33900000written
+[aux_utils.cpp:538:INFO] Sector #34000000written
+[aux_utils.cpp:538:INFO] Sector #34100000written
+[aux_utils.cpp:538:INFO] Sector #34200000written
+[aux_utils.cpp:538:INFO] Sector #34300000written
+[aux_utils.cpp:538:INFO] Sector #34400000written
+[aux_utils.cpp:538:INFO] Sector #34500000written
+[aux_utils.cpp:538:INFO] Sector #34600000written
+[aux_utils.cpp:538:INFO] Sector #34700000written
+[aux_utils.cpp:538:INFO] Sector #34800000written
+[aux_utils.cpp:538:INFO] Sector #34900000written
+[aux_utils.cpp:538:INFO] Sector #35000000written
+[aux_utils.cpp:538:INFO] Sector #35100000written
+[aux_utils.cpp:538:INFO] Sector #35200000written
+[aux_utils.cpp:538:INFO] Sector #35300000written
+[aux_utils.cpp:538:INFO] Sector #35400000written
+[aux_utils.cpp:538:INFO] Sector #35500000written
+[aux_utils.cpp:538:INFO] Sector #35600000written
+[aux_utils.cpp:538:INFO] Sector #35700000written
+[aux_utils.cpp:538:INFO] Sector #35800000written
+[aux_utils.cpp:538:INFO] Sector #35900000written
+[aux_utils.cpp:538:INFO] Sector #36000000written
+[aux_utils.cpp:538:INFO] Sector #36100000written
+[aux_utils.cpp:538:INFO] Sector #36200000written
+[aux_utils.cpp:538:INFO] Sector #36300000written
+[aux_utils.cpp:538:INFO] Sector #36400000written
+[aux_utils.cpp:538:INFO] Sector #36500000written
+[aux_utils.cpp:538:INFO] Sector #36600000written
+[aux_utils.cpp:538:INFO] Sector #36700000written
+[aux_utils.cpp:538:INFO] Sector #36800000written
+[aux_utils.cpp:538:INFO] Sector #36900000written
+[aux_utils.cpp:538:INFO] Sector #37000000written
+[aux_utils.cpp:538:INFO] Sector #37100000written
+[aux_utils.cpp:538:INFO] Sector #37200000written
+[aux_utils.cpp:538:INFO] Sector #37300000written
+[aux_utils.cpp:538:INFO] Sector #37400000written
+[aux_utils.cpp:538:INFO] Sector #37500000written
+[aux_utils.cpp:538:INFO] Sector #37600000written
+[aux_utils.cpp:538:INFO] Sector #37700000written
+[aux_utils.cpp:538:INFO] Sector #37800000written
+[aux_utils.cpp:538:INFO] Sector #37900000written
+[aux_utils.cpp:538:INFO] Sector #38000000written
+[aux_utils.cpp:538:INFO] Sector #38100000written
+[aux_utils.cpp:538:INFO] Sector #38200000written
+[aux_utils.cpp:538:INFO] Sector #38300000written
+[aux_utils.cpp:538:INFO] Sector #38400000written
+[aux_utils.cpp:538:INFO] Sector #38500000written
+[aux_utils.cpp:538:INFO] Sector #38600000written
+[aux_utils.cpp:538:INFO] Sector #38700000written
+[aux_utils.cpp:538:INFO] Sector #38800000written
+[aux_utils.cpp:538:INFO] Sector #38900000written
+[aux_utils.cpp:538:INFO] Sector #39000000written
+[aux_utils.cpp:538:INFO] Sector #39100000written
+[aux_utils.cpp:538:INFO] Sector #39200000written
+[aux_utils.cpp:538:INFO] Sector #39300000written
+[aux_utils.cpp:538:INFO] Sector #39400000written
+[aux_utils.cpp:538:INFO] Sector #39500000written
+[aux_utils.cpp:538:INFO] Sector #39600000written
+[aux_utils.cpp:538:INFO] Sector #39700000written
+[aux_utils.cpp:538:INFO] Sector #39800000written
+[aux_utils.cpp:538:INFO] Sector #39900000written
+[aux_utils.cpp:538:INFO] Sector #40000000written
+[aux_utils.cpp:538:INFO] Sector #40100000written
+[aux_utils.cpp:538:INFO] Sector #40200000written
+[aux_utils.cpp:538:INFO] Sector #40300000written
+[aux_utils.cpp:538:INFO] Sector #40400000written
+[aux_utils.cpp:538:INFO] Sector #40500000written
+[aux_utils.cpp:538:INFO] Sector #40600000written
+[aux_utils.cpp:538:INFO] Sector #40700000written
+[aux_utils.cpp:538:INFO] Sector #40800000written
+[aux_utils.cpp:538:INFO] Sector #40900000written
+[aux_utils.cpp:538:INFO] Sector #41000000written
+[aux_utils.cpp:538:INFO] Sector #41100000written
+[aux_utils.cpp:538:INFO] Sector #41200000written
+[aux_utils.cpp:538:INFO] Sector #41300000written
+[aux_utils.cpp:538:INFO] Sector #41400000written
+[aux_utils.cpp:538:INFO] Sector #41500000written
+[aux_utils.cpp:538:INFO] Sector #41600000written
+[aux_utils.cpp:538:INFO] Sector #41700000written
+[aux_utils.cpp:538:INFO] Sector #41800000written
+[aux_utils.cpp:538:INFO] Sector #41900000written
+[aux_utils.cpp:538:INFO] Sector #42000000written
+[aux_utils.cpp:538:INFO] Sector #42100000written
+[aux_utils.cpp:538:INFO] Sector #42200000written
+[aux_utils.cpp:538:INFO] Sector #42300000written
+[aux_utils.cpp:538:INFO] Sector #42400000written
+[aux_utils.cpp:538:INFO] Sector #42500000written
+[aux_utils.cpp:538:INFO] Sector #42600000written
+[aux_utils.cpp:538:INFO] Sector #42700000written
+[aux_utils.cpp:538:INFO] Sector #42800000written
+[aux_utils.cpp:538:INFO] Sector #42900000written
+[aux_utils.cpp:538:INFO] Sector #43000000written
+[aux_utils.cpp:538:INFO] Sector #43100000written
+[aux_utils.cpp:538:INFO] Sector #43200000written
+[aux_utils.cpp:538:INFO] Sector #43300000written
+[aux_utils.cpp:538:INFO] Sector #43400000written
+[aux_utils.cpp:538:INFO] Sector #43500000written
+[aux_utils.cpp:538:INFO] Sector #43600000written
+[aux_utils.cpp:538:INFO] Sector #43700000written
+[aux_utils.cpp:538:INFO] Sector #43800000written
+[aux_utils.cpp:538:INFO] Sector #43900000written
+[aux_utils.cpp:538:INFO] Sector #44000000written
+[aux_utils.cpp:538:INFO] Sector #44100000written
+[aux_utils.cpp:538:INFO] Sector #44200000written
+[aux_utils.cpp:538:INFO] Sector #44300000written
+[aux_utils.cpp:538:INFO] Sector #44400000written
+[aux_utils.cpp:538:INFO] Sector #44500000written
+[aux_utils.cpp:538:INFO] Sector #44600000written
+[aux_utils.cpp:538:INFO] Sector #44700000written
+[aux_utils.cpp:538:INFO] Sector #44800000written
+[aux_utils.cpp:538:INFO] Sector #44900000written
+[aux_utils.cpp:538:INFO] Sector #45000000written
+[aux_utils.cpp:538:INFO] Sector #45100000written
+[aux_utils.cpp:538:INFO] Sector #45200000written
+[aux_utils.cpp:538:INFO] Sector #45300000written
+[aux_utils.cpp:538:INFO] Sector #45400000written
+[aux_utils.cpp:538:INFO] Sector #45500000written
+[aux_utils.cpp:538:INFO] Sector #45600000written
+[aux_utils.cpp:538:INFO] Sector #45700000written
+[aux_utils.cpp:538:INFO] Sector #45800000written
+[aux_utils.cpp:538:INFO] Sector #45900000written
+[aux_utils.cpp:538:INFO] Sector #46000000written
+[aux_utils.cpp:538:INFO] Sector #46100000written
+[aux_utils.cpp:538:INFO] Sector #46200000written
+[aux_utils.cpp:538:INFO] Sector #46300000written
+[aux_utils.cpp:538:INFO] Sector #46400000written
+[aux_utils.cpp:538:INFO] Sector #46500000written
+[aux_utils.cpp:538:INFO] Sector #46600000written
+[aux_utils.cpp:538:INFO] Sector #46700000written
+[aux_utils.cpp:538:INFO] Sector #46800000written
+[aux_utils.cpp:538:INFO] Sector #46900000written
+[aux_utils.cpp:538:INFO] Sector #47000000written
+[aux_utils.cpp:538:INFO] Sector #47100000written
+[aux_utils.cpp:538:INFO] Sector #47200000written
+[aux_utils.cpp:538:INFO] Sector #47300000written
+[aux_utils.cpp:538:INFO] Sector #47400000written
+[aux_utils.cpp:538:INFO] Sector #47500000written
+[aux_utils.cpp:538:INFO] Sector #47600000written
+[aux_utils.cpp:538:INFO] Sector #47700000written
+[aux_utils.cpp:538:INFO] Sector #47800000written
+[aux_utils.cpp:538:INFO] Sector #47900000written
+[aux_utils.cpp:538:INFO] Sector #48000000written
+[aux_utils.cpp:538:INFO] Sector #48100000written
+[aux_utils.cpp:538:INFO] Sector #48200000written
+[aux_utils.cpp:538:INFO] Sector #48300000written
+[aux_utils.cpp:538:INFO] Sector #48400000written
+[aux_utils.cpp:538:INFO] Sector #48500000written
+[aux_utils.cpp:538:INFO] Sector #48600000written
+[aux_utils.cpp:538:INFO] Sector #48700000written
+[aux_utils.cpp:538:INFO] Sector #48800000written
+[aux_utils.cpp:538:INFO] Sector #48900000written
+[aux_utils.cpp:538:INFO] Sector #49000000written
+[aux_utils.cpp:538:INFO] Sector #49100000written
+[aux_utils.cpp:538:INFO] Sector #49200000written
+[aux_utils.cpp:538:INFO] Sector #49300000written
+[aux_utils.cpp:538:INFO] Sector #49400000written
+[aux_utils.cpp:538:INFO] Sector #49500000written
+[aux_utils.cpp:538:INFO] Sector #49600000written
+[aux_utils.cpp:538:INFO] Sector #49700000written
+[aux_utils.cpp:538:INFO] Sector #49800000written
+[aux_utils.cpp:538:INFO] Sector #49900000written
+[cached_io.h:133:INFO] Finished writing 409600008192B
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim50M_disk.index) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim50M_disk.index
+[utils.h:361:INFO] bin: #pts = 9, #dims = 1, size = 80B
+[utils.h:365:INFO] Finished writing bin.
+[aux_utils.cpp:656:INFO] Output file written.
+[cached_io.h:133:INFO] Finished writing 409600008192B
+[aux_utils.cpp:781:INFO] Deleting memory index file: /data/xjs/index/odinann_index/1024dim50M_mem.index
+[aux_utils.cpp:795:INFO] Indexing time: 20245.3

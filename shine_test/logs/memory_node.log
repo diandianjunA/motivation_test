@@ -3440,11 +3440,17 @@ max send work requests:       1024
 max receive work requests:    1024
 ============================================================
 1 device(s) found
-Selected device: mlx5_0
+Selected device: ibp86s0
 num_cores: 112
 physical cores per socket: 28
 hyperthreading enabled
 interleaved policy
+pairing: 1942 -- 953
+[STATUS]: pinned main thread to core 28
+allocation size: 241591910400
+allocated ALIGNED MEM (no hugepage) at 135907327868992 with buffer size 241591910400
+[STATUS]: register memory and distribute access token
+Cannot register memory region
 ============================================================
                         SERVER
 ============================================================
@@ -3456,7 +3462,138 @@ max send work requests:       1024
 max receive work requests:    1024
 ============================================================
 1 device(s) found
-Selected device: mlx5_0
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1948 -- 959
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+allocated ALIGNED MEM (no hugepage) at 126233538986048 with buffer size 268435456000
+[STATUS]: register memory and distribute access token
+Cannot register memory region
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1949 -- 960
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+[STATUS]: map huge page
+Allocating huge-pages failed
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1950 -- 961
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+allocated ALIGNED MEM (no hugepage) at 131070139826240 with buffer size 268435456000
+[STATUS]: register memory and distribute access token
+ibv_reg_mr failed for 1073741824 bytes (errno=12: Cannot allocate memory). Large registrations often require sufficient memlock and hugepage-backed memory.
+Cannot register memory region
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1977 -- 964
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+allocated ALIGNED MEM (no hugepage) at 139613060464704 with buffer size 268435456000
+[STATUS]: register memory and distribute access token
+Send request failed
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1978 -- 966
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+allocated ALIGNED MEM (no hugepage) at 124333313753152 with buffer size 268435456000
+[STATUS]: register memory and distribute access token
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 1979 -- 967
+[STATUS]: pinned main thread to core 28
+allocation size: 268435456000
+allocated ALIGNED MEM (no hugepage) at 139632266182720 with buffer size 268435456000
+[STATUS]: register memory and distribute access token
+Send request failed
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
 num_cores: 112
 physical cores per socket: 28
 hyperthreading enabled

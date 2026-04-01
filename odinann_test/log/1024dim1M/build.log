@@ -1,21 +1,125 @@
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim1M/base.fbin
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: data_pool_size = 160000
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: dim = 1024
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim1M/queries/groundtruth-test.bin
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/odinann_test/config/index_conf/0.95-1024dim1M.ini
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: index_path = /data/xjs/index/odinann_index/1024dim1M
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: insert_batch_size = 64
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/odinann_test/log
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: num = 1000000
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: option = build
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: read_batch_size = 64
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: read_ratio = 0.5
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: run_seconds = 60
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: threads = 16
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: topk = 10
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: total_test = false
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: warmup_seconds = 30
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Config: write_id_base = 1000000
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Build index OdinANN
-[2026-03-30 02:18:51.178] [GlobalLogger] [info] Build time: 2.9348e-05 s
+nohup: ignoring input
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Global logger initialized
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim1M/base.fbin
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: dim = 1024
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim1M/queries/groundtruth-test.bin
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/odinann_test/config/index_conf/usual.ini
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: index_path = /data/xjs/index/odinann_index/1024dim1M
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/odinann_test/log
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: num = 1000000
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: option = build
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: threads = 16
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: topk = 10
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: total_test = false
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Config: write_id_base = 1000000
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Build index OdinANN
+[2026-03-31 23:00:35.119] [GlobalLogger] [info] Build time: 2.0292e-05 s
+[aux_utils.cpp:708:INFO] Starting index build: R=48 L=150 Query RAM budget: 8.3215e+09 Indexing RAM budget: 16 T: 16 Final index will be in multiple files
+[aux_utils.cpp:738:INFO] (Normalized, if required) file : /data/xjs/random_dataset/1024dim1M/base.fbin has: 1000000 points. Changing training set size to 100000 points
+[aux_utils.cpp:89:INFO] Calculated num_pq_chunks :8321
+[aux_utils.cpp:94:INFO] Compressing 1024-dimensional data into 128 bytes per vector.
+[aux_utils.cpp:751:INFO] Generating PQ pivots with training data of size: 99600 num PQ chunks: 128
+[partition_and_pq.cpp:306:INFO] Kmeans time: 94.247 Lloyds time: 93.9725 Copy time: 1.83453
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 256, #dims = 1024, size = 1048584B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 1024, #dims = 1, size = 4104B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 1024, #dims = 1, size = 4104B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 129, #dims = 1, size = 524B
+[utils.h:365:INFO] Finished writing bin.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin
+[utils.h:361:INFO] bin: #pts = 5, #dims = 1, size = 48B
+[utils.h:365:INFO] Finished writing bin.
+[partition_and_pq.cpp:320:INFO] Saved pq pivot data to /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin of size 1065508B.
+[aux_utils.cpp:757:INFO] Pivots generated in 193.576s.
+[cached_io.h:37:INFO] Opened: /data/xjs/random_dataset/1024dim1M/base.fbin, size: 4096000008, cache_size: 67108864
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin) returned: 0
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 5, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 256, #dims = 1024...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 1024, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 1024, #dims = 1...
+[utils.h:223:INFO] Reading bin file /data/xjs/index/odinann_index/1024dim1M_pq_pivots.bin ...
+[utils.h:193:INFO] Metadata: #pts = 129, #dims = 1...
+[partition_and_pq.cpp:401:INFO] Loaded PQ pivot information
+[aux_utils.cpp:764:INFO] Compressed data generated and written in: 43.7786s.
+[aux_utils.cpp:367:INFO] Full index fits in RAM, building in one shot
+[index.cpp:70:INFO] Getting distance function for metric: l2
+[utils.h:62:INFO]  Stat(/data/xjs/random_dataset/1024dim1M/base.fbin) returned: 0
+[index.cpp:958:INFO] Loading only first 1000000 from file.. 
+[index.cpp:853:INFO] Parameters: L: 150, R: 48, saturate_graph: true, num_threads: 0, alpha: 1.2
+
+0% of index build completed.
+10% of index build completed.
+20% of index build completed.
+30% of index build completed.
+40% of index build completed.
+50% of index build completed.
+60% of index build completed.
+70% of index build completed.
+80% of index build completed.
+90% of index build completed.[index.cpp:900:INFO] Starting final cleanup..
+[index.cpp:926:INFO] done. Link time: 158.371s
+[index.cpp:989:INFO] Index built with degree: max:48  avg:48  min:48  count(deg<2):0
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index.data) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index.data does not exist
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index.tags) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index.tags does not exist
+[index.cpp:99:INFO] Not saving tags as they are not enabled.
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_mem.index.del) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_mem.index.del does not exist
+[index.cpp:214:INFO] Time taken for save: 3.13942s.
+[aux_utils.cpp:770:INFO] Vamana index built in: 165.151s.
+[cached_io.h:37:INFO] Opened: /data/xjs/random_dataset/1024dim1M/base.fbin, size: 4096000008, cache_size: 67108864
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_disk.index) returned: -1
+[utils.h:69:INFO] File /data/xjs/index/odinann_index/1024dim1M_disk.index does not exist
+[cached_io.h:113:INFO] Opened: /data/xjs/index/odinann_index/1024dim1M_disk.index, cache_size: 67108864
+[aux_utils.cpp:500:INFO] medoid: 315473B
+[aux_utils.cpp:501:INFO] max_node_len: 4292B
+[aux_utils.cpp:502:INFO] nnodes_per_sector: 1B
+[aux_utils.cpp:532:INFO] # sectors: 1000000
+[aux_utils.cpp:538:INFO] Sector #0written
+[aux_utils.cpp:538:INFO] Sector #100000written
+[aux_utils.cpp:538:INFO] Sector #200000written
+[aux_utils.cpp:538:INFO] Sector #300000written
+[aux_utils.cpp:538:INFO] Sector #400000written
+[aux_utils.cpp:538:INFO] Sector #500000written
+[aux_utils.cpp:538:INFO] Sector #600000written
+[aux_utils.cpp:538:INFO] Sector #700000written
+[aux_utils.cpp:538:INFO] Sector #800000written
+[aux_utils.cpp:538:INFO] Sector #900000written
+[cached_io.h:133:INFO] Finished writing 8192008192B
+[utils.h:62:INFO]  Stat(/data/xjs/index/odinann_index/1024dim1M_disk.index) returned: 0
+[utils.h:355:INFO] Writing bin: /data/xjs/index/odinann_index/1024dim1M_disk.index
+[utils.h:361:INFO] bin: #pts = 9, #dims = 1, size = 80B
+[utils.h:365:INFO] Finished writing bin.
+[aux_utils.cpp:656:INFO] Output file written.
+[cached_io.h:133:INFO] Finished writing 8192008192B
+[aux_utils.cpp:781:INFO] Deleting memory index file: /data/xjs/index/odinann_index/1024dim1M_mem.index
+[aux_utils.cpp:795:INFO] Indexing time: 410.485
