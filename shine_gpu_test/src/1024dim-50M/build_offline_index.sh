@@ -15,10 +15,11 @@ QUERY_PATH="${QUERY_PATH:-${DATA_PATH}/queries/query-test.fbin}"
 GT_PATH="${GT_PATH:-${DATA_PATH}/queries/groundtruth-test.bin}"
 MEMORY_NODES="${MEMORY_NODES:-5}"
 R="${R:-64}"
-BEAM_WIDTH="${BEAM_WIDTH:-320}"
+BEAM_WIDTH="${BEAM_WIDTH:-400}"
 ALPHA="${ALPHA:-1.2}"
 THREADS="${THREADS:-32}"
 MAX_VECTORS="${MAX_VECTORS:-4294967295}"
+RABITQ_BITS="${RABITQ_BITS:-4}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -27,7 +28,8 @@ while [[ $# -gt 0 ]]; do
         -q|--query-path)        QUERY_PATH="$2"; shift 2 ;;
         -g|--groundtruth-path)  GT_PATH="$2"; shift 2 ;;
         --R)                    R="$2"; shift 2 ;;
-        --beam-width)           BEAM_WIDTH="$2"; shift 2 ;;
+        --beam-width|--beam-width-construction)           BEAM_WIDTH="$2"; shift 2 ;;
+        --rabitq-bits)         RABITQ_BITS="$2"; shift 2 ;;
         --alpha)                ALPHA="$2"; shift 2 ;;
         -n|--memory-nodes)      MEMORY_NODES="$2"; shift 2 ;;
         -t|--threads)           THREADS="$2"; shift 2 ;;
@@ -40,7 +42,8 @@ while [[ $# -gt 0 ]]; do
             echo "  -q, --query-path <path>      Query file (.fbin)"
             echo "  -g, --groundtruth-path <path> Ground truth file (.bin)"
             echo "      --R <n>                  Max out-degree (default: $R)"
-            echo "      --beam-width <n>         Beam width (default: $BEAM_WIDTH)"
+            echo "      --beam-width <n>         Offline construction beam width (default: $BEAM_WIDTH)"
+            echo "      --rabitq-bits <n>        RaBitQ bits per dimension (default: $RABITQ_BITS)"
             echo "      --alpha <f>              Alpha parameter (default: $ALPHA)"
             echo "  -n, --memory-nodes <n>       Number of memory nodes (default: $MEMORY_NODES)"
             echo "  -t, --threads <n>            Thread count (default: auto)"
@@ -64,7 +67,7 @@ echo "  memory-nodes: $MEMORY_NODES"
 echo "  output:      $OUTPUT_PREFIX"
 echo "  queries:     $QUERY_PATH"
 echo "  groundtruth: $GT_PATH"
-echo "  R=$R beam-width=$BEAM_WIDTH alpha=$ALPHA threads=$THREADS"
+echo "  R=$R build-beam=$BEAM_WIDTH alpha=$ALPHA threads=$THREADS rabitq-bits=$RABITQ_BITS"
 echo ""
 
 exec "$BINARY" \
@@ -75,6 +78,7 @@ exec "$BINARY" \
     --memory-nodes "$MEMORY_NODES" \
     --R "$R" \
     --beam-width "$BEAM_WIDTH" \
+    --rabitq-bits "$RABITQ_BITS" \
     --alpha "$ALPHA" \
     --threads "$THREADS" \
     --max-vectors "$MAX_VECTORS" \
