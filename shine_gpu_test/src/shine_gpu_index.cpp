@@ -54,7 +54,35 @@ ShineGpuIndex::ShineGpuIndex(const std::string& service_config_path) {
 ShineGpuIndex::~ShineGpuIndex() = default;
 
 void ShineGpuIndex::build(const std::vector<float>& vecs, const std::vector<uint32_t>& ids) {
-    insert(vecs, ids);
+    int batch_size = 100;
+    int processed = 0;
+    int total_count = ids.size();
+
+    for (size_t offset = 0; offset < ids.size(); offset += batch_size) {
+        const size_t end = std::min(offset + batch_size, ids.size());
+
+        if (ip_distance_) {
+            vec<ComputeService<IPDistance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vecs.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            ip_service_->insert(batch);
+        } else {
+            vec<ComputeService<L2Distance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vecs.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            l2_service_->insert(batch);
+        }
+        processed += end - offset;
+        std::cout << "insert " << end - offset << " " << processed << "/" << total_count << " vectors" << std::endl;
+    }
 }
 
 void ShineGpuIndex::build(const std::string& dataset_path) {

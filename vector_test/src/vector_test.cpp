@@ -254,6 +254,7 @@ void VectorTest::dynamic_test() {
         base_vector_count,
         write_id_base);
 
+    std::cout << "dim: " << dim << std::endl;
     size_t data_pool_size = 0;
     std::unique_ptr<float[]> vector_data_holder;
     if (config.find("vector_data") != config.end()) {
