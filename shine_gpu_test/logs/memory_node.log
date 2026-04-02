@@ -415,3 +415,81 @@ pairing: 2710 -- 1741
 pairing: 2711 -- 1742
 [STATUS]: waiting for commands from compute node...
 [STATUS]: loading index (4504000016 Bytes) from /data/xjs/index/shine_gpu_index/1024dim1M_node1_of1.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2713 -- 2712
+[STATUS]: pinned main thread to core 28
+allocation size: 10737418240
+allocated ALIGNED MEM (no hugepage) at 124294065553472 with buffer size 10737418240
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2718 -- 1743
+[STATUS]: pinned main thread to core 28
+allocation size: 10737418240
+allocated ALIGNED MEM (no hugepage) at 123296278380608 with buffer size 10737418240
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2719 -- 1744
+pairing: 2720 -- 1745
+pairing: 2721 -- 1746
+pairing: 2722 -- 1747
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (4504000016 Bytes) from /data/xjs/index/shine_gpu_index/1024dim1M_node1_of1.dat
+============================================================
+                        SERVER
+============================================================
+num clients:                  1
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+1 device(s) found
+Selected device: ibp86s0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+pairing: 2723 -- 1748
+[STATUS]: pinned main thread to core 28
+allocation size: 10737418240
+allocated ALIGNED MEM (no hugepage) at 133418778099776 with buffer size 10737418240
+[STATUS]: register memory and distribute access token
+[STATUS]: connect QPs of compute threads
+pairing: 2724 -- 1749
+pairing: 2725 -- 1750
+pairing: 2726 -- 1751
+pairing: 2727 -- 1752
+[STATUS]: waiting for commands from compute node...
+[STATUS]: loading index (4504000016 Bytes) from /data/xjs/index/shine_gpu_index/1024dim1M_node1_of1.dat
