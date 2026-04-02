@@ -1,0 +1,25 @@
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim1M/base.fbin
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: dim = 1024
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim1M/queries/groundtruth-test.bin
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/shine_gpu_test/config/service/usual.ini
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: index_path = /data/xjs/index/shine_gpu_index/1024dim1M
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/shine_gpu_test/logs
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: num = 1000000
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: option = dynamic
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: threads = 16
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: topk = 10
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: total_test = false
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Config: write_id_base = 1000000
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] Dynamic test ShineGpu
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] 使用 16 线程进行动态测试
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] 动态测试配置: read_batch_size=64, insert_batch_size=64, warmup_seconds=30, run_seconds=60
+[2026-04-02 19:30:00.265] [GlobalLogger] [info] 动态写入ID配置: num=1000000, write_id_base=1000000
+[2026-04-02 19:30:03.617] [GlobalLogger] [info] Generated random dynamic data pool with 160000 vectors
+[2026-04-02 19:30:04.280] [GlobalLogger] [info] 开始动态测试: read_ratio=50%, warmup=30s, run=60s
