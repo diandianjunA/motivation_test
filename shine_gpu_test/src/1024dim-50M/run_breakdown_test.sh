@@ -40,9 +40,11 @@ BINARY="$PROJECT_DIR/bin/shine_breakdown_benchmark"
 SERVICE_CONFIG="${SERVICE_CONFIG:-$PROJECT_DIR/config/service/break_down.ini}"
 WORKLOAD="${WORKLOAD:-mixed}"
 READ_RATIO="${READ_RATIO:-0.5}"
-CLIENT_THREADS="${CLIENT_THREADS:-32}"
-WARMUP_OPS="${WARMUP_OPS:-20}"
-MEASURE_OPS="${MEASURE_OPS:-400}"
+CLIENT_THREADS="${CLIENT_THREADS:-8}"
+WARMUP_SECONDS="${WARMUP_SECONDS:-30}"
+MEASURE_SECONDS="${MEASURE_SECONDS:-60}"
+WARMUP_OPS="${WARMUP_OPS:-}"
+MEASURE_OPS="${MEASURE_OPS:-}"
 BATCH_SIZE="${BATCH_SIZE:-64}"
 QUERY_FILE="${QUERY_FILE:-}"
 REPORT_DIR="${REPORT_DIR:-$PROJECT_DIR/reports/breakdown}"
@@ -59,6 +61,8 @@ while [[ $# -gt 0 ]]; do
         -w|--workload)       WORKLOAD="$2"; shift 2 ;;
         --read-ratio)        READ_RATIO="$2"; shift 2 ;;
         --client-threads)    CLIENT_THREADS="$2"; shift 2 ;;
+        --warmup-seconds)    WARMUP_SECONDS="$2"; shift 2 ;;
+        --measure-seconds)   MEASURE_SECONDS="$2"; shift 2 ;;
         --warmup-ops)        WARMUP_OPS="$2"; shift 2 ;;
         --measure-ops)       MEASURE_OPS="$2"; shift 2 ;;
         -b|--batch-size)     BATCH_SIZE="$2"; shift 2 ;;
@@ -79,6 +83,12 @@ if [[ ! -f "$SERVICE_CONFIG" ]]; then
     exit 1
 fi
 
+if [[ -n "$QUERY_FILE" && ! -f "$QUERY_FILE" ]]; then
+    echo "错误: QUERY_FILE 不存在或不是有效文件: $QUERY_FILE"
+    echo "如果想使用 synthetic query，请不要设置 QUERY_FILE。"
+    exit 1
+fi
+
 if [[ ! -x "$BINARY" ]]; then
     echo "错误: 找不到可执行文件 $BINARY"
     echo "请先编译项目: cd $PROJECT_DIR && mkdir -p build && cd build && cmake .. && make -j"
@@ -95,12 +105,24 @@ ARGS=(
     --workload "$WORKLOAD"
     --read-ratio "$READ_RATIO"
     --client-threads "$CLIENT_THREADS"
-    --warmup-ops "$WARMUP_OPS"
-    --measure-ops "$MEASURE_OPS"
     --batch-size "$BATCH_SIZE"
     --report-json "$JSON_REPORT"
     --report-text "$TEXT_REPORT"
 )
+
+if [[ -n "$WARMUP_SECONDS" || -n "$MEASURE_SECONDS" ]]; then
+    if [[ -z "$WARMUP_SECONDS" || -z "$MEASURE_SECONDS" ]]; then
+        echo "错误: 使用时间模式时，WARMUP_SECONDS 和 MEASURE_SECONDS 都必须设置"
+        exit 1
+    fi
+    ARGS+=(--warmup-seconds "$WARMUP_SECONDS" --measure-seconds "$MEASURE_SECONDS")
+else
+    if [[ -z "$WARMUP_OPS" || -z "$MEASURE_OPS" ]]; then
+        echo "错误: 使用 ops 模式时，WARMUP_OPS 和 MEASURE_OPS 都必须设置"
+        exit 1
+    fi
+    ARGS+=(--warmup-ops "$WARMUP_OPS" --measure-ops "$MEASURE_OPS")
+fi
 
 if [[ -n "$QUERY_FILE" ]]; then
     ARGS+=(--query-file "$QUERY_FILE")
@@ -111,8 +133,15 @@ echo "  配置文件:       $SERVICE_CONFIG"
 echo "  负载模式:       $WORKLOAD"
 echo "  读比例:         $READ_RATIO"
 echo "  前台线程数:     $CLIENT_THREADS"
-echo "  预热请求数:     $WARMUP_OPS"
-echo "  测量请求数:     $MEASURE_OPS"
+if [[ -n "$WARMUP_SECONDS" || -n "$MEASURE_SECONDS" ]]; then
+    echo "  运行模式:       time"
+    echo "  预热时长:       ${WARMUP_SECONDS}s"
+    echo "  测量时长:       ${MEASURE_SECONDS}s"
+else
+    echo "  运行模式:       ops"
+    echo "  预热请求数:     $WARMUP_OPS"
+    echo "  测量请求数:     $MEASURE_OPS"
+fi
 echo "  Insert batch:   $BATCH_SIZE"
 if [[ -n "$QUERY_FILE" ]]; then
     echo "  Query 文件:     $QUERY_FILE"

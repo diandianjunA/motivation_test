@@ -1,14 +1,14 @@
 insert breakdown
-  count: 640
-  latency_ms: mean=2022.51 p50=1745.97 p95=4563.14 p99=4937.14
+  count: 896
+  latency_ms: mean=2936.11 p50=2957.54 p95=4131.81 p99=4729.14
   top_phases:
-    neighbor_update_ns: 189653 ms (59.7572%)
-    gpu_distance_ns: 91898.6 ms (28.9561%)
-    gpu_prune_ns: 11179.3 ms (3.52244%)
+    neighbor_update_ns: 1.09882e+06 ms (41.7696%)
+    gpu_distance_ns: 1.03062e+06 ms (39.177%)
+    candidate_search_ns: 239837 ms (9.11695%)
 query breakdown
-  count: 10
-  latency_ms: mean=24.5666 p50=9.54289 p95=23.9788 p99=23.9788
+  count: 13
+  latency_ms: mean=118.237 p50=107.966 p95=164.62 p99=164.62
   top_phases:
-    gpu_distance_ns: 198.46 ms (80.8053%)
-    unattributed_ns: 21.3323 ms (8.68566%)
-    rabitq_fetch_ns: 15.7187 ms (6.40005%)
+    gpu_distance_ns: 1431.21 ms (93.1183%)
+    unattributed_ns: 39.0739 ms (2.54225%)
+    rabitq_fetch_ns: 36.1717 ms (2.35342%)
