@@ -1,0 +1,14 @@
+insert breakdown
+  count: 32000
+  latency_ms: mean=12509.8 p50=1691.34 p95=12944.5 p99=42882.3
+  top_phases:
+    neighbor_update_ns: 6.52874e+06 ms (68.0151%)
+    gpu_distance_ns: 772901 ms (8.05192%)
+    candidate_vector_fetch_ns: 687372 ms (7.1609%)
+query breakdown
+  count: 1000
+  latency_ms: mean=19.2695 p50=17.8794 p95=31.6539 p99=44.3541
+  top_phases:
+    gpu_distance_ns: 6365.01 ms (33.0429%)
+    rabitq_fetch_ns: 6258.33 ms (32.4891%)
+    unattributed_ns: 5332.02 ms (27.6803%)

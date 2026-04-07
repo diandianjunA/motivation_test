@@ -1,0 +1,129 @@
+{
+  "bottleneck_summary": {
+    "insert": "insert breakdown\n  count: 32000\n  latency_ms: mean=25916.7 p50=2323.19 p95=22484.7 p99=1.17927e+06\n  top_phases:\n    neighbor_update_ns: 6.59732e+06 ms (69.2211%)\n    gpu_distance_ns: 741092 ms (7.77576%)\n    candidate_vector_fetch_ns: 635967 ms (6.67275%)\n",
+    "query": "query breakdown\n  count: 500\n  latency_ms: mean=19.4647 p50=17.6726 p95=31.6961 p99=43.6522\n  top_phases:\n    gpu_distance_ns: 3229.98 ms (33.2019%)\n    rabitq_fetch_ns: 3098.74 ms (31.8528%)\n    unattributed_ns: 2676.92 ms (27.5168%)\n"
+  },
+  "insert_breakdown": {
+    "count": 32000,
+    "counters": {
+      "cache_hits": 0,
+      "cache_misses": 0,
+      "cas_failures": 553193,
+      "d2h_bytes": 9995054132,
+      "exact_reranks": 0,
+      "h2d_bytes": 8313515111376,
+      "l2_kernels": 65992294,
+      "lock_attempts": 2518192,
+      "lock_retries": 553193,
+      "neighbor_rdma_bytes": 34832157246,
+      "overflow_prunes": 7757818,
+      "prune_kernels": 7885818,
+      "rabitq_kernels": 0,
+      "rabitq_rdma_bytes": 0,
+      "rdma_read_bytes": 8312352024350,
+      "rdma_write_bytes": 4721871566,
+      "remote_allocations": 128000,
+      "vector_rdma_bytes": 8277518843104,
+      "visited_neighborlists": 0,
+      "visited_nodes": 0
+    },
+    "latency": {
+      "end_to_end_ns": 829335181862389,
+      "mean_end_to_end_ns": 25916724433,
+      "mean_queue_wait_ns": 25618886806,
+      "mean_service_ns": 297837626,
+      "p50_end_to_end_ns": 2323186018,
+      "p50_service_ns": 304438476,
+      "p95_end_to_end_ns": 22484669829,
+      "p95_service_ns": 353974028,
+      "p99_end_to_end_ns": 1179269398608,
+      "p99_service_ns": 377916171,
+      "queue_wait_ns": 819804377811286,
+      "service_ns": 9530804051103
+    },
+    "operation": "insert",
+    "phases": {
+      "candidate_search_ns": 442338711964,
+      "candidate_vector_fetch_ns": 635967008411,
+      "gpu_distance_ns": 741092437007,
+      "gpu_prune_ns": 569041197706,
+      "medoid_fetch_ns": 929461507,
+      "medoid_update_ns": 0,
+      "neighbor_update_ns": 6597323701924,
+      "new_node_write_ns": 685864309,
+      "quantize_ns": 8987261409,
+      "remote_alloc_ns": 919657104,
+      "unattributed_ns": 533518749762
+    }
+  },
+  "meta": {
+    "batch_size": 64,
+    "client_threads": 16,
+    "coroutines": 4,
+    "dim": 1024,
+    "measure_ops": 1000,
+    "read_ratio": 0.5,
+    "search_mode": "rabitq_gpu",
+    "threads": 4,
+    "warmup_ops": 20,
+    "workload": "mixed"
+  },
+  "query_breakdown": {
+    "count": 500,
+    "counters": {
+      "cache_hits": 1002,
+      "cache_misses": 4773,
+      "cas_failures": 0,
+      "d2h_bytes": 11186832,
+      "exact_reranks": 525,
+      "h2d_bytes": 1636642960,
+      "l2_kernels": 0,
+      "lock_attempts": 0,
+      "lock_retries": 0,
+      "neighbor_rdma_bytes": 36662058,
+      "overflow_prunes": 0,
+      "prune_kernels": 0,
+      "rabitq_kernels": 70585,
+      "rabitq_rdma_bytes": 1427929360,
+      "rdma_read_bytes": 1690660594,
+      "rdma_write_bytes": 0,
+      "remote_allocations": 0,
+      "vector_rdma_bytes": 226064976,
+      "visited_neighborlists": 71462,
+      "visited_nodes": 0
+    },
+    "latency": {
+      "end_to_end_ns": 9732327348,
+      "mean_end_to_end_ns": 19464654,
+      "mean_queue_wait_ns": 8031,
+      "mean_service_ns": 19456623,
+      "p50_end_to_end_ns": 17672580,
+      "p50_service_ns": 17668443,
+      "p95_end_to_end_ns": 31696077,
+      "p95_service_ns": 31664523,
+      "p99_end_to_end_ns": 43652227,
+      "p99_service_ns": 43647588,
+      "queue_wait_ns": 4015753,
+      "service_ns": 9728311595
+    },
+    "operation": "query",
+    "phases": {
+      "cpu_merge_sort_ns": 2135853,
+      "gpu_distance_ns": 3229984362,
+      "gpu_prepare_ns": 31254694,
+      "gpu_rerank_ns": 29672001,
+      "medoid_fetch_ns": 6774467,
+      "neighbor_fetch_ns": 548943319,
+      "rabitq_fetch_ns": 3098739449,
+      "result_materialize_ns": 44421094,
+      "unattributed_ns": 2676915745,
+      "vector_fetch_ns": 59470611
+    }
+  },
+  "system_counters": {
+    "d2h_bytes": 10006240964,
+    "h2d_bytes": 8315151754336,
+    "rdma_read_bytes": 8314042684944,
+    "rdma_write_bytes": 4721871566
+  }
+}

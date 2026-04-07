@@ -1,0 +1,129 @@
+{
+  "bottleneck_summary": {
+    "insert": "insert breakdown\n  count: 8000\n  latency_ms: mean=1440.11 p50=434.053 p95=1621.33 p99=6236.5\n  top_phases:\n    neighbor_update_ns: 1.49066e+06 ms (69.7678%)\n    gpu_distance_ns: 165948 ms (7.76687%)\n    gpu_prune_ns: 131848 ms (6.17091%)\n",
+    "query": "query breakdown\n  count: 2000\n  latency_ms: mean=16.5367 p50=15.0795 p95=26.3683 p99=32.8775\n  top_phases:\n    gpu_distance_ns: 13060 ms (39.5016%)\n    unattributed_ns: 9731.69 ms (29.4347%)\n    rabitq_fetch_ns: 8036.42 ms (24.3071%)\n"
+  },
+  "insert_breakdown": {
+    "count": 8000,
+    "counters": {
+      "cache_hits": 0,
+      "cache_misses": 0,
+      "cas_failures": 369939,
+      "d2h_bytes": 1899440496,
+      "exact_reranks": 0,
+      "h2d_bytes": 1516223622520,
+      "l2_kernels": 15444725,
+      "lock_attempts": 825881,
+      "lock_retries": 369939,
+      "neighbor_rdma_bytes": 8997146874,
+      "overflow_prunes": 1742407,
+      "prune_kernels": 1774404,
+      "rabitq_kernels": 0,
+      "rabitq_rdma_bytes": 0,
+      "rdma_read_bytes": 1517356581450,
+      "rdma_write_bytes": 1107277443,
+      "remote_allocations": 31997,
+      "vector_rdma_bytes": 1508359178624,
+      "visited_neighborlists": 0,
+      "visited_nodes": 0
+    },
+    "latency": {
+      "end_to_end_ns": 11520912462464,
+      "mean_end_to_end_ns": 1440114057,
+      "mean_queue_wait_ns": 1173037864,
+      "mean_service_ns": 267076193,
+      "p50_end_to_end_ns": 434053267,
+      "p50_service_ns": 284750080,
+      "p95_end_to_end_ns": 1621332140,
+      "p95_service_ns": 336058437,
+      "p99_end_to_end_ns": 6236499079,
+      "p99_service_ns": 364099153,
+      "queue_wait_ns": 9384302916815,
+      "service_ns": 2136609545649
+    },
+    "operation": "insert",
+    "phases": {
+      "candidate_search_ns": 102799687593,
+      "candidate_vector_fetch_ns": 128487661689,
+      "gpu_distance_ns": 165947623862,
+      "gpu_prune_ns": 131848212686,
+      "medoid_fetch_ns": 219219604,
+      "medoid_update_ns": 0,
+      "neighbor_update_ns": 1490664721167,
+      "new_node_write_ns": 165282187,
+      "quantize_ns": 2249689129,
+      "remote_alloc_ns": 243419694,
+      "unattributed_ns": 113984028038
+    }
+  },
+  "meta": {
+    "batch_size": 4,
+    "client_threads": 16,
+    "coroutines": 4,
+    "dim": 1024,
+    "measure_ops": 4000,
+    "read_ratio": 0.5,
+    "search_mode": "rabitq_gpu",
+    "threads": 4,
+    "warmup_ops": 20,
+    "workload": "mixed"
+  },
+  "query_breakdown": {
+    "count": 2000,
+    "counters": {
+      "cache_hits": 11977,
+      "cache_misses": 10356,
+      "cas_failures": 0,
+      "d2h_bytes": 39224060,
+      "exact_reranks": 2030,
+      "h2d_bytes": 5804160728,
+      "l2_kernels": 0,
+      "lock_attempts": 0,
+      "lock_retries": 0,
+      "neighbor_rdma_bytes": 146685168,
+      "overflow_prunes": 0,
+      "prune_kernels": 0,
+      "rabitq_kernels": 283437,
+      "rabitq_rdma_bytes": 4997547880,
+      "rdma_read_bytes": 5985061640,
+      "rdma_write_bytes": 0,
+      "remote_allocations": 0,
+      "vector_rdma_bytes": 840812352,
+      "visited_neighborlists": 285922,
+      "visited_nodes": 0
+    },
+    "latency": {
+      "end_to_end_ns": 33073491127,
+      "mean_end_to_end_ns": 16536745,
+      "mean_queue_wait_ns": 5759,
+      "mean_service_ns": 16530986,
+      "p50_end_to_end_ns": 15079491,
+      "p50_service_ns": 15074872,
+      "p95_end_to_end_ns": 26368293,
+      "p95_service_ns": 26341281,
+      "p99_end_to_end_ns": 32877536,
+      "p99_service_ns": 32872882,
+      "queue_wait_ns": 11519016,
+      "service_ns": 33061972111
+    },
+    "operation": "query",
+    "phases": {
+      "cpu_merge_sort_ns": 8267748,
+      "gpu_distance_ns": 13060020768,
+      "gpu_prepare_ns": 99335468,
+      "gpu_rerank_ns": 114718017,
+      "medoid_fetch_ns": 14191855,
+      "neighbor_fetch_ns": 1749899788,
+      "rabitq_fetch_ns": 8036415428,
+      "result_materialize_ns": 85481185,
+      "unattributed_ns": 9731687459,
+      "vector_fetch_ns": 161954395
+    }
+  },
+  "system_counters": {
+    "d2h_bytes": 1938664556,
+    "h2d_bytes": 1522027783248,
+    "rdma_read_bytes": 1523341643090,
+    "rdma_write_bytes": 1107277443
+  }
+}
