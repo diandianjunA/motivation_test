@@ -9,8 +9,8 @@ nohup: ignoring input
   测量时长:       60s
   Insert batch:   64
   Query 文件:     synthetic
-  JSON 报告:      /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_184350.json
-  文本报告:       /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_184350.txt
+  JSON 报告:      /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_192350.json
+  文本报告:       /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_192350.txt
 
 ============================================================
                         CLIENT
@@ -56,14 +56,109 @@ interleaved policy
 client id: 0
 number of clients: 1
 connect to server 192.168.6.202:1234
-pairing: 2868 -- 3980
+pairing: 2918 -- 4030
 connect to server 192.168.6.202:1235
-pairing: 2869 -- 3981
+pairing: 2919 -- 4031
 connect to server 192.168.6.202:1236
-pairing: 2870 -- 3982
+pairing: 2920 -- 4032
 connect to server 192.168.6.202:1237
-pairing: 2871 -- 3983
+pairing: 2921 -- 4033
 connect to server 192.168.6.202:1238
-pairing: 2872 -- 3984
+pairing: 2922 -- 4034
 [STATUS]: pinned main thread to core 28
 [STATUS]: receive access tokens of remote memory regions
+[STATUS]: search mode: rabitq_gpu, cache=on
+[STATUS]: max cache size: 19290000588
+allocated ALIGNED MEM (no hugepage) at 140558274129984 with buffer size 53687091200
+num cache buckets: 3750000
+allocate cache entries hugepage of size 150000000
+allocated ALIGNED MEM (no hugepage) at 140558034124864 with buffer size 150000000
+1 device(s) found
+Selected device: mlx5_0
+pairing: 2923 -- 4037
+pairing: 2924 -- 4036
+pairing: 2925 -- 4035
+pairing: 2926 -- 4038
+pairing: 2927 -- 4039
+1 device(s) found
+Selected device: mlx5_0
+pairing: 2928 -- 4042
+pairing: 2929 -- 4041
+pairing: 2930 -- 4040
+pairing: 2931 -- 4043
+pairing: 2932 -- 4044
+1 device(s) found
+Selected device: mlx5_0
+pairing: 2933 -- 4045
+pairing: 2934 -- 4047
+pairing: 2935 -- 4046
+pairing: 2936 -- 4049
+pairing: 2937 -- 4048
+1 device(s) found
+Selected device: mlx5_0
+pairing: 2938 -- 4052
+pairing: 2939 -- 4051
+pairing: 2940 -- 4050
+pairing: 2941 -- 4054
+pairing: 2942 -- 4053
+[STATUS]: loaded RaBitQ artifacts from /data/xjs/index/shine_gpu_index/1024dim50M (dim=1024, bits=4)
+[STATUS]: starting 16 service worker threads (Vamana)
+[STATUS]: worker split: inserts=8, queries=8 | coroutines: insert=16, query=4
+[STATUS]: pinned worker 0 to core 0
+[STATUS]: pinned worker 1 to core 29
+[STATUS]: pinned worker 2 to core 1
+[STATUS]: pinned worker 3 to core 30
+[STATUS]: pinned worker 4 to core 2
+[STATUS]: pinned worker 5 to core 31
+[STATUS]: pinned worker 6 to core 3
+[STATUS]: pinned worker 7 to core 32
+[STATUS]: pinned worker 8 to core 4
+[STATUS]: pinned worker 9 to core 33
+[STATUS]: pinned worker 10 to core 5
+[STATUS]: pinned worker 11 to core 34
+[STATUS]: pinned worker 12 to core 6
+[STATUS]: pinned worker 13 to core 35
+[STATUS]: pinned worker 14 to core 7
+[STATUS]: pinned worker 15 to core 36
+[breakdown][warmup-mixed] progress elapsed=5.0006s/30s, completed=223 ops, rate=44.5947 ops/s
+[breakdown][warmup-mixed] progress elapsed=10.0009s/30s, completed=471 ops, rate=47.0959 ops/s
+[breakdown][warmup-mixed] progress elapsed=15.0011s/30s, completed=704 ops, rate=46.9298 ops/s
+[breakdown][warmup-mixed] progress elapsed=20.0014s/30s, completed=930 ops, rate=46.4968 ops/s
+[breakdown][warmup-mixed] progress elapsed=25.0016s/30s, completed=1180 ops, rate=47.1969 ops/s
+[breakdown][warmup-mixed] progress elapsed=30.0019s/30s, completed=1412 ops, rate=47.0637 ops/s
+[breakdown][warmup-mixed] done elapsed=30.0021s/30s, completed=1412 ops, avg_rate=47.0634 ops/s
+[breakdown][measure-mixed] progress elapsed=5.002s/60s, completed=217 ops, rate=43.3827 ops/s
+[breakdown][measure-mixed] progress elapsed=10.0023s/60s, completed=460 ops, rate=45.9896 ops/s
+[breakdown][measure-mixed] progress elapsed=15.0025s/60s, completed=701 ops, rate=46.7254 ops/s
+[breakdown][measure-mixed] progress elapsed=20.0028s/60s, completed=926 ops, rate=46.2935 ops/s
+[breakdown][measure-mixed] progress elapsed=25.0031s/60s, completed=1166 ops, rate=46.6343 ops/s
+[breakdown][measure-mixed] progress elapsed=30.0033s/60s, completed=1412 ops, rate=47.0615 ops/s
+[breakdown][measure-mixed] progress elapsed=35.0036s/60s, completed=1635 ops, rate=46.7095 ops/s
+[breakdown][measure-mixed] progress elapsed=40.0039s/60s, completed=1862 ops, rate=46.5455 ops/s
+[breakdown][measure-mixed] progress elapsed=45.0041s/60s, completed=2106 ops, rate=46.7957 ops/s
+[breakdown][measure-mixed] progress elapsed=50.0044s/60s, completed=2349 ops, rate=46.9759 ops/s
+[breakdown][measure-mixed] progress elapsed=55.0046s/60s, completed=2584 ops, rate=46.9778 ops/s
+[breakdown][measure-mixed] progress elapsed=60.0049s/60s, completed=2817 ops, rate=46.9462 ops/s
+[breakdown][measure-mixed] progress elapsed=65.0052s/60s, completed=2821 ops, rate=43.3966 ops/s
+[breakdown][measure-mixed] done elapsed=65.0054s/60s, completed=2821 ops, avg_rate=43.3964 ops/s
+query breakdown
+  count: 2821
+  latency_ms: mean=169.969 p50=128.261 p95=350.701 p99=444.533
+  top_phases:
+    gpu_distance_ns: 319340 ms (66.6025%)
+    rabitq_fetch_ns: 94173.2 ms (19.6411%)
+    unattributed_ns: 44609.2 ms (9.30383%)
+cache histogram
+  size: 0 | freq: 3736165
+  size: 1 | freq: 13820
+  size: 2 | freq: 15
+total entries: 13850
+cooling table histogram
+  size: 0 | freq: 62500
+  size: 1 | freq: 0
+  size: 2 | freq: 0
+  size: 3 | freq: 0
+  size: 4 | freq: 0
+  size: 5 | freq: 0
+  size: 6 | freq: 0
+CT total entries: 0

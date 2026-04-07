@@ -1,7 +1,0 @@
-query breakdown
-  count: 1884
-  latency_ms: mean=127.339 p50=105.967 p95=258.86 p99=369.835
-  top_phases:
-    gpu_distance_ns: 196971 ms (82.1057%)
-    rabitq_fetch_ns: 22800.9 ms (9.50435%)
-    unattributed_ns: 13362.2 ms (5.56993%)
