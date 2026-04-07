@@ -3,13 +3,13 @@ nohup: ignoring input
   配置文件:       /home/xjs/experiment/motivation_test/shine_gpu_test/config/service/break_down.ini
   负载模式:       mixed
   读比例:         0.5
-  前台线程数:     16
+  前台线程数:     32
   预热请求数:     20
-  测量请求数:     1000
+  测量请求数:     400
   Insert batch:   64
   Query 文件:     synthetic
-  JSON 报告:      /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_031027.json
-  文本报告:       /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_031027.txt
+  JSON 报告:      /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_155635.json
+  文本报告:       /home/xjs/experiment/motivation_test/shine_gpu_test/reports/breakdown/20260407_155635.txt
 
 ============================================================
                         CLIENT
@@ -55,51 +55,51 @@ interleaved policy
 client id: 0
 number of clients: 1
 connect to server 192.168.6.202:1234
-pairing: 2523 -- 3626
+pairing: 2718 -- 3830
 connect to server 192.168.6.202:1235
-pairing: 2524 -- 3627
+pairing: 2719 -- 3831
 connect to server 192.168.6.202:1236
-pairing: 2525 -- 3628
+pairing: 2720 -- 3832
 connect to server 192.168.6.202:1237
-pairing: 2526 -- 3629
+pairing: 2721 -- 3833
 connect to server 192.168.6.202:1238
-pairing: 2527 -- 3630
+pairing: 2722 -- 3834
 [STATUS]: pinned main thread to core 28
 [STATUS]: receive access tokens of remote memory regions
 [STATUS]: search mode: rabitq_gpu, cache=on
 [STATUS]: max cache size: 19290000588
-allocated ALIGNED MEM (no hugepage) at 139945167548480 with buffer size 53687091200
+allocated ALIGNED MEM (no hugepage) at 140493178531904 with buffer size 53687091200
 num cache buckets: 3750000
 allocate cache entries hugepage of size 150000000
-allocated ALIGNED MEM (no hugepage) at 139944927543360 with buffer size 150000000
+allocated ALIGNED MEM (no hugepage) at 140492938526784 with buffer size 150000000
 1 device(s) found
 Selected device: mlx5_0
-pairing: 2528 -- 3631
-pairing: 2529 -- 3632
-pairing: 2530 -- 3633
-pairing: 2531 -- 3635
-pairing: 2532 -- 3634
+pairing: 2723 -- 3835
+pairing: 2724 -- 3836
+pairing: 2725 -- 3837
+pairing: 2726 -- 3838
+pairing: 2727 -- 3839
 1 device(s) found
 Selected device: mlx5_0
-pairing: 2533 -- 3638
-pairing: 2534 -- 3637
-pairing: 2535 -- 3639
-pairing: 2536 -- 3636
-pairing: 2537 -- 3640
+pairing: 2728 -- 3844
+pairing: 2729 -- 3841
+pairing: 2730 -- 3842
+pairing: 2731 -- 3840
+pairing: 2732 -- 3843
 1 device(s) found
 Selected device: mlx5_0
-pairing: 2538 -- 3641
-pairing: 2539 -- 3642
-pairing: 2540 -- 3643
-pairing: 2541 -- 3644
-pairing: 2542 -- 3645
+pairing: 2733 -- 3845
+pairing: 2734 -- 3846
+pairing: 2735 -- 3847
+pairing: 2736 -- 3849
+pairing: 2737 -- 3848
 1 device(s) found
 Selected device: mlx5_0
-pairing: 2543 -- 3646
-pairing: 2544 -- 3648
-pairing: 2545 -- 3647
-pairing: 2546 -- 3649
-pairing: 2547 -- 3650
+pairing: 2738 -- 3850
+pairing: 2739 -- 3851
+pairing: 2740 -- 3852
+pairing: 2741 -- 3854
+pairing: 2742 -- 3853
 [STATUS]: loaded RaBitQ artifacts from /data/xjs/index/shine_gpu_index/1024dim50M (dim=1024, bits=4)
 [STATUS]: starting 4 service worker threads (Vamana)
 [STATUS]: worker split: inserts=2, queries=2 | coroutines: insert=4, query=4
@@ -107,294 +107,373 @@ pairing: 2547 -- 3650
 [STATUS]: pinned worker 1 to core 29
 [STATUS]: pinned worker 2 to core 1
 [STATUS]: pinned worker 3 to core 30
-[breakdown][warmup-mixed] progress 11/20 ops, rate=2.19804 ops/s
-[breakdown][warmup-mixed] progress 14/20 ops, rate=1.39934 ops/s
-[breakdown][warmup-mixed] progress 17/20 ops, rate=1.13296 ops/s
-[breakdown][warmup-mixed] progress 20/20 ops, rate=0.999737 ops/s
-[breakdown][warmup-mixed] done 20/20 ops, avg_rate=0.999726 ops/s
-[breakdown][measure-mixed] progress 16/1000 ops, rate=3.19495 ops/s
-[breakdown][measure-mixed] progress 22/1000 ops, rate=2.19821 ops/s
-[breakdown][measure-mixed] progress 26/1000 ops, rate=1.73236 ops/s
-[breakdown][measure-mixed] progress 32/1000 ops, rate=1.59931 ops/s
-[breakdown][measure-mixed] progress 36/1000 ops, rate=1.43949 ops/s
-[breakdown][measure-mixed] progress 44/1000 ops, rate=1.46622 ops/s
-[breakdown][measure-mixed] progress 48/1000 ops, rate=1.37106 ops/s
-[breakdown][measure-mixed] progress 52/1000 ops, rate=1.29968 ops/s
-[breakdown][measure-mixed] progress 56/1000 ops, rate=1.24417 ops/s
-[breakdown][measure-mixed] progress 60/1000 ops, rate=1.19975 ops/s
-[breakdown][measure-mixed] progress 70/1000 ops, rate=1.27248 ops/s
-[breakdown][measure-mixed] progress 70/1000 ops, rate=1.16645 ops/s
+[breakdown][warmup-mixed] progress 10/20 ops, rate=1.99751 ops/s
+[breakdown][warmup-mixed] progress 10/20 ops, rate=0.999352 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 10/20 ops, rate=0.666367 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 10/20 ops, rate=0.499825 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 11/20 ops, rate=0.439872 ops/s
+[breakdown][warmup-mixed] progress 12/20 ops, rate=0.3999 ops/s
+[breakdown][warmup-mixed] progress 12/20 ops, rate=0.342781 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 13/20 ops, rate=0.324935 ops/s
+[breakdown][warmup-mixed] progress 13/20 ops, rate=0.288836 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 13/20 ops, rate=0.259956 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 14/20 ops, rate=0.254505 ops/s
+[breakdown][warmup-mixed] progress 14/20 ops, rate=0.233298 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 15/20 ops, rate=0.230736 ops/s
+[breakdown][warmup-mixed] progress 15/20 ops, rate=0.214257 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 16/20 ops, rate=0.213306 ops/s
+[breakdown][warmup-mixed] progress 16/20 ops, rate=0.199975 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 17/20 ops, rate=0.199976 ops/s
+[breakdown][warmup-mixed] progress 17/20 ops, rate=0.188867 ops/s
+[breakdown][warmup-mixed] still running, no new completions in last interval
+[breakdown][warmup-mixed] progress 20/20 ops, rate=0.210502 ops/s
+[breakdown][warmup-mixed] done 20/20 ops, avg_rate=0.210502 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=6.38256 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=3.19556 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 76/1000 ops, rate=1.16903 ops/s
-[breakdown][measure-mixed] progress 82/1000 ops, rate=1.17124 ops/s
-[breakdown][measure-mixed] progress 88/1000 ops, rate=1.17315 ops/s
-[breakdown][measure-mixed] progress 88/1000 ops, rate=1.09983 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=2.13132 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 94/1000 ops, rate=1.10572 ops/s
-[breakdown][measure-mixed] progress 100/1000 ops, rate=1.11096 ops/s
-[breakdown][measure-mixed] progress 106/1000 ops, rate=1.11564 ops/s
-[breakdown][measure-mixed] progress 106/1000 ops, rate=1.05986 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=1.59885 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 112/1000 ops, rate=1.06653 ops/s
-[breakdown][measure-mixed] progress 118/1000 ops, rate=1.07259 ops/s
-[breakdown][measure-mixed] progress 126/1000 ops, rate=1.09552 ops/s
-[breakdown][measure-mixed] progress 126/1000 ops, rate=1.04988 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=1.27925 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 130/1000 ops, rate=1.03988 ops/s
-[breakdown][measure-mixed] progress 134/1000 ops, rate=1.03065 ops/s
-[breakdown][measure-mixed] progress 138/1000 ops, rate=1.02211 ops/s
-[breakdown][measure-mixed] progress 142/1000 ops, rate=1.01418 ops/s
-[breakdown][measure-mixed] progress 150/1000 ops, rate=1.03437 ops/s
-[breakdown][measure-mixed] progress 152/1000 ops, rate=1.01322 ops/s
-[breakdown][measure-mixed] progress 156/1000 ops, rate=1.00634 ops/s
-[breakdown][measure-mixed] progress 160/1000 ops, rate=0.999893 ops/s
-[breakdown][measure-mixed] progress 166/1000 ops, rate=1.00595 ops/s
-[breakdown][measure-mixed] progress 174/1000 ops, rate=1.02342 ops/s
-[breakdown][measure-mixed] progress 176/1000 ops, rate=1.00561 ops/s
-[breakdown][measure-mixed] progress 180/1000 ops, rate=0.999899 ops/s
-[breakdown][measure-mixed] progress 184/1000 ops, rate=0.994496 ops/s
-[breakdown][measure-mixed] progress 190/1000 ops, rate=0.999902 ops/s
-[breakdown][measure-mixed] progress 194/1000 ops, rate=0.994775 ops/s
-[breakdown][measure-mixed] progress 198/1000 ops, rate=0.989905 ops/s
-[breakdown][measure-mixed] progress 202/1000 ops, rate=0.985273 ops/s
-[breakdown][measure-mixed] progress 206/1000 ops, rate=0.980861 ops/s
-[breakdown][measure-mixed] progress 214/1000 ops, rate=0.995257 ops/s
-[breakdown][measure-mixed] progress 216/1000 ops, rate=0.981728 ops/s
-[breakdown][measure-mixed] progress 218/1000 ops, rate=0.968801 ops/s
-[breakdown][measure-mixed] progress 222/1000 ops, rate=0.965131 ops/s
-[breakdown][measure-mixed] progress 226/1000 ops, rate=0.961617 ops/s
-[breakdown][measure-mixed] progress 234/1000 ops, rate=0.974914 ops/s
-[breakdown][measure-mixed] progress 236/1000 ops, rate=0.96318 ops/s
-[breakdown][measure-mixed] progress 240/1000 ops, rate=0.959916 ops/s
-[breakdown][measure-mixed] progress 244/1000 ops, rate=0.95678 ops/s
-[breakdown][measure-mixed] progress 248/1000 ops, rate=0.953764 ops/s
-[breakdown][measure-mixed] progress 256/1000 ops, rate=0.965955 ops/s
-[breakdown][measure-mixed] progress 258/1000 ops, rate=0.955474 ops/s
-[breakdown][measure-mixed] progress 262/1000 ops, rate=0.952647 ops/s
-[breakdown][measure-mixed] progress 266/1000 ops, rate=0.94992 ops/s
-[breakdown][measure-mixed] progress 270/1000 ops, rate=0.94729 ops/s
-[breakdown][measure-mixed] progress 278/1000 ops, rate=0.958542 ops/s
-[breakdown][measure-mixed] progress 280/1000 ops, rate=0.949075 ops/s
-[breakdown][measure-mixed] progress 284/1000 ops, rate=0.946589 ops/s
-[breakdown][measure-mixed] progress 288/1000 ops, rate=0.944186 ops/s
-[breakdown][measure-mixed] progress 292/1000 ops, rate=0.941859 ops/s
-[breakdown][measure-mixed] progress 300/1000 ops, rate=0.952304 ops/s
-[breakdown][measure-mixed] progress 302/1000 ops, rate=0.943675 ops/s
-[breakdown][measure-mixed] progress 306/1000 ops, rate=0.941464 ops/s
-[breakdown][measure-mixed] progress 310/1000 ops, rate=0.93932 ops/s
-[breakdown][measure-mixed] progress 312/1000 ops, rate=0.93127 ops/s
-[breakdown][measure-mixed] progress 318/1000 ops, rate=0.935221 ops/s
-[breakdown][measure-mixed] progress 326/1000 ops, rate=0.944854 ops/s
-[breakdown][measure-mixed] progress 328/1000 ops, rate=0.93707 ops/s
-[breakdown][measure-mixed] progress 330/1000 ops, rate=0.929506 ops/s
-[breakdown][measure-mixed] progress 334/1000 ops, rate=0.927707 ops/s
-[breakdown][measure-mixed] progress 338/1000 ops, rate=0.925957 ops/s
-[breakdown][measure-mixed] progress 348/1000 ops, rate=0.940469 ops/s
-[breakdown][measure-mixed] progress 348/1000 ops, rate=0.92793 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=1.06614 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 352/1000 ops, rate=0.926246 ops/s
-[breakdown][measure-mixed] progress 356/1000 ops, rate=0.924606 ops/s
-[breakdown][measure-mixed] progress 360/1000 ops, rate=0.923008 ops/s
-[breakdown][measure-mixed] progress 362/1000 ops, rate=0.916388 ops/s
-[breakdown][measure-mixed] progress 370/1000 ops, rate=0.924932 ops/s
-[breakdown][measure-mixed] progress 372/1000 ops, rate=0.918451 ops/s
-[breakdown][measure-mixed] progress 376/1000 ops, rate=0.917006 ops/s
-[breakdown][measure-mixed] progress 380/1000 ops, rate=0.915596 ops/s
-[breakdown][measure-mixed] progress 384/1000 ops, rate=0.914219 ops/s
-[breakdown][measure-mixed] progress 392/1000 ops, rate=0.922286 ops/s
-[breakdown][measure-mixed] progress 394/1000 ops, rate=0.916213 ops/s
-[breakdown][measure-mixed] progress 398/1000 ops, rate=0.914876 ops/s
-[breakdown][measure-mixed] progress 402/1000 ops, rate=0.913571 ops/s
-[breakdown][measure-mixed] progress 404/1000 ops, rate=0.9078 ops/s
-[breakdown][measure-mixed] progress 408/1000 ops, rate=0.906602 ops/s
-[breakdown][measure-mixed] progress 416/1000 ops, rate=0.91422 ops/s
-[breakdown][measure-mixed] progress 418/1000 ops, rate=0.908631 ops/s
-[breakdown][measure-mixed] progress 422/1000 ops, rate=0.907462 ops/s
-[breakdown][measure-mixed] progress 426/1000 ops, rate=0.906319 ops/s
-[breakdown][measure-mixed] progress 432/1000 ops, rate=0.909409 ops/s
-[breakdown][measure-mixed] progress 440/1000 ops, rate=0.916602 ops/s
-[breakdown][measure-mixed] progress 440/1000 ops, rate=0.907153 ops/s
+[breakdown][measure-mixed] progress 32/400 ops, rate=0.913888 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 442/1000 ops, rate=0.901977 ops/s
-[breakdown][measure-mixed] progress 446/1000 ops, rate=0.900947 ops/s
-[breakdown][measure-mixed] progress 450/1000 ops, rate=0.899937 ops/s
-[breakdown][measure-mixed] progress 460/1000 ops, rate=0.910828 ops/s
-[breakdown][measure-mixed] progress 460/1000 ops, rate=0.901898 ops/s
+[breakdown][measure-mixed] progress 34/400 ops, rate=0.849671 ops/s
+[breakdown][measure-mixed] progress 34/400 ops, rate=0.755292 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 464/1000 ops, rate=0.900908 ops/s
-[breakdown][measure-mixed] progress 468/1000 ops, rate=0.899938 ops/s
-[breakdown][measure-mixed] progress 470/1000 ops, rate=0.895176 ops/s
-[breakdown][measure-mixed] progress 482/1000 ops, rate=0.909371 ops/s
-[breakdown][measure-mixed] progress 482/1000 ops, rate=0.900873 ops/s
+[breakdown][measure-mixed] progress 36/400 ops, rate=0.71977 ops/s
+[breakdown][measure-mixed] progress 36/400 ops, rate=0.654352 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 486/1000 ops, rate=0.899938 ops/s
-[breakdown][measure-mixed] progress 488/1000 ops, rate=0.895352 ops/s
-[breakdown][measure-mixed] progress 492/1000 ops, rate=0.894484 ops/s
-[breakdown][measure-mixed] progress 498/1000 ops, rate=0.897236 ops/s
-[breakdown][measure-mixed] progress 502/1000 ops, rate=0.896368 ops/s
-[breakdown][measure-mixed] progress 506/1000 ops, rate=0.895514 ops/s
-[breakdown][measure-mixed] progress 510/1000 ops, rate=0.894676 ops/s
-[breakdown][measure-mixed] progress 514/1000 ops, rate=0.893853 ops/s
-[breakdown][measure-mixed] progress 518/1000 ops, rate=0.893043 ops/s
-[breakdown][measure-mixed] progress 522/1000 ops, rate=0.892248 ops/s
-[breakdown][measure-mixed] progress 526/1000 ops, rate=0.891465 ops/s
-[breakdown][measure-mixed] progress 530/1000 ops, rate=0.890697 ops/s
-[breakdown][measure-mixed] progress 540/1000 ops, rate=0.89994 ops/s
-[breakdown][measure-mixed] progress 540/1000 ops, rate=0.892502 ops/s
+[breakdown][measure-mixed] progress 36/400 ops, rate=0.599835 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 544/1000 ops, rate=0.891744 ops/s
-[breakdown][measure-mixed] progress 546/1000 ops, rate=0.887746 ops/s
-[breakdown][measure-mixed] progress 550/1000 ops, rate=0.887038 ops/s
-[breakdown][measure-mixed] progress 554/1000 ops, rate=0.886341 ops/s
-[breakdown][measure-mixed] progress 558/1000 ops, rate=0.885656 ops/s
-[breakdown][measure-mixed] progress 562/1000 ops, rate=0.884981 ops/s
-[breakdown][measure-mixed] progress 566/1000 ops, rate=0.884317 ops/s
-[breakdown][measure-mixed] progress 570/1000 ops, rate=0.883663 ops/s
-[breakdown][measure-mixed] progress 574/1000 ops, rate=0.883019 ops/s
-[breakdown][measure-mixed] progress 578/1000 ops, rate=0.882385 ops/s
-[breakdown][measure-mixed] progress 582/1000 ops, rate=0.88176 ops/s
-[breakdown][measure-mixed] progress 586/1000 ops, rate=0.881145 ops/s
-[breakdown][measure-mixed] progress 596/1000 ops, rate=0.889494 ops/s
-[breakdown][measure-mixed] progress 596/1000 ops, rate=0.882905 ops/s
+[breakdown][measure-mixed] progress 38/400 ops, rate=0.584465 ops/s
+[breakdown][measure-mixed] progress 38/400 ops, rate=0.542726 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 600/1000 ops, rate=0.882295 ops/s
-[breakdown][measure-mixed] progress 604/1000 ops, rate=0.881694 ops/s
-[breakdown][measure-mixed] progress 606/1000 ops, rate=0.878204 ops/s
-[breakdown][measure-mixed] progress 610/1000 ops, rate=0.877641 ops/s
-[breakdown][measure-mixed] progress 614/1000 ops, rate=0.877086 ops/s
-[breakdown][measure-mixed] progress 618/1000 ops, rate=0.876539 ops/s
-[breakdown][measure-mixed] progress 622/1000 ops, rate=0.876 ops/s
-[breakdown][measure-mixed] progress 626/1000 ops, rate=0.875468 ops/s
-[breakdown][measure-mixed] progress 630/1000 ops, rate=0.874943 ops/s
-[breakdown][measure-mixed] progress 634/1000 ops, rate=0.874426 ops/s
-[breakdown][measure-mixed] progress 638/1000 ops, rate=0.873916 ops/s
-[breakdown][measure-mixed] progress 644/1000 ops, rate=0.876134 ops/s
-[breakdown][measure-mixed] progress 654/1000 ops, rate=0.883727 ops/s
-[breakdown][measure-mixed] progress 654/1000 ops, rate=0.877796 ops/s
+[breakdown][measure-mixed] progress 38/400 ops, rate=0.506542 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 656/1000 ops, rate=0.87461 ops/s
-[breakdown][measure-mixed] progress 660/1000 ops, rate=0.874116 ops/s
-[breakdown][measure-mixed] progress 664/1000 ops, rate=0.873628 ops/s
-[breakdown][measure-mixed] progress 668/1000 ops, rate=0.873147 ops/s
-[breakdown][measure-mixed] progress 672/1000 ops, rate=0.872671 ops/s
-[breakdown][measure-mixed] progress 676/1000 ops, rate=0.872202 ops/s
-[breakdown][measure-mixed] progress 680/1000 ops, rate=0.871739 ops/s
-[breakdown][measure-mixed] progress 684/1000 ops, rate=0.871282 ops/s
-[breakdown][measure-mixed] progress 688/1000 ops, rate=0.870831 ops/s
-[breakdown][measure-mixed] progress 692/1000 ops, rate=0.870385 ops/s
-[breakdown][measure-mixed] progress 696/1000 ops, rate=0.869945 ops/s
-[breakdown][measure-mixed] progress 700/1000 ops, rate=0.86951 ops/s
-[breakdown][measure-mixed] progress 710/1000 ops, rate=0.876488 ops/s
-[breakdown][measure-mixed] progress 710/1000 ops, rate=0.87111 ops/s
+[breakdown][measure-mixed] progress 40/400 ops, rate=0.499883 ops/s
+[breakdown][measure-mixed] progress 40/400 ops, rate=0.470483 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 712/1000 ops, rate=0.868238 ops/s
-[breakdown][measure-mixed] progress 716/1000 ops, rate=0.867824 ops/s
-[breakdown][measure-mixed] progress 720/1000 ops, rate=0.867415 ops/s
-[breakdown][measure-mixed] progress 722/1000 ops, rate=0.864616 ops/s
-[breakdown][measure-mixed] progress 728/1000 ops, rate=0.866612 ops/s
-[breakdown][measure-mixed] progress 732/1000 ops, rate=0.866217 ops/s
-[breakdown][measure-mixed] progress 736/1000 ops, rate=0.865828 ops/s
-[breakdown][measure-mixed] progress 740/1000 ops, rate=0.865442 ops/s
-[breakdown][measure-mixed] progress 744/1000 ops, rate=0.865062 ops/s
-[breakdown][measure-mixed] progress 748/1000 ops, rate=0.864685 ops/s
-[breakdown][measure-mixed] progress 752/1000 ops, rate=0.864313 ops/s
-[breakdown][measure-mixed] progress 756/1000 ops, rate=0.863946 ops/s
-[breakdown][measure-mixed] progress 756/1000 ops, rate=0.859037 ops/s
+[breakdown][measure-mixed] progress 42/400 ops, rate=0.466566 ops/s
+[breakdown][measure-mixed] progress 42/400 ops, rate=0.442014 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 764/1000 ops, rate=0.863223 ops/s
-[breakdown][measure-mixed] progress 766/1000 ops, rate=0.86062 ops/s
-[breakdown][measure-mixed] progress 770/1000 ops, rate=0.860281 ops/s
-[breakdown][measure-mixed] progress 774/1000 ops, rate=0.859946 ops/s
-[breakdown][measure-mixed] progress 777/1000 ops, rate=0.85851 ops/s
-[breakdown][measure-mixed] progress 788/1000 ops, rate=0.86588 ops/s
-[breakdown][measure-mixed] progress 788/1000 ops, rate=0.861148 ops/s
+[breakdown][measure-mixed] progress 42/400 ops, rate=0.419917 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 792/1000 ops, rate=0.860816 ops/s
-[breakdown][measure-mixed] progress 796/1000 ops, rate=0.860487 ops/s
-[breakdown][measure-mixed] progress 800/1000 ops, rate=0.860161 ops/s
-[breakdown][measure-mixed] progress 802/1000 ops, rate=0.857701 ops/s
-[breakdown][measure-mixed] progress 806/1000 ops, rate=0.857394 ops/s
-[breakdown][measure-mixed] progress 810/1000 ops, rate=0.85709 ops/s
-[breakdown][measure-mixed] progress 814/1000 ops, rate=0.856789 ops/s
-[breakdown][measure-mixed] progress 818/1000 ops, rate=0.856491 ops/s
-[breakdown][measure-mixed] progress 822/1000 ops, rate=0.856197 ops/s
-[breakdown][measure-mixed] progress 826/1000 ops, rate=0.855906 ops/s
-[breakdown][measure-mixed] progress 830/1000 ops, rate=0.855617 ops/s
-[breakdown][measure-mixed] progress 834/1000 ops, rate=0.855332 ops/s
-[breakdown][measure-mixed] progress 844/1000 ops, rate=0.861171 ops/s
-[breakdown][measure-mixed] progress 844/1000 ops, rate=0.8568 ops/s
+[breakdown][measure-mixed] progress 44/400 ops, rate=0.418967 ops/s
+[breakdown][measure-mixed] progress 44/400 ops, rate=0.399926 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 848/1000 ops, rate=0.856513 ops/s
-[breakdown][measure-mixed] progress 852/1000 ops, rate=0.856229 ops/s
-[breakdown][measure-mixed] progress 854/1000 ops, rate=0.853947 ops/s
-[breakdown][measure-mixed] progress 860/1000 ops, rate=0.855669 ops/s
-[breakdown][measure-mixed] progress 864/1000 ops, rate=0.855393 ops/s
-[breakdown][measure-mixed] progress 868/1000 ops, rate=0.85512 ops/s
-[breakdown][measure-mixed] progress 872/1000 ops, rate=0.854849 ops/s
-[breakdown][measure-mixed] progress 872/1000 ops, rate=0.850679 ops/s
+[breakdown][measure-mixed] progress 48/400 ops, rate=0.417316 ops/s
+[breakdown][measure-mixed] progress 48/400 ops, rate=0.39993 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 876/1000 ops, rate=0.850433 ops/s
-[breakdown][measure-mixed] progress 880/1000 ops, rate=0.850189 ops/s
-[breakdown][measure-mixed] progress 884/1000 ops, rate=0.849948 ops/s
-[breakdown][measure-mixed] progress 888/1000 ops, rate=0.849709 ops/s
-[breakdown][measure-mixed] progress 894/1000 ops, rate=0.851376 ops/s
-[breakdown][measure-mixed] progress 894/1000 ops, rate=0.847341 ops/s
+[breakdown][measure-mixed] progress 48/400 ops, rate=0.383935 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 904/1000 ops, rate=0.852778 ops/s
-[breakdown][measure-mixed] progress 906/1000 ops, rate=0.850652 ops/s
-[breakdown][measure-mixed] progress 910/1000 ops, rate=0.850415 ops/s
-[breakdown][measure-mixed] progress 914/1000 ops, rate=0.850181 ops/s
-[breakdown][measure-mixed] progress 916/1000 ops, rate=0.848096 ops/s
-[breakdown][measure-mixed] progress 922/1000 ops, rate=0.849718 ops/s
-[breakdown][measure-mixed] progress 926/1000 ops, rate=0.849489 ops/s
-[breakdown][measure-mixed] progress 930/1000 ops, rate=0.849263 ops/s
-[breakdown][measure-mixed] progress 934/1000 ops, rate=0.849039 ops/s
-[breakdown][measure-mixed] progress 938/1000 ops, rate=0.848817 ops/s
-[breakdown][measure-mixed] progress 942/1000 ops, rate=0.848597 ops/s
-[breakdown][measure-mixed] progress 942/1000 ops, rate=0.844792 ops/s
+[breakdown][measure-mixed] progress 48/400 ops, rate=0.36917 ops/s
 [breakdown][measure-mixed] still running, no new completions in last interval
-[breakdown][measure-mixed] progress 946/1000 ops, rate=0.844591 ops/s
-[breakdown][measure-mixed] progress 950/1000 ops, rate=0.844393 ops/s
-[breakdown][measure-mixed] progress 960/1000 ops, rate=0.849506 ops/s
-[breakdown][measure-mixed] progress 962/1000 ops, rate=0.847526 ops/s
-[breakdown][measure-mixed] progress 964/1000 ops, rate=0.845563 ops/s
-[breakdown][measure-mixed] progress 968/1000 ops, rate=0.845364 ops/s
-[breakdown][measure-mixed] progress 972/1000 ops, rate=0.845166 ops/s
-[breakdown][measure-mixed] progress 976/1000 ops, rate=0.84497 ops/s
-[breakdown][measure-mixed] progress 980/1000 ops, rate=0.844776 ops/s
-[breakdown][measure-mixed] progress 984/1000 ops, rate=0.844584 ops/s
-[breakdown][measure-mixed] progress 986/1000 ops, rate=0.842684 ops/s
-[breakdown][measure-mixed] progress 991/1000 ops, rate=0.843353 ops/s
-[breakdown][measure-mixed] progress 993/1000 ops, rate=0.841475 ops/s
-[breakdown][measure-mixed] progress 995/1000 ops, rate=0.839612 ops/s
-[breakdown][measure-mixed] progress 997/1000 ops, rate=0.837765 ops/s
-[breakdown][measure-mixed] progress 1000/1000 ops, rate=0.83677 ops/s
-[breakdown][measure-mixed] done 1000/1000 ops, avg_rate=0.836769 ops/s
-insert breakdown
-  count: 32000
-  latency_ms: mean=25916.7 p50=2323.19 p95=22484.7 p99=1.17927e+06
-  top_phases:
-    neighbor_update_ns: 6.59732e+06 ms (69.2211%)
-    gpu_distance_ns: 741092 ms (7.77576%)
-    candidate_vector_fetch_ns: 635967 ms (6.67275%)
-query breakdown
-  count: 500
-  latency_ms: mean=19.4647 p50=17.6726 p95=31.6961 p99=43.6522
-  top_phases:
-    gpu_distance_ns: 3229.98 ms (33.2019%)
-    rabitq_fetch_ns: 3098.74 ms (31.8528%)
-    unattributed_ns: 2676.92 ms (27.5168%)
-cache histogram
-  size: 0 | freq: 3745316
-  size: 1 | freq: 4681
-  size: 2 | freq: 3
-total entries: 4687
-cooling table histogram
-  size: 0 | freq: 62500
-  size: 1 | freq: 0
-  size: 2 | freq: 0
-  size: 3 | freq: 0
-  size: 4 | freq: 0
-  size: 5 | freq: 0
-  size: 6 | freq: 0
-CT total entries: 0
+[breakdown][measure-mixed] progress 48/400 ops, rate=0.355499 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 50/400 ops, rate=0.357087 ops/s
+[breakdown][measure-mixed] progress 52/400 ops, rate=0.358566 ops/s
+[breakdown][measure-mixed] progress 52/400 ops, rate=0.346615 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 52/400 ops, rate=0.335435 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 52/400 ops, rate=0.324953 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 52/400 ops, rate=0.315107 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 56/400 ops, rate=0.329366 ops/s
+[breakdown][measure-mixed] progress 56/400 ops, rate=0.319957 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 56/400 ops, rate=0.31107 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 56/400 ops, rate=0.302663 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 56/400 ops, rate=0.294699 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 60/400 ops, rate=0.307653 ops/s
+[breakdown][measure-mixed] progress 60/400 ops, rate=0.299963 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 60/400 ops, rate=0.292647 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 60/400 ops, rate=0.28568 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 60/400 ops, rate=0.279036 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 64/400 ops, rate=0.290875 ops/s
+[breakdown][measure-mixed] progress 64/400 ops, rate=0.284411 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 64/400 ops, rate=0.278229 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 64/400 ops, rate=0.272309 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 64/400 ops, rate=0.266636 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.27752 ops/s
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.27197 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.266637 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.26151 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.256576 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 68/400 ops, rate=0.251825 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.261791 ops/s
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.257116 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.252605 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.24825 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.244043 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 72/400 ops, rate=0.239976 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 76/400 ops, rate=0.249155 ops/s
+[breakdown][measure-mixed] progress 76/400 ops, rate=0.245137 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 76/400 ops, rate=0.241246 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 76/400 ops, rate=0.237477 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 76/400 ops, rate=0.233823 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 78/400 ops, rate=0.236341 ops/s
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.244752 ops/s
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.241153 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.237659 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.234264 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.230964 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.227756 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.224637 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 82/400 ops, rate=0.221601 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.234645 ops/s
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.231558 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.228551 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.225621 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.222765 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.21998 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.217265 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 88/400 ops, rate=0.214615 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 91/400 ops, rate=0.219258 ops/s
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.22379 ops/s
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.221157 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.218586 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.216073 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.213618 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.211218 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.208871 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 94/400 ops, rate=0.206576 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 96/400 ops, rate=0.208678 ops/s
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.215036 ops/s
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.212748 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.210509 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.208316 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.206168 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.204065 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.202004 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.199984 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 100/400 ops, rate=0.198004 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.207826 ops/s
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.205809 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.20383 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.201888 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.199984 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.198115 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.196281 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.19448 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 106/400 ops, rate=0.192712 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.201786 ops/s
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.199984 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.198214 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.196476 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.194767 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.193088 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.191438 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.189816 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 112/400 ops, rate=0.188221 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 116/400 ops, rate=0.193318 ops/s
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.195026 ops/s
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.193428 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.191855 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.190308 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.188786 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.187287 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.185813 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.184361 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 118/400 ops, rate=0.182932 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.190755 ops/s
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.189299 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.187865 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.186452 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.185061 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.18369 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.182339 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.181008 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 124/400 ops, rate=0.179697 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.187036 ops/s
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.185701 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.184384 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.183085 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.181805 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.180542 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.179297 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.178069 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 130/400 ops, rate=0.176858 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.18377 ops/s
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.182537 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.18132 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.180119 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.178934 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.177765 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.176611 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.175471 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.174346 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 136/400 ops, rate=0.173236 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.182265 ops/s
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.181119 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.179987 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.178869 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.177765 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.176675 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.175597 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.174533 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 144/400 ops, rate=0.173482 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 146/400 ops, rate=0.174838 ops/s
+[breakdown][measure-mixed] progress 146/400 ops, rate=0.173797 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 146/400 ops, rate=0.172769 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 146/400 ops, rate=0.171753 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 148/400 ops, rate=0.173087 ops/s
+[breakdown][measure-mixed] progress 148/400 ops, rate=0.172081 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 148/400 ops, rate=0.171086 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 148/400 ops, rate=0.170103 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 150/400 ops, rate=0.171417 ops/s
+[breakdown][measure-mixed] progress 150/400 ops, rate=0.170443 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 150/400 ops, rate=0.16948 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 152/400 ops, rate=0.170775 ops/s
+[breakdown][measure-mixed] progress 152/400 ops, rate=0.169821 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 152/400 ops, rate=0.168877 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 152/400 ops, rate=0.167944 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 154/400 ops, rate=0.169219 ops/s
+[breakdown][measure-mixed] progress 154/400 ops, rate=0.168294 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 154/400 ops, rate=0.16738 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 154/400 ops, rate=0.166475 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 156/400 ops, rate=0.16773 ops/s
+[breakdown][measure-mixed] progress 156/400 ops, rate=0.166833 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 156/400 ops, rate=0.165946 ops/s
+[breakdown][measure-mixed] still running, no new completions in last interval
+[breakdown][measure-mixed] progress 164/400 ops, rate=0.173533 ops/s

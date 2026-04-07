@@ -1,0 +1,122 @@
+==========================================================================================
+META
+==========================================================================================
+batch_size          : 64
+client_threads      : 16
+coroutines          : 4
+dim                 : 1024
+measure_ops         : 1000
+read_ratio          : 0.5
+search_mode         : rabitq_gpu
+threads             : 4
+warmup_ops          : 20
+workload            : mixed
+
+==========================================================================================
+SYSTEM COUNTERS
+==========================================================================================
+d2h_bytes           : 10006240964
+h2d_bytes           : 8315151754336
+rdma_read_bytes     : 8314042684944
+rdma_write_bytes    : 4721871566
+
+==========================================================================================
+QUERY BREAKDOWN
+==========================================================================================
+count                : 500
+mean_end_to_end_ms   : 19.465
+mean_queue_wait_ms   : 0.008
+mean_service_ms      : 19.457
+end_to_end_ms(total) : 9732.327
+queue_wait_ms(total) : 4.016
+service_ms(total)    : 9728.312
+phase_sum_ms(total)  : 9728.312
+phase_sum vs service : diff=0.00%
+
+[Phase Breakdown]
+phase                              total_ms    avg_ms/op   %service       %e2e   %phase_sum
+------------------------------------------------------------------------------------------
+gpu_distance_ns                    3229.984     6.459969     33.20%     33.19%       33.20%
+rabitq_fetch_ns                    3098.739     6.197479     31.85%     31.84%       31.85%
+unattributed_ns                    2676.916     5.353831     27.52%     27.51%       27.52%
+neighbor_fetch_ns                   548.943     1.097887      5.64%      5.64%        5.64%
+vector_fetch_ns                      59.471     0.118941      0.61%      0.61%        0.61%
+result_materialize_ns                44.421     0.088842      0.46%      0.46%        0.46%
+gpu_prepare_ns                       31.255     0.062509      0.32%      0.32%        0.32%
+gpu_rerank_ns                        29.672     0.059344      0.31%      0.30%        0.31%
+medoid_fetch_ns                       6.774     0.013549      0.07%      0.07%        0.07%
+cpu_merge_sort_ns                     2.136     0.004272      0.02%      0.02%        0.02%
+
+[Top 3 phases by %service]
+  gpu_distance_ns: 3229.984 ms total (33.20% of service)
+  rabitq_fetch_ns: 3098.739 ms total (31.85% of service)
+  unattributed_ns: 2676.916 ms total (27.52% of service)
+
+[Selected Counters]
+  rdma_read_bytes         : total=1690660594  per_op=3381321.188
+  rdma_write_bytes        : total=0  per_op=0.000
+  neighbor_rdma_bytes     : total=36662058  per_op=73324.116
+  vector_rdma_bytes       : total=226064976  per_op=452129.952
+  rabitq_rdma_bytes       : total=1427929360  per_op=2855858.720
+  h2d_bytes               : total=1636642960  per_op=3273285.920
+  d2h_bytes               : total=11186832  per_op=22373.664
+  lock_attempts           : total=0  per_op=0.000
+  lock_retries            : total=0  per_op=0.000
+  cas_failures            : total=0  per_op=0.000
+  rabitq_kernels          : total=70585  per_op=141.170
+  l2_kernels              : total=0  per_op=0.000
+  prune_kernels           : total=0  per_op=0.000
+  exact_reranks           : total=525  per_op=1.050
+  visited_neighborlists   : total=71462  per_op=142.924
+  visited_nodes           : total=0  per_op=0.000
+
+==========================================================================================
+INSERT BREAKDOWN
+==========================================================================================
+count                : 32000
+mean_end_to_end_ms   : 25916.724
+mean_queue_wait_ms   : 25618.887
+mean_service_ms      : 297.838
+end_to_end_ms(total) : 829335181.862
+queue_wait_ms(total) : 819804377.811
+service_ms(total)    : 9530804.051
+phase_sum_ms(total)  : 9530804.051
+phase_sum vs service : diff=0.00%
+
+[Phase Breakdown]
+phase                              total_ms    avg_ms/op   %service       %e2e   %phase_sum
+------------------------------------------------------------------------------------------
+neighbor_update_ns              6597323.702   206.166366     69.22%      0.80%       69.22%
+gpu_distance_ns                  741092.437    23.159139      7.78%      0.09%        7.78%
+candidate_vector_fetch_ns        635967.008    19.873969      6.67%      0.08%        6.67%
+gpu_prune_ns                     569041.198    17.782537      5.97%      0.07%        5.97%
+unattributed_ns                  533518.750    16.672461      5.60%      0.06%        5.60%
+candidate_search_ns              442338.712    13.823085      4.64%      0.05%        4.64%
+quantize_ns                        8987.261     0.280852      0.09%      0.00%        0.09%
+medoid_fetch_ns                     929.462     0.029046      0.01%      0.00%        0.01%
+remote_alloc_ns                     919.657     0.028739      0.01%      0.00%        0.01%
+new_node_write_ns                   685.864     0.021433      0.01%      0.00%        0.01%
+medoid_update_ns                      0.000     0.000000      0.00%      0.00%        0.00%
+
+[Top 3 phases by %service]
+  neighbor_update_ns: 6597323.702 ms total (69.22% of service)
+  gpu_distance_ns: 741092.437 ms total (7.78% of service)
+  candidate_vector_fetch_ns: 635967.008 ms total (6.67% of service)
+
+[Selected Counters]
+  rdma_read_bytes         : total=8312352024350  per_op=259761000.761
+  rdma_write_bytes        : total=4721871566  per_op=147558.486
+  neighbor_rdma_bytes     : total=34832157246  per_op=1088504.914
+  vector_rdma_bytes       : total=8277518843104  per_op=258672463.847
+  rabitq_rdma_bytes       : total=0  per_op=0.000
+  h2d_bytes               : total=8313515111376  per_op=259797347.231
+  d2h_bytes               : total=9995054132  per_op=312345.442
+  lock_attempts           : total=2518192  per_op=78.694
+  lock_retries            : total=553193  per_op=17.287
+  cas_failures            : total=553193  per_op=17.287
+  rabitq_kernels          : total=0  per_op=0.000
+  l2_kernels              : total=65992294  per_op=2062.259
+  prune_kernels           : total=7885818  per_op=246.432
+  exact_reranks           : total=0  per_op=0.000
+  visited_neighborlists   : total=0  per_op=0.000
+  visited_nodes           : total=0  per_op=0.000
