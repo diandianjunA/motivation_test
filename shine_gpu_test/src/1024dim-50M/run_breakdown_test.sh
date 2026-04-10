@@ -40,12 +40,11 @@ BINARY="$PROJECT_DIR/bin/shine_breakdown_benchmark"
 SERVICE_CONFIG="${SERVICE_CONFIG:-$PROJECT_DIR/config/service/break_down.ini}"
 WORKLOAD="${WORKLOAD:-mixed}"
 READ_RATIO="${READ_RATIO:-0.5}"
-CLIENT_THREADS="${CLIENT_THREADS:-8}"
+CLIENT_THREADS="${CLIENT_THREADS:-64}"
 WARMUP_SECONDS="${WARMUP_SECONDS:-30}"
 MEASURE_SECONDS="${MEASURE_SECONDS:-60}"
 WARMUP_OPS="${WARMUP_OPS:-}"
 MEASURE_OPS="${MEASURE_OPS:-}"
-BATCH_SIZE="${BATCH_SIZE:-64}"
 QUERY_FILE="${QUERY_FILE:-}"
 REPORT_DIR="${REPORT_DIR:-$PROJECT_DIR/reports/breakdown}"
 LABEL="${LABEL:-$(date +%Y%m%d_%H%M%S)}"
@@ -65,7 +64,6 @@ while [[ $# -gt 0 ]]; do
         --measure-seconds)   MEASURE_SECONDS="$2"; shift 2 ;;
         --warmup-ops)        WARMUP_OPS="$2"; shift 2 ;;
         --measure-ops)       MEASURE_OPS="$2"; shift 2 ;;
-        -b|--batch-size)     BATCH_SIZE="$2"; shift 2 ;;
         --query-file)        QUERY_FILE="$2"; shift 2 ;;
         --report-dir)        REPORT_DIR="$2"; shift 2 ;;
         --label)             LABEL="$2"; shift 2 ;;
@@ -105,7 +103,6 @@ ARGS=(
     --workload "$WORKLOAD"
     --read-ratio "$READ_RATIO"
     --client-threads "$CLIENT_THREADS"
-    --batch-size "$BATCH_SIZE"
     --report-json "$JSON_REPORT"
     --report-text "$TEXT_REPORT"
 )
@@ -134,7 +131,7 @@ echo "  负载模式:       $WORKLOAD"
 echo "  读比例:         $READ_RATIO"
 echo "  前台线程数:     $CLIENT_THREADS"
 if [[ -n "$WARMUP_SECONDS" || -n "$MEASURE_SECONDS" ]]; then
-    echo "  运行模式:       time"
+    echo "  运行模式:       time (drain)"
     echo "  预热时长:       ${WARMUP_SECONDS}s"
     echo "  测量时长:       ${MEASURE_SECONDS}s"
 else
@@ -142,7 +139,7 @@ else
     echo "  预热请求数:     $WARMUP_OPS"
     echo "  测量请求数:     $MEASURE_OPS"
 fi
-echo "  Insert batch:   $BATCH_SIZE"
+echo "  操作粒度:       single_vector"
 if [[ -n "$QUERY_FILE" ]]; then
     echo "  Query 文件:     $QUERY_FILE"
 else
