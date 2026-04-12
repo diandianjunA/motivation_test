@@ -35,7 +35,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-BINARY="$PROJECT_DIR/bin/shine_breakdown_benchmark"
+BINARY="$PROJECT_DIR/bin/dvstor_breakdown_benchmark"
 
 SERVICE_CONFIG="${SERVICE_CONFIG:-$PROJECT_DIR/config/service/break_down.ini}"
 WORKLOAD="${WORKLOAD:-mixed}"
