@@ -1,4 +1,4 @@
-#include "dvstor_index.h"
+#include "shine_gpu_index.h"
 
 #include "vector_test/config.h"
 #include "vector_test/util.h"
@@ -38,7 +38,7 @@ std::vector<char*> make_argv(std::vector<std::string>& args) {
 
 }  // namespace
 
-DvstorIndex::DvstorIndex(const std::string& service_config_path) {
+ShineGpuIndex::ShineGpuIndex(const std::string& service_config_path) {
     auto args = build_service_argv(service_config_path);
     auto argv = make_argv(args);
     configuration::IndexConfiguration config(static_cast<int>(argv.size()), argv.data());
@@ -51,13 +51,41 @@ DvstorIndex::DvstorIndex(const std::string& service_config_path) {
     }
 }
 
-DvstorIndex::~DvstorIndex() = default;
+ShineGpuIndex::~ShineGpuIndex() = default;
 
-void DvstorIndex::build(const std::vector<float>& vecs, const std::vector<uint32_t>& ids) {
-    insert(vecs, ids);
+void ShineGpuIndex::build(const std::vector<float>& vecs, const std::vector<uint32_t>& ids) {
+    int batch_size = 100;
+    int processed = 0;
+    int total_count = ids.size();
+
+    for (size_t offset = 0; offset < ids.size(); offset += batch_size) {
+        const size_t end = std::min(offset + batch_size, ids.size());
+
+        if (ip_distance_) {
+            vec<ComputeService<IPDistance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vecs.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            ip_service_->insert(batch);
+        } else {
+            vec<ComputeService<L2Distance>::InsertItem> batch;
+            batch.reserve(end - offset);
+            for (size_t i = offset; i < end; ++i) {
+                const auto begin = vecs.begin() + static_cast<std::ptrdiff_t>(i * dim());
+                const auto finish = begin + static_cast<std::ptrdiff_t>(dim());
+                batch.push_back({ids[i], vec<element_t>(begin, finish)});
+            }
+            l2_service_->insert(batch);
+        }
+        processed += end - offset;
+        std::cout << "insert " << end - offset << " " << processed << "/" << total_count << " vectors" << std::endl;
+    }
 }
 
-void DvstorIndex::build(const std::string& dataset_path) {
+void ShineGpuIndex::build(const std::string& dataset_path) {
     auto [data, info] = read_fbin(dataset_path);
     const size_t num_vectors = info.first;
     const size_t vector_dim = info.second;
@@ -74,10 +102,10 @@ void DvstorIndex::build(const std::string& dataset_path) {
     }
     delete[] data;
 
-    insert(vectors, ids);
+    build(vectors, ids);
 }
 
-void DvstorIndex::insert(const std::vector<float>& vectors, const std::vector<uint32_t>& ids) {
+void ShineGpuIndex::insert(const std::vector<float>& vectors, const std::vector<uint32_t>& ids) {
     if (ids.empty()) {
         return;
     }
@@ -98,6 +126,7 @@ void DvstorIndex::insert(const std::vector<float>& vectors, const std::vector<ui
                 batch.push_back({ids[i], vec<element_t>(begin, finish)});
             }
             ip_service_->insert(batch);
+
         } else {
             vec<ComputeService<L2Distance>::InsertItem> batch;
             batch.reserve(end - offset);
@@ -111,10 +140,10 @@ void DvstorIndex::insert(const std::vector<float>& vectors, const std::vector<ui
     }
 }
 
-void DvstorIndex::search(const std::vector<float>& query,
-                         size_t top_k,
-                         std::vector<uint32_t>& ids,
-                         std::vector<float>& distances) const {
+void ShineGpuIndex::search(const std::vector<float>& query,
+                           size_t top_k,
+                           std::vector<uint32_t>& ids,
+                           std::vector<float>& distances) const {
     if (query.size() != dim()) {
         throw std::runtime_error("search dimension mismatch");
     }
@@ -130,7 +159,7 @@ void DvstorIndex::search(const std::vector<float>& query,
     distances.assign(ids.size(), 0.0f);
 }
 
-void DvstorIndex::load(const std::string& index_path) {
+void ShineGpuIndex::load(const std::string& index_path) {
     str error_message;
     const bool ok = ip_distance_ ? ip_service_->load_index(index_path, &error_message)
                                  : l2_service_->load_index(index_path, &error_message);
@@ -139,7 +168,7 @@ void DvstorIndex::load(const std::string& index_path) {
     }
 }
 
-void DvstorIndex::save(const std::string& index_path) {
+void ShineGpuIndex::save(const std::string& index_path) {
     str error_message;
     const bool ok = ip_distance_ ? ip_service_->store_index(index_path, &error_message)
                                  : l2_service_->store_index(index_path, &error_message);
@@ -148,18 +177,18 @@ void DvstorIndex::save(const std::string& index_path) {
     }
 }
 
-std::string DvstorIndex::getIndexType() const {
-    return "Dvstor";
+std::string ShineGpuIndex::getIndexType() const {
+    return "ShineGpu";
 }
 
-size_t DvstorIndex::dim() const {
+size_t ShineGpuIndex::dim() const {
     return ip_distance_ ? ip_service_->config().dim : l2_service_->config().dim;
 }
 
-std::vector<std::string> DvstorIndex::build_service_argv(const std::string& service_config_path) {
+std::vector<std::string> ShineGpuIndex::build_service_argv(const std::string& service_config_path) {
     const auto config = readConfig(service_config_path);
     std::vector<std::string> args;
-    args.emplace_back("dvstor_vector_test");
+    args.emplace_back("shine_gpu_vector_test");
 
     static const std::vector<std::string> multi_keys = {"servers", "clients"};
     static const std::vector<std::string> flag_keys = {

@@ -1,4 +1,4 @@
-#include "dvstor_index.h"
+#include "shine_gpu_index.h"
 
 #include "vector_test/config.h"
 #include "vector_test/vector_test.h"
@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    auto index = std::make_shared<DvstorIndex>(config.at("index_conf"));
+    auto index = std::make_shared<ShineGpuIndex>(config.at("index_conf"));
     VectorTest vector_test(config_file, index);
     return EXIT_SUCCESS;
 }

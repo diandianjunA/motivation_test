@@ -1,0 +1,138 @@
+nohup: ignoring input
+============================================================
+                        CLIENT
+============================================================
+connect to:                   [cluster3, ]
+is initiator:                 true
+TCP port:                     1234
+IB port:                      1
+max outstanding CQEs:         16
+max send work requests:       1024
+max receive work requests:    1024
+============================================================
+data path:                    ""
+query suffix:                 
+number of threads:            16
+number of coroutines:         16
+threads pinned:               true
+seed:                         1234
+dimension:                    1024
+max vectors:                  1002000
+CN memory (GB):               10
+------------------------------------------------------------
+K:                            10
+R (max degree):               32
+beam width (search):          32
+beam width (construction):    200
+alpha:                        1.2
+RaBitQ bits:                  4
+search mode:                  rabitq_gpu
+insert workers:               8
+query workers:                8
+insert coroutines:            16
+query coroutines:             4
+GPU device:                   0
+============================================================
+1 device(s) found
+Selected device: mlx5_0
+num_cores: 112
+physical cores per socket: 28
+hyperthreading enabled
+interleaved policy
+client id: 0
+number of clients: 1
+connect to server cluster3:1234
+pairing: 1828 -- 2926
+[STATUS]: pinned main thread to core 28
+[STATUS]: receive access tokens of remote memory regions
+[STATUS]: search mode: rabitq_gpu, cache=off
+allocated ALIGNED MEM (no hugepage) at 140690478592064 with buffer size 10737418240
+1 device(s) found
+Selected device: mlx5_0
+pairing: 1829 -- 2927
+1 device(s) found
+Selected device: mlx5_0
+pairing: 1830 -- 2928
+1 device(s) found
+Selected device: mlx5_0
+pairing: 1831 -- 2929
+1 device(s) found
+Selected device: mlx5_0
+pairing: 1832 -- 2930
+[STATUS]: starting 16 service worker threads (Vamana)
+[STATUS]: worker split: inserts=8, queries=8 | coroutines: insert=16, query=4
+[STATUS]: pinned worker 0 to core 0
+[STATUS]: pinned worker 1 to core 29
+[STATUS]: pinned worker 2 to core 1
+[STATUS]: pinned worker 3 to core 30
+[STATUS]: pinned worker 4 to core 2
+[STATUS]: pinned worker 5 to core 31
+[STATUS]: pinned worker 6 to core 3
+[STATUS]: pinned worker 7 to core 32
+[STATUS]: pinned worker 8 to core 4
+[STATUS]: pinned worker 9 to core 33
+[STATUS]: pinned worker 10 to core 5
+[STATUS]: pinned worker 11 to core 34
+[STATUS]: pinned worker 12 to core 6
+[STATUS]: pinned worker 13 to core 35
+[STATUS]: pinned worker 14 to core 7
+[STATUS]: pinned worker 15 to core 36
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Global logger initialized
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: data_path = /data/xjs/random_dataset/1024dim1M/base.fbin
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: data_pool_size = 160000
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: dim = 1024
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: groundtruth = /data/xjs/random_dataset/1024dim1M/queries/groundtruth-test.bin
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: index_conf = /home/xjs/experiment/motivation_test/shine_gpu_test/config/service/usual.ini
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: index_path = /data/xjs/index/shine_gpu_index/1024dim1M
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: insert_batch_size = 64
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: log_path = /home/xjs/experiment/motivation_test/shine_gpu_test/logs
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: num = 1000000
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: option = storage
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: query_data = /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: read_batch_size = 64
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: read_ratio = 0.5
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: run_seconds = 60
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: threads = 16
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: topk = 10
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: total_test = false
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: warmup_seconds = 30
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Config: write_id_base = 1000000
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Storage test ShineGpu
+[2026-04-03 01:58:13.406] [GlobalLogger] [info] Load index /data/xjs/index/shine_gpu_index/1024dim1M
+[2026-04-03 01:58:13.421] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 10991028 kB, vsz: 21961688 kB, rssPercentage: 1.0401936424321516%
+[STATUS]: loaded RaBitQ artifacts from /data/xjs/index/shine_gpu_index/1024dim1M (dim=1024, bits=4)
+读取bigANN .bin文件: /data/xjs/random_dataset/1024dim1M/queries/query-test.fbin
+向量数量: 1000, 维度: 1024
+读取完成: 1000 个向量
+[2026-04-03 01:58:14.421] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000112 kB, vsz: 21992172 kB, rssPercentage: 1.0410533544670817%
+[2026-04-03 01:58:15.422] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000528 kB, vsz: 21992316 kB, rssPercentage: 1.0410927248112616%
+[2026-04-03 01:58:16.422] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:17.422] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:18.423] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:19.423] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:20.423] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:21.423] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:22.424] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:23.424] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:24.424] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:25.424] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:26.424] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:27.425] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:28.425] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:29.425] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:30.425] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:31.426] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:32.426] [GlobalLogger] [info] MemoryMonitor: pid: 1398192, rss: 11000692 kB, vsz: 21992316 kB, rssPercentage: 1.0411082458123326%
+[2026-04-03 01:58:33.426] [GlobalLogger] [info] Storage test memory usage: 1.041058995026007 %
+cache histogram
+  size: 0 | freq: 50100
+total entries: 0
+cooling table histogram
+  size: 0 | freq: 835
+  size: 1 | freq: 0
+  size: 2 | freq: 0
+  size: 3 | freq: 0
+  size: 4 | freq: 0
+  size: 5 | freq: 0
+  size: 6 | freq: 0
+CT total entries: 0

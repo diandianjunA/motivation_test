@@ -38,7 +38,7 @@ PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BINARY="$PROJECT_DIR/bin/shine_breakdown_benchmark"
 
 SERVICE_CONFIG="${SERVICE_CONFIG:-$PROJECT_DIR/config/service/break_down.ini}"
-WORKLOAD="${WORKLOAD:-mixed}"
+WORKLOAD="${WORKLOAD:-query}"
 READ_RATIO="${READ_RATIO:-1}"
 CLIENT_THREADS="${CLIENT_THREADS:-16}"
 WARMUP_SECONDS="${WARMUP_SECONDS:-30}"

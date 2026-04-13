@@ -208,7 +208,7 @@ def plot_stacked(data_by_thread: dict, title: str, output_path: Path):
 
 
 def main():
-    report_dir = Path("/home/xjs/experiment/motivation_test/dvstor_test/reports/analyze")   # 默认当前目录
+    report_dir = Path("/home/xjs/experiment/motivation_test/shine_gpu_test/reports/analyze")   # 默认当前目录
     data = load_all_reports(report_dir)
 
     plot_stacked(

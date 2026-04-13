@@ -1,12 +1,12 @@
 #!/bin/bash
 # =============================================================================
-# DVSTOR Memory Node Launcher (1M dataset)
+# SHINE GPU Memory Node Launcher (1M dataset)
 # =============================================================================
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BINARY="$PROJECT_DIR/bin/dvstor_memory_node"
+BINARY="$PROJECT_DIR/bin/shine"
 PID_FILE="$PROJECT_DIR/.memory_node.pid"
 LOG_FILE="$PROJECT_DIR/logs/memory_node.log"
 
@@ -61,10 +61,10 @@ get_pid() {
 do_status() {
     local pid
     if pid=$(get_pid); then
-        echo "[DVSTOR Memory Node] running (PID: $pid)"
+        echo "[SHINE GPU Memory Node] running (PID: $pid)"
         return 0
     else
-        echo "[DVSTOR Memory Node] not running"
+        echo "[SHINE GPU Memory Node] not running"
         return 1
     fi
 }
@@ -72,27 +72,27 @@ do_status() {
 do_stop() {
     local pid
     if pid=$(get_pid); then
-        echo "[DVSTOR Memory Node] stopping (PID: $pid) ..."
+        echo "[SHINE GPU Memory Node] stopping (PID: $pid) ..."
         kill "$pid"
         for i in $(seq 1 10); do
             if ! kill -0 "$pid" 2>/dev/null; then
                 rm -f "$PID_FILE"
-                echo "[DVSTOR Memory Node] stopped"
+                echo "[SHINE GPU Memory Node] stopped"
                 return 0
             fi
             sleep 1
         done
         kill -9 "$pid" 2>/dev/null
         rm -f "$PID_FILE"
-        echo "[DVSTOR Memory Node] force stopped"
+        echo "[SHINE GPU Memory Node] force stopped"
     else
-        echo "[DVSTOR Memory Node] not running"
+        echo "[SHINE GPU Memory Node] not running"
     fi
 }
 
 do_start() {
     if pid=$(get_pid); then
-        echo "[DVSTOR Memory Node] already running (PID: $pid)"
+        echo "[SHINE GPU Memory Node] already running (PID: $pid)"
         exit 1
     fi
 
@@ -109,7 +109,7 @@ do_start() {
     )
     args+=("${EXTRA_ARGS[@]}")
 
-    echo "[DVSTOR Memory Node] parameters:"
+    echo "[SHINE GPU Memory Node] parameters:"
     echo "  port:         $PORT"
     echo "  num_clients:  $NUM_CLIENTS"
     echo "  mn_memory:    ${MN_MEMORY}GB"
@@ -123,7 +123,7 @@ do_start() {
         echo "$pid" > "$PID_FILE"
         sleep 1
         if kill -0 "$pid" 2>/dev/null; then
-            echo "[DVSTOR Memory Node] started (PID: $pid)"
+            echo "[SHINE GPU Memory Node] started (PID: $pid)"
             echo "  log: tail -f $LOG_FILE"
         else
             rm -f "$PID_FILE"
