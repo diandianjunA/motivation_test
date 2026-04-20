@@ -200,6 +200,7 @@ std::vector<std::string> ShineGpuIndex::build_service_argv(const std::string& se
         "disable-thread-pinning",
         "no-recall",
         "ip-dist",
+        "gpudirect-rdma",
     };
 
     for (const auto& [key, value] : config) {

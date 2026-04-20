@@ -9,7 +9,7 @@ PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BINARY="$PROJECT_DIR/bin/vamana_offline_builder"
 
 DATA_PATH="${DATA_PATH:-/data/xjs/random_dataset/1024dim10M}"
-OUTPUT_PREFIX="${OUTPUT_PREFIX:-/data/xjs/index/shine_gpu_index/1024dim10M}"
+OUTPUT_PREFIX="${OUTPUT_PREFIX:-/data/xjs/index/dvstor_index/1024dim10M}"
 MEMORY_NODES="${MEMORY_NODES:-1}"
 THREADS="${THREADS:-0}"
 R="${R:-32}"
